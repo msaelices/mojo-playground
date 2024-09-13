@@ -12,6 +12,7 @@ struct readeriter:
         return line
 
 
+@value
 struct reader:
     var lines: List[String]
     var idx: Int
