@@ -162,17 +162,16 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
     return input.upper().split(" ")
 
 
-fn get_freqs(wds: List[String]) raises -> Dict[String, UInt64]:
-    var freqs = Dict[String, UInt64]()
+fn get_freqs[V: StringableKeyElement](wds: List[V]) raises -> Dict[V, UInt64]:
+    var freqs: Dict[V, UInt64] = Dict[V, UInt64]()
     for wd_ref in wds:
         wd = wd_ref[] 
-        print(wd)
-        if freqs.find[String](wd):
-            print('hodas')
+        if wd in freqs:
             old_freq = freqs[wd]
-            freqs.__setitem__[String](wd, old_freq + 1)
+            freqs[wd] = old_freq + 1
+            # freqs.__setitem__[String](wd, old_freq + 1)
         else:
-            freqs.__setitem__[String](wd, 1)
+            freqs[wd] = 1
     return freqs
 
 
@@ -189,11 +188,7 @@ fn main() raises:
             var t1 = now()
             var duration = (t1 - t0) / 1_000_000_000
             var the: UInt64
-            try:
-                the = freqs["THE"]
-            except:
-                print("ERROR")
-                the = 10
+            the = freqs["THE"]
             var n_keys = len(freqs.keys())
             var out_str = str(n_wds) + "," + str(n_keys) + "," + str(the) + "," + str(duration) + "\n"
             outfile.write(out_str)
