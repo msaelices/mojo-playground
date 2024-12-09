@@ -29,11 +29,11 @@ struct HashedKey[K: CopiableHashable]:
     var key: K
     var hash: Int
 
-    fn __init__(inout self, owned key: K):
+    fn __init__(out self, owned key: K):
         self.key = key
         self.hash = hash(key)
 
-    fn __init__[U: SizedHashable](inout self: HashedKey[U], key: U):
+    fn __init__[U: SizedHashable](out self: HashedKey[U], key: U):
         self.key = key
         self.hash = sized_hash(key)
 

@@ -41,10 +41,10 @@ def main4():
 
 
 # here there is another gradual step (currently worked on)
-# (create auto dereferenced reference and not learned lifetime yet)
+# (create auto dereferenced reference and not learned origin yet)
 
 
-# create safe reference (not learned lifetime yet)
+# create safe reference (not learned origin yet)
 def main5():
     a = 0
     b = Pointer.address_of(a)
@@ -52,7 +52,7 @@ def main5():
     print(b[])
 
 
-# return auto dereference (not learned lifetime yet)
+# return auto dereference (not learned origin yet)
 def return_ref(arg: List[Int]) -> ref [arg] List[Int]:
     return arg
 
@@ -63,7 +63,7 @@ def main6():
     print(return_ref(a)[3])
 
 
-# return mutable auto dereference (not learned lifetime yet)
+# return mutable auto dereference (not learned origin yet)
 def return_mut_ref(inout arg: List[Int]) -> ref [arg] List[Int]:
     return arg
 
@@ -74,8 +74,8 @@ def main7():
     print(len(a))
 
 
-# return inferred mutability auto dereference (not learned lifetime yet)
-def return_inferred_mut_ref(ref [_]arg: List[Int]) -> ref [arg] List[Int]:
+# return inferred mutability auto dereference (not learned origin yet)
+def return_inferred_mut_ref(ref arg: List[Int]) -> ref [arg] List[Int]:
     return arg
 
 

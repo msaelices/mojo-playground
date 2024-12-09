@@ -1,9 +1,12 @@
+from memory import UnsafePointer
+
+
 @value
 struct LinkedList[T: StringableCollectionElement]:
     var _data_ptr: UnsafePointer[T]
     var _next_ptr: UnsafePointer[LinkedList[T]]
 
-    fn __init__(inout self, elements: List[T]):
+    fn __init__(out self, elements: List[T]):
         if not elements:
             # Null pointers
             self._data_ptr = UnsafePointer[T]()
@@ -26,7 +29,7 @@ struct LinkedList[T: StringableCollectionElement]:
         """Check if the next element exists."""
         return Bool(self._next_ptr)
 
-    fn get_next(self) -> ref [__lifetime_of(self)] LinkedList[T]:
+    fn get_next(self) -> ref [__origin_of(self)] LinkedList[T]:
         """Get the next element as an auto-dereferenced ref (aka safe pointer)."""
         return self._next_ptr[]
         
@@ -47,4 +50,5 @@ def main():
     print('\nIterating using refs:')
     while list.has_next():
         print(list.get_data())
-        list = list.get_next() 
+        list2 = list.get_next() 
+        list = list2  # list2 hack to avoid: argument of implicit __copyinit__ call allows writing a memory location previously writable through another aliased argument
