@@ -6,7 +6,7 @@ This software is just for self-educational purposes, and it's using the Mojo nig
 
 ## Installation
 
-1. **Install [Mojo nightly](https://docs.modular.com/mojo/manual/get-started) 🔥**
+1. **Install [magic](https://docs.modular.com/magic#install-magic)**
 
 2. **Clone the repository**
 
