@@ -30,7 +30,7 @@ def main3():
 
 
 # modify variables
-def add_one(inout a: Int):
+def add_one(mut a: Int):
     a += 1
 
 
@@ -64,7 +64,7 @@ def main6():
 
 
 # return mutable auto dereference (not learned origin yet)
-def return_mut_ref(inout arg: List[Int]) -> ref [arg] List[Int]:
+def return_mut_ref(mut arg: List[Int]) -> ref [arg] List[Int]:
     return arg
 
 
