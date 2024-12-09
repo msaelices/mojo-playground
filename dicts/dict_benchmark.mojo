@@ -1,5 +1,6 @@
 from collections import List, Dict
-from time import now
+from collections.dict import RepresentableKeyElement
+from time import perf_counter_ns as now
 
 
 fn get_wds() raises -> List[String]:
@@ -162,7 +163,7 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
     return input.upper().split(" ")
 
 
-fn get_freqs[V: StringableKeyElement](wds: List[V]) raises -> Dict[V, UInt64]:
+fn get_freqs[V: RepresentableKeyElement](wds: List[V]) raises -> Dict[V, UInt64]:
     var freqs: Dict[V, UInt64] = Dict[V, UInt64]()
     for wd_ref in wds:
         wd = wd_ref[] 

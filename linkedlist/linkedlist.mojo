@@ -1,8 +1,9 @@
 from memory import UnsafePointer
+from collections.dict import RepresentableKeyElement
 
 
 @value
-struct LinkedList[T: StringableCollectionElement]:
+struct LinkedList[T: RepresentableKeyElement]:
     var _data_ptr: UnsafePointer[T]
     var _next_ptr: UnsafePointer[LinkedList[T]]
 
