@@ -8,8 +8,8 @@ def bubble_sort(arr):
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
 
-if __name__ == '__main__':
-    l = list(range(1000, 0, -1))
+if __name__ == "__main__":
+    l = list(range(10_000, 0, -1))
     start = now()
     bubble_sort(l)
     end = now()

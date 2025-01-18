@@ -1,5 +1,5 @@
 from csv import reader
-from time import now
+from time import perf_counter_ns as now
 
 fn main() raises:
 

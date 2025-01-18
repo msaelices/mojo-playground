@@ -182,7 +182,7 @@ fn main() raises:
 
     var out_path = "report.csv"
     with open(out_path, "w") as outfile:
-        outfile.write(str("version,n_wds,n_keys,the,sec\n"))
+        outfile.write(String("version,n_wds,n_keys,the,sec\n"))
         for _ in range(10):
             var t0 = now()
             var freqs = get_freqs(wds)
@@ -191,7 +191,7 @@ fn main() raises:
             var the: UInt64
             the = freqs["THE"]
             var n_keys = len(freqs.keys())
-            var out_str = str(n_wds) + "," + str(n_keys) + "," + str(the) + "," + str(duration) + "\n"
+            var out_str = String(n_wds, n_keys, the, duration, "\n", sep=",")
             outfile.write(out_str)
     print("DONE, saved to", out_path)
 

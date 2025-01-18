@@ -32,7 +32,7 @@ fn join_str(delimiter: String, elems: List[String]) -> String:
     buf[offset] = 0
     buf.size += delimiter_len
     
-    return String(buf^)
+    return String(buffer=buf^)
 
 
 fn main():

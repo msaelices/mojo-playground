@@ -51,5 +51,4 @@ def main():
     print('\nIterating using refs:')
     while list.has_next():
         print(list.get_data())
-        list2 = list.get_next() 
-        list = list2  # list2 hack to avoid: argument of implicit __copyinit__ call allows writing a memory location previously writable through another aliased argument
+        list = list.get_next() 

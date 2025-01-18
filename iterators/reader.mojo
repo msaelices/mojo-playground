@@ -6,7 +6,7 @@ struct readeriter:
     def __iter__(self) -> Self:
         return self
 
-    def __next__(out self) -> String:
+    def __next__(self) -> String:
         var line = self.reader.lines[self.idx]
         self.idx += 1
         return line
@@ -28,6 +28,6 @@ struct reader:
 fn main() raises:
     with open("input.txt", "r") as f:
         var r = reader(f)
-        var r_it = iter(r)
-        print(next(r_it))
-        print(next(r_it))
+        var r_it = r.__iter__()
+        print(r_it.__next__())
+        print(r_it.__next__())
