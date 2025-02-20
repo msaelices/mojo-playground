@@ -3,7 +3,7 @@ from time import time as now
 
 def main():
     l = []
-    for i in range(100_000):
+    for i in range(1_000_000):
         l.append(str(i))
     start = now()
     s = ",".join(l)

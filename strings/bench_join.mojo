@@ -1,8 +1,8 @@
 from time import perf_counter_ns as now
 
 fn main():
-    l = List[String](capacity=100_000)
-    for i in range(100_000):
+    l = List[String](capacity=1_000_000)
+    for i in range(1_000_000):
         l.append(String(i))
     start = now()
     s = String(",").join(l)
