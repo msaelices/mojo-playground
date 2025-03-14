@@ -17,6 +17,10 @@ fn print_values_kernel(tensor: InputLayoutTensor):
    print("block_id: ", block_id, " thread_id: ", thread_id, " tensor[block_id, thread_id]: ", tensor[block_id, thread_id])
 
 
+fn multiply_kernel(tensor: InputLayoutTensor):
+    tensor[block_idx.x, thread_idx.x] *= 2
+
+
 fn main() raises:
     with DeviceContext() as ctx:
         # In host buffer:
@@ -38,5 +42,16 @@ fn main() raises:
         # Allocate a buffer for the GPU
         var tensor = LayoutTensor[dtype, layout](in_dev)
 
+        # Print the values in the indexed tensors before multiplying them
         ctx.enqueue_function[print_values_kernel](tensor, grid_dim=blocks, block_dim=threads)
     
+        # Multiply the values in the in dev tensor
+        ctx.enqueue_function[multiply_kernel](tensor, grid_dim=blocks, block_dim=threads)
+
+        # Copy the values back to the host buffer
+        in_dev.enqueue_copy_to(in_host)
+
+        ctx.synchronize()
+
+        host_tensor = LayoutTensor[dtype, layout](in_host)
+        print(host_tensor)
