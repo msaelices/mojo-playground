@@ -24,10 +24,10 @@ struct Complex:
         self.real = r
         self.imag = i
 
-    fn add(self, other: Complex) -> Complex:
+    fn __add__(self, other: Complex) -> Complex:
         return Complex(self.real + other.real, self.imag + other.imag)
 
-    fn mul(self, other: Complex) -> Complex:
+    fn __mul__(self, other: Complex) -> Complex:
         var r = self.real * other.real - self.imag * other.imag
         var i = self.real * other.imag + self.imag * other.real
         return Complex(r, i)
@@ -56,7 +56,7 @@ fn mandelbrot_kernel(output: OutputImage):
 
     var iter = 0
     while iter < MAX_ITER and z.abs_squared() < 4.0:
-        z = z.mul(z).add(c)
+        z = z * z + c
         iter += 1
 
     # Color mapping (simple grayscale)
