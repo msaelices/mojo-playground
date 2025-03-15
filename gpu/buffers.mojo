@@ -23,8 +23,7 @@ fn main() raises:
         var in_dev = ctx.enqueue_create_buffer[dtype](num_elems)
 
         # Copy the data from the CPU to the GPU buffer
-        # This is allocating global memory which can be accessed from any block and thread, 
+        # This is allocating global memory which can be accessed from any block and thread,
         # this memory is relatively slow compared to shared memory which is shared between all of the threads in a block
         in_host.enqueue_copy_to(in_dev)
         print(in_dev)
-    

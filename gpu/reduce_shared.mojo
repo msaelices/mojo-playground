@@ -73,4 +73,3 @@ fn main() raises:
         ctx.synchronize()
 
         print(out_host)
-

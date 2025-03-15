@@ -11,10 +11,18 @@ alias num_elems = blocks * threads
 alias layout = Layout.row_major(blocks, threads)
 alias InputLayoutTensor = LayoutTensor[dtype, layout, StaticConstantOrigin]
 
+
 fn print_values_kernel(tensor: InputLayoutTensor):
-   var block_id = block_idx.x
-   var thread_id = thread_idx.x
-   print("block_id: ", block_id, " thread_id: ", thread_id, " tensor[block_id, thread_id]: ", tensor[block_id, thread_id])
+    var block_id = block_idx.x
+    var thread_id = thread_idx.x
+    print(
+        "block_id: ",
+        block_id,
+        " thread_id: ",
+        thread_id,
+        " tensor[block_id, thread_id]: ",
+        tensor[block_id, thread_id],
+    )
 
 
 fn multiply_kernel(tensor: InputLayoutTensor):
@@ -43,10 +51,14 @@ fn main() raises:
         var tensor = LayoutTensor[dtype, layout](in_dev)
 
         # Print the values in the indexed tensors before multiplying them
-        ctx.enqueue_function[print_values_kernel](tensor, grid_dim=blocks, block_dim=threads)
-    
+        ctx.enqueue_function[print_values_kernel](
+            tensor, grid_dim=blocks, block_dim=threads
+        )
+
         # Multiply the values in the in dev tensor
-        ctx.enqueue_function[multiply_kernel](tensor, grid_dim=blocks, block_dim=threads)
+        ctx.enqueue_function[multiply_kernel](
+            tensor, grid_dim=blocks, block_dim=threads
+        )
 
         # Copy the values back to the host buffer
         in_dev.enqueue_copy_to(in_host)

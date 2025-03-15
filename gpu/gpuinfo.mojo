@@ -22,7 +22,7 @@ def main():
             thread_idx.x,
             thread_idx.y,
             thread_idx.z,
-            "]"
+            "]",
         )
 
     var ctx = DeviceContext()
@@ -32,5 +32,7 @@ def main():
 
     ctx.synchronize()
 
-    print("This will be printed after the GPU has completed its work, because of the synchronize call above.")
-
+    print(
+        "This will be printed after the GPU has completed its work, because of"
+        " the synchronize call above."
+    )

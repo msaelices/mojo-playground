@@ -1,6 +1,7 @@
 from gpu.host import DeviceContext
 from gpu import thread_idx
 
+
 fn kernel():
     print("hello from thread:", thread_idx.x, thread_idx.y, thread_idx.z)
 
