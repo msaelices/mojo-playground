@@ -15,9 +15,7 @@ alias layout = Layout.row_major(blocks, threads)
 alias InputLayoutTensor = LayoutTensor[dtype, layout, StaticConstantOrigin]
 
 
-fn sum_reduce_kernel(
-    tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]
-):
+fn sum_reduce_kernel(tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]):
     # Allocates memory to be shared between threads once, prior to the kernel launch
     var shared = stack_allocation[
         blocks * sizeof[dtype](),

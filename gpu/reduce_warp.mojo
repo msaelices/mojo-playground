@@ -15,9 +15,7 @@ alias layout = Layout.row_major(blocks, threads)
 alias InputLayoutTensor = LayoutTensor[dtype, layout, StaticConstantOrigin]
 
 
-fn warp_reduce_kernel(
-    tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]
-):
+fn warp_reduce_kernel(tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]):
     var value = tensor.load[1](block_idx.x, thread_idx.x)
 
     # Each thread gets the value from one thread higher, summing them as they go

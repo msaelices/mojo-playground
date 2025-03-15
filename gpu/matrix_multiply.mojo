@@ -79,9 +79,7 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
 
         # Compute the partial dot product
         for k in range(BLOCK_SIZE):
-            sum += Float32(
-                A_tile[ty * BLOCK_SIZE + k] * B_tile[k * BLOCK_SIZE + tx]
-            )
+            sum += Float32(A_tile[ty * BLOCK_SIZE + k] * B_tile[k * BLOCK_SIZE + tx])
 
         # Synchronize before loading next tile
         barrier()

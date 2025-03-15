@@ -15,9 +15,7 @@ alias layout_in = Layout.row_major(M, N)  # Input matrix layout
 alias layout_out = Layout.row_major(N, M)  # Output (transposed) matrix layout
 
 alias InputMatrix = LayoutTensor[DType.float32, layout_in, StaticConstantOrigin]
-alias OutputMatrix = LayoutTensor[
-    DType.float32, layout_out, StaticConstantOrigin
-]
+alias OutputMatrix = LayoutTensor[DType.float32, layout_out, StaticConstantOrigin]
 
 
 fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):
