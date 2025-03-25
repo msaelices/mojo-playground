@@ -1,5 +1,5 @@
 from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, DeviceBuffer
+from gpu.host import DeviceContext, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
@@ -15,7 +15,7 @@ alias layout = Layout.row_major(blocks, threads)
 alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn simd_reduce_kernel(tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]):
+fn simd_reduce_kernel(tensor: InputLayoutTensor, out_buffer: HostBuffer[dtype]):
     out_buffer[block_idx.x] = tensor.load[4](block_idx.x, 0).reduce_add()
 
 

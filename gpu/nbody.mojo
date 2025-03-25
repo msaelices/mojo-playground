@@ -1,5 +1,5 @@
 from gpu import thread_idx, block_idx
-from gpu.host import DeviceContext, DeviceBuffer
+from gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from layout import Layout, LayoutTensor
 import math
 
@@ -88,12 +88,12 @@ fn update_particles_kernel(
 
 
 fn initialize_uniform_sphere(
-    buffer_pos_x: DeviceBuffer[DType.float32],
-    buffer_pos_y: DeviceBuffer[DType.float32],
-    buffer_pos_z: DeviceBuffer[DType.float32],
-    buffer_vel_x: DeviceBuffer[DType.float32],
-    buffer_vel_y: DeviceBuffer[DType.float32],
-    buffer_vel_z: DeviceBuffer[DType.float32]
+    buffer_pos_x: HostBuffer[DType.float32],
+    buffer_pos_y: HostBuffer[DType.float32],
+    buffer_pos_z: HostBuffer[DType.float32],
+    buffer_vel_x: HostBuffer[DType.float32],
+    buffer_vel_y: HostBuffer[DType.float32],
+    buffer_vel_z: HostBuffer[DType.float32]
 ):
     """Initialize particles in a uniform sphere with some initial velocity.
     
@@ -134,9 +134,9 @@ fn initialize_uniform_sphere(
 
 
 fn get_system_bounds(
-    buffer_pos_x: DeviceBuffer[DType.float32],
-    buffer_pos_y: DeviceBuffer[DType.float32],
-    buffer_pos_z: DeviceBuffer[DType.float32]
+    buffer_pos_x: HostBuffer[DType.float32],
+    buffer_pos_y: HostBuffer[DType.float32],
+    buffer_pos_z: HostBuffer[DType.float32]
 ):
     """Calculate the min/max bounds of the particle system."""
     var pos_x_ptr = buffer_pos_x.unsafe_ptr()

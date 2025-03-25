@@ -1,5 +1,5 @@
 from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, DeviceBuffer
+from gpu.host import DeviceContext, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from memory import stack_allocation
@@ -66,8 +66,8 @@ fn tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
 
 
 fn verify_transpose(
-    input_host: DeviceBuffer[DType.float32],
-    output_host: DeviceBuffer[DType.float32],
+    input_host: HostBuffer[DType.float32],
+    output_host: HostBuffer[DType.float32],
 ) -> Bool:
     var input = LayoutTensor[DType.float32, layout_in](input_host)
     var output = LayoutTensor[DType.float32, layout_out](output_host)

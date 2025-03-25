@@ -1,5 +1,5 @@
 from gpu import barrier, thread_idx, block_idx, warp
-from gpu.host import DeviceContext, DeviceBuffer
+from gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
@@ -15,7 +15,7 @@ alias layout = Layout.row_major(blocks, threads)
 alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn warp_reduce_kernel(tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]):
+fn warp_reduce_kernel(tensor: InputLayoutTensor, out_buffer: HostBuffer[dtype]):
     var value = tensor.load[1](block_idx.x, thread_idx.x)
 
     # Each thread gets the value from one thread higher, summing them as they go

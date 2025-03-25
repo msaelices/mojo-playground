@@ -1,5 +1,5 @@
 from gpu import thread_idx, block_idx
-from gpu.host import DeviceContext, DeviceBuffer
+from gpu.host import DeviceContext, HostBuffer
 from layout import Layout, LayoutTensor
 import math
 from memory import memset
@@ -73,7 +73,7 @@ fn mandelbrot_kernel(output: OutputImage):
     output[y, x] = color
 
 
-fn save_ppm(filename: String, buffer: DeviceBuffer[DType.uint8]) raises:
+fn save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
     # Create a tensor view for easier access
     var image = LayoutTensor[DType.uint8, layout_out](buffer)
 

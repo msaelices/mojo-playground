@@ -1,5 +1,5 @@
 from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, DeviceBuffer
+from gpu.host import DeviceContext, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
@@ -90,9 +90,9 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
 
 
 fn verify_result(
-    host_a: DeviceBuffer[DType.float32],
-    host_b: DeviceBuffer[DType.float32],
-    host_c: DeviceBuffer[DType.float32],
+    host_a: HostBuffer[DType.float32],
+    host_b: HostBuffer[DType.float32],
+    host_c: HostBuffer[DType.float32],
 ) -> Bool:
     # Verify the result with a simple CPU implementation
     var A = LayoutTensor[DType.float32, layout_a](host_a)
