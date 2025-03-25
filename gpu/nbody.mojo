@@ -12,7 +12,7 @@ alias NUM_ITERATIONS = 10  # Number of simulation steps to run
 
 # Define layouts for particle data
 alias vec_layout = Layout.row_major(NUM_PARTICLES)
-alias VecData = LayoutTensor[DType.float32, vec_layout, StaticConstantOrigin]
+alias VecData = LayoutTensor[DType.float32, vec_layout, MutableAnyOrigin]
 
 
 fn update_particles_kernel(

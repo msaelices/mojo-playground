@@ -9,7 +9,7 @@ alias threads = 4
 alias num_elems = blocks * threads
 
 alias layout = Layout.row_major(blocks, threads)
-alias InputLayoutTensor = LayoutTensor[dtype, layout, StaticConstantOrigin]
+alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
 fn print_values_kernel(tensor: InputLayoutTensor):

@@ -17,9 +17,9 @@ alias layout_a = Layout.row_major(M, K)
 alias layout_b = Layout.row_major(K, N)
 alias layout_c = Layout.row_major(M, N)
 
-alias MatrixA = LayoutTensor[DType.float32, layout_a, StaticConstantOrigin]
-alias MatrixB = LayoutTensor[DType.float32, layout_b, StaticConstantOrigin]
-alias MatrixC = LayoutTensor[DType.float32, layout_c, StaticConstantOrigin]
+alias MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
+alias MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
+alias MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
 
 
 fn matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):

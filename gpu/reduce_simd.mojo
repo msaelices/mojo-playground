@@ -12,7 +12,7 @@ alias threads = 4
 alias num_elems = blocks * threads
 
 alias layout = Layout.row_major(blocks, threads)
-alias InputLayoutTensor = LayoutTensor[dtype, layout, StaticConstantOrigin]
+alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
 fn simd_reduce_kernel(tensor: InputLayoutTensor, out_buffer: DeviceBuffer[dtype]):

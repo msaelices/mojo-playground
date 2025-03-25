@@ -14,8 +14,8 @@ alias BLOCK_SIZE = 2  # tile size for shared memory implementation
 alias layout_in = Layout.row_major(M, N)  # Input matrix layout
 alias layout_out = Layout.row_major(N, M)  # Output (transposed) matrix layout
 
-alias InputMatrix = LayoutTensor[DType.float32, layout_in, StaticConstantOrigin]
-alias OutputMatrix = LayoutTensor[DType.float32, layout_out, StaticConstantOrigin]
+alias InputMatrix = LayoutTensor[DType.float32, layout_in, MutableAnyOrigin]
+alias OutputMatrix = LayoutTensor[DType.float32, layout_out, MutableAnyOrigin]
 
 
 fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):

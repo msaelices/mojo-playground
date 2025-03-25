@@ -12,7 +12,7 @@ alias BLOCK_SIZE = 16
 
 # Define the layout for our output image
 alias layout_out = Layout.row_major(HEIGHT, WIDTH)
-alias OutputImage = LayoutTensor[DType.uint8, layout_out, StaticConstantOrigin]
+alias OutputImage = LayoutTensor[DType.uint8, layout_out, MutableAnyOrigin]
 
 
 # Complex number structure for mandelbrot calculations
