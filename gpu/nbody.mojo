@@ -61,7 +61,7 @@ fn update_particles_kernel(
         var distance_squared = dx*dx + dy*dy + dz*dz + SOFTENING*SOFTENING
         
         # Compute force strength: G*m_j/r^3 (G and m_j are 1.0 in our simplified simulation)
-        var force = Float32(1.0 / (math.sqrt(distance_squared) * distance_squared))
+        var force = 1.0 / (math.sqrt(distance_squared) * distance_squared)
         
         # Accumulate accelerations (F=ma, but m=1 in our simulation)
         acc_x += Float32(force * dx)
@@ -108,26 +108,29 @@ fn initialize_uniform_sphere(
     
     for i in range(NUM_PARTICLES):
         # Initialize position in a sphere with radius 1
-        var r = Float32(1.0)
-        var theta = Float32(2.0 * math.pi * (Float32(i) / Float32(NUM_PARTICLES)))
-        var phi = Float32(math.pi * (Float32(i % 100) / 100.0))
+        var r = 1.0
+        # Longitude in spherical coordinates (0 to 2*pi)
+        var theta = 2.0 * math.pi * i / NUM_PARTICLES
+        # Latitude in spherical coordinates (0 to pi)
+        var phi = math.pi * (i % 100) / 100.0
         
-        var pos_x = Float32(r * math.sin(phi) * math.cos(theta))
-        var pos_y = Float32(r * math.sin(phi) * math.sin(theta))
-        var pos_z = Float32(r * math.cos(phi))
+        # Convert spherical coordinates to Cartesian coordinates
+        var pos_x = r * math.sin(phi) * math.cos(theta)
+        var pos_y = r * math.sin(phi) * math.sin(theta)
+        var pos_z = r * math.cos(phi)
         
         # Initialize with small deterministic velocities
-        var vel_x = Float32(0.1 * math.sin(theta * 2.5))
-        var vel_y = Float32(0.1 * math.cos(phi * 3.0))
-        var vel_z = Float32(0.01 * Float32(i % 10))
+        var vel_x = 0.1 * math.sin(theta * 2.5)
+        var vel_y = 0.1 * math.cos(phi * 3.0)
+        var vel_z = 0.01 * (i % 10)
         
         # Store in buffers
-        pos_x_ptr.offset(i).store(pos_x)
-        pos_y_ptr.offset(i).store(pos_y)
-        pos_z_ptr.offset(i).store(pos_z)
-        vel_x_ptr.offset(i).store(vel_x)
-        vel_y_ptr.offset(i).store(vel_y)
-        vel_z_ptr.offset(i).store(vel_z)
+        pos_x_ptr.offset(i).store(Float32(pos_x))
+        pos_y_ptr.offset(i).store(Float32(pos_y))
+        pos_z_ptr.offset(i).store(Float32(pos_z))
+        vel_x_ptr.offset(i).store(Float32(vel_x))
+        vel_y_ptr.offset(i).store(Float32(vel_y))
+        vel_z_ptr.offset(i).store(Float32(vel_z))
 
 
 fn get_system_bounds(
