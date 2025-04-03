@@ -41,7 +41,7 @@ struct LinkedList[T: RepresentableKeyElement]:
 def main():
     elements = List(1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10)
     list = LinkedList[Int](elements)
-    ptr = UnsafePointer[LinkedList[Int]].address_of(list)
+    ptr = UnsafePointer[LinkedList[Int]](to=list)
 
     print('Iterating using pointers:')
     while ptr[].has_next():

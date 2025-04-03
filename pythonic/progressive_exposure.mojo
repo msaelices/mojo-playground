@@ -47,7 +47,7 @@ def main4():
 # create safe reference (not learned origin yet)
 def main5():
     a = 0
-    b = Pointer.address_of(a)
+    b = Pointer(to=a)
     a += 1
     print(b[])
 
@@ -103,7 +103,7 @@ def main9():
 def return_mutable_ref2[
     L: MutableOrigin
 ](ref [L]arg: List[Int]) -> Pointer[List[Int], L]:
-    return Pointer.address_of(arg)
+    return Pointer(to=arg)
 
 
 def main10():
