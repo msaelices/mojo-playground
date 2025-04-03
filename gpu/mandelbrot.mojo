@@ -20,7 +20,7 @@ struct Complex:
     var real: Float64
     var imag: Float64
 
-    fn __init__(mut self, r: Float64, i: Float64):
+    fn __init__(out self, r: Float64, i: Float64):
         self.real = r
         self.imag = i
 

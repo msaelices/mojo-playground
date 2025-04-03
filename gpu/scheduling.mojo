@@ -1,11 +1,11 @@
 from gpu import thread_idx
-from gpu.host import DeviceBuffer, DeviceContext
+from gpu.host import HostBuffer, DeviceContext
 
 alias dtype = DType.uint8
 
 
-fn kernel(dev_buffer: DeviceBuffer[dtype]):
-    dev_buffer[thread_idx.x] = thread_idx.x
+fn kernel(buffer: HostBuffer[dtype]):
+    buffer[thread_idx.x] = thread_idx.x
 
 
 fn main() raises:
