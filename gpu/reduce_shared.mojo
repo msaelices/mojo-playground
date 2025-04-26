@@ -3,7 +3,7 @@ from gpu.host import DeviceContext, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
-from memory import stack_allocation
+from memory import stack_allocation, UnsafePointer
 from sys import sizeof
 
 alias dtype = DType.uint32
@@ -15,7 +15,7 @@ alias layout = Layout.row_major(blocks, threads)
 alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn sum_reduce_kernel(tensor: InputLayoutTensor, out_buffer: HostBuffer[dtype]):
+fn sum_reduce_kernel(tensor: InputLayoutTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
     # Allocates memory to be shared between threads once, prior to the kernel launch
     var shared = stack_allocation[
         blocks * sizeof[dtype](),

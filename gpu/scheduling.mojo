@@ -1,10 +1,11 @@
+from memory import UnsafePointer
 from gpu import thread_idx
 from gpu.host import HostBuffer, DeviceContext
 
 alias dtype = DType.uint8
 
 
-fn kernel(buffer: HostBuffer[dtype]):
+fn kernel(buffer: UnsafePointer[Scalar[dtype]]):
     buffer[thread_idx.x] = thread_idx.x
 
 
