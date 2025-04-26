@@ -1,5 +1,5 @@
 import sys
-from compile import _internal_compile_code as compile_code
+from compile import compile_info
 
 
 @export
@@ -12,6 +12,6 @@ fn main():
     format = "llvm" if len(args) > 1 and String(args[1]).lower() == "llvm" else "asm"
 
     if format == "llvm":
-        print(compile_code[f, emission_kind="llvm"]())
+        print(compile_info[f, emission_kind="llvm"]())
     else:
-        print(compile_code[f, emission_kind="asm"]())
+        print(compile_info[f, emission_kind="asm"]())
