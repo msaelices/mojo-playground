@@ -15,6 +15,7 @@ fn main() raises:
         # Ensure that the buffer is filled with data before we use it
         ctx.synchronize()
 
+        # Fill in the buffer with values from 0 to 15 and print it
         iota(in_host.unsafe_ptr(), num_elems)
         print(in_host)
 
