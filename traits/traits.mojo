@@ -38,6 +38,16 @@ struct HashedKey[K: CopiableHashable]:
         self.hash = sized_hash(key)
 
 
+@value
+struct FooElement[Type: Writable & CollectionElement]:
+    """Example of trait composition."""
+    var value: Type
+
+    fn __init__(out self, value: Type):
+        self.value = value
+
 fn main() raises:
     var x = DummyInt()
     print(HashedKey(x).hash)
+    var y = FooElement(10)
+    print(y.value)
