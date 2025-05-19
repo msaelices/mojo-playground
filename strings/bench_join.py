@@ -3,10 +3,11 @@ from time import time as now
 
 def main():
     l = []
-    for i in range(1_000_000):
+    for i in range(1_000):
         l.append(str(i))
     start = now()
-    s = ",".join(l)
+    for _ in range(10_000):
+        s = ",".join(l)
     end = now()
     print("Len: ", len(s), "Time: ", (end - start), "seconds")
 
