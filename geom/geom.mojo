@@ -39,6 +39,6 @@ fn main():
     var p2 = Point(4, 6)
     var l = Line(p1, p2)
     print('Line length:', l.length())
-    var poly = Path(List(p1, p2, Point(3, 3)))
+    var poly = Path([p1, p2, Point(3, 3)])
     print('Polygon length:', poly.length())
 

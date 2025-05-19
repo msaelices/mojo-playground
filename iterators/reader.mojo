@@ -1,6 +1,6 @@
 @value
-struct readeriter:
-    var reader: reader
+struct ReaderIter:
+    var reader: Reader
     var idx: Int
 
     def __iter__(self) -> Self:
@@ -13,7 +13,7 @@ struct readeriter:
 
 
 @value
-struct reader:
+struct Reader:
     var lines: List[String]
     var idx: Int
 
@@ -21,13 +21,13 @@ struct reader:
         self.lines = file.read().split("\n")
         self.idx = 0
 
-    def __iter__(self) -> readeriter:
-        return readeriter(self, 0)
+    def __iter__(self) -> ReaderIter:
+        return ReaderIter(self, 0)
 
 
 fn main() raises:
     with open("input.txt", "r") as f:
-        var r = reader(f)
+        var r = Reader(f)
         var r_it = r.__iter__()
         print(r_it.__next__())
         print(r_it.__next__())

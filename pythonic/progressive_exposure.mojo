@@ -20,7 +20,7 @@ def main2():
 
 
 # print trough function
-def printer(a):
+def printer(a: String):
     print(a)
 
 
@@ -58,7 +58,7 @@ def return_ref(arg: List[Int]) -> ref [arg] List[Int]:
 
 
 def main6():
-    a = List(1, 2, 3)
+    a = [1, 2, 3]
     a.append(4)
     print(return_ref(a)[3])
 
@@ -107,7 +107,7 @@ def return_mutable_ref2[
 
 
 def main10():
-    a = List(1, 2, 3)
+    a = [1, 2, 3]
     b = return_mutable_ref2(a)
     c = b
     c[].append(4)

@@ -9,7 +9,7 @@ fn bubble_sort(mut arr: List[Int]):
 
 
 def main():
-    l = List[Int]()
+    var l: List[Int] = []
     for i in range(10_000, 0, step=-1):
         l.append(i)
 

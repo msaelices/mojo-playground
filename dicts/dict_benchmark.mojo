@@ -1,5 +1,4 @@
-from collections import List, Dict
-from collections.dict import RepresentableKeyElement
+from collections import Dict
 from time import perf_counter_ns as now
 
 
@@ -163,8 +162,8 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
     return input.upper().split(" ")
 
 
-fn get_freqs[V: RepresentableKeyElement](wds: List[V]) raises -> Dict[V, UInt64]:
-    var freqs: Dict[V, UInt64] = Dict[V, UInt64]()
+fn get_freqs[V: Representable & KeyElement](wds: List[V]) raises -> Dict[V, UInt64]:
+    var freqs: Dict[V, UInt64] = {}
     for wd_ref in wds:
         wd = wd_ref[] 
         if wd in freqs:
@@ -182,7 +181,7 @@ fn main() raises:
 
     var out_path = "report.csv"
     with open(out_path, "w") as outfile:
-        outfile.write(String("version,n_wds,n_keys,the,sec\n"))
+        outfile.write("version,n_wds,n_keys,the,sec\n")
         for _ in range(10):
             var t0 = now()
             var freqs = get_freqs(wds)

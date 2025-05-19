@@ -1,12 +1,12 @@
 from memory import UnsafePointer
-from collections.dict import RepresentableKeyElement
 
 
 @value
-struct LinkedList[T: RepresentableKeyElement]:
+struct LinkedList[T: KeyElement & Representable]:
     var _data_ptr: UnsafePointer[T]
     var _next_ptr: UnsafePointer[LinkedList[T]]
 
+    @implicit
     fn __init__(out self, elements: List[T]):
         if not elements:
             # Null pointers
@@ -39,9 +39,9 @@ struct LinkedList[T: RepresentableKeyElement]:
         return self._next_ptr
 
 def main():
-    elements = List(1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10)
-    list = LinkedList[Int](elements)
-    ptr = UnsafePointer[LinkedList[Int]](to=list)
+    var elements: List[Int] = [1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10]
+    var list: LinkedList[Int] = elements
+    var ptr = UnsafePointer(to=list)
 
     print('Iterating using pointers:')
     while ptr[].has_next():
