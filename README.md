@@ -14,10 +14,10 @@ This software is just for self-educational purposes, and it's using the Mojo nig
 git clone git@github.com:msaelices/mojo-playground.git
 cd mojo-playground
 ```
-3. Start a magic shell
+3. Start a pixi shell
 
 ```bash
-magic shell
+pixi shell
 ```
 
 4. Execute the Mojo file you want to run, e.g:
