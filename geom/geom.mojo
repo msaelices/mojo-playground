@@ -8,9 +8,9 @@ struct Point:
     var y: Float64
 
     fn distance(self, other: Point) -> Float64:
-        var x_diff = self.x - other.x
-        var y_diff = self.y - other.y
-        return math.sqrt(x_diff * x_diff + y_diff * y_diff)
+        x_diff = self.x - other.x
+        y_diff = self.y - other.y
+        return math.sqrt(x_diff ** 2 + y_diff ** 2)
 
 
 @value
@@ -27,9 +27,9 @@ struct Path:
     var points: List[Point]
 
     fn length(self) -> Float64:
-        var total = 0.0
+        total = 0.0
         for i in range(len(self.points) - 1):
-            var p = self.points[i]
+            p = self.points[i]
             total += p.distance(self.points[i + 1])
         return total
 
@@ -39,6 +39,7 @@ fn main():
     var p2 = Point(4, 6)
     var l = Line(p1, p2)
     print('Line length:', l.length())
-    var poly = Path([p1, p2, Point(3, 3)])
+    points = [Point(1, 2), Point(3, 4)]
+    poly = Path(points)
     print('Polygon length:', poly.length())
 
