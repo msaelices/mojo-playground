@@ -1,7 +1,7 @@
 from random import random_float64
 
 
-struct Point[origin: Origin]:
+struct Point:
     var x: Float64
     var y: Float64
 
@@ -11,32 +11,36 @@ struct Point[origin: Origin]:
 
 
 struct PointBox[
-    origin: Origin,
-]:
-    var point_ptr: Pointer[Point[origin], origin]
+    point_origin: Origin,
+](Movable):
+    var point_ptr: Pointer[Point, point_origin]
 
-    fn __init__(out self, ref [origin] point: Point[origin]):
-        self.point_ptr = Pointer[Point[origin]](to=point)
+    fn __init__(
+        out self,
+        ref [point_origin]point: Point,
+    ):
+        self.point_ptr = Pointer(to=point)
 
-
-fn random_pointer[origin: Origin]() -> PointBox[origin]:
-    var point = Point[origin](
+fn random_pointer() -> PointBox[MutableAnyOrigin]:
+    var point: Point = Point(
         x=random_float64(),
         y=random_float64(),
     )
-    var point_box = PointBox[origin](
+    var point_box = PointBox[MutableAnyOrigin](
         point=point,
     )
-    return point_box
+    return point_box^
 
-
-fn random_pointer2() -> PointBox:
-    var point = Point(
-        x=random_float64(),
-        y=random_float64(),
-    )
-    var point_box = PointBox(
-        point=point,
-    )
-    return point_box
-
+fn main() raises:
+    var point_box = random_pointer()
+    print("PointBox contains a point at: ({}, {})".format(
+        point_box.point_ptr[].x,
+        point_box.point_ptr[].y,
+    ))
+    # Modify the point through the pointer
+    point_box.point_ptr[].x += 1.0
+    point_box.point_ptr[].y += 1.0
+    print("After modification: ({}, {})".format(
+        point_box.point_ptr[].x,
+        point_box.point_ptr[].y,
+    ))
