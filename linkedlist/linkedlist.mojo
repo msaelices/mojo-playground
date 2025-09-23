@@ -1,25 +1,62 @@
 from memory import UnsafePointer
 
 
-struct LinkedList[T: KeyElement & Representable](Copyable, Movable):
+struct LinkedListIter[
+    mut: Bool, //,
+    ElementType: KeyElement & Representable & Writable,
+    origin: Origin[mut],
+](Iterator):
+    alias Element = ElementType  # This shouldn't be needed if Mojo compiler improves
+
+    var _src: Pointer[LinkedList[ElementType], origin=origin]
+    var _curr: UnsafePointer[LinkedList[ElementType]]
+
+    fn __init__(out self, linked_list_ptr: Pointer[LinkedList[ElementType], origin]):
+        self._src = linked_list_ptr
+        self._curr = UnsafePointer(to=self._src[])
+
+    fn __has_next__(self) -> Bool:
+        return self._curr and self._curr[].has_next()
+
+    fn __next__(mut self) -> Self.Element:
+        next_ptr = self._curr[].get_next_ptr()
+        self._curr = next_ptr
+        return next_ptr[].get_data()
+
+
+
+
+struct LinkedList[T: KeyElement & Representable & Writable](Copyable, Movable, Iterable):
     var _data_ptr: UnsafePointer[T]
     var _next_ptr: UnsafePointer[LinkedList[T]]
+    var _size: Int
+
+    alias IteratorType[
+        iterable_mut: Bool, //, iterable_origin: Origin[iterable_mut]
+    ]: Iterator = LinkedListIter[ElementType=T, origin=iterable_origin]
 
     @implicit
-    fn __init__(out self, elements: List[T]):
-        if not elements:
-            # Null pointers
-            self._data_ptr = UnsafePointer[T]()
-            self._next_ptr = UnsafePointer[LinkedList[T]]()
-            return
+    fn __init__(out self, var elements: List[T]):
+        self._size = len(elements)
 
         self._data_ptr = UnsafePointer[T].alloc(1)
         self._data_ptr.init_pointee_copy(elements[0])
+
+        if self._size == 1:
+            # Null pointer
+            self._next_ptr = UnsafePointer[LinkedList[T]]()
+            return
 
         self._next_ptr = UnsafePointer[LinkedList[T]].alloc(1)
         self._next_ptr.init_pointee_copy(
             LinkedList[T](elements[1:])
         )
+
+    fn __iter__(ref self) -> Self.IteratorType[__origin_of(self)]:
+        return LinkedListIter(Pointer(to=self))
+
+    fn __len__(self) -> Int:
+        return self._size
 
     fn get_data(self) -> T:
         """Get the data of the current element."""
@@ -39,7 +76,7 @@ struct LinkedList[T: KeyElement & Representable](Copyable, Movable):
 
 def main():
     var elements: List[Int] = [1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10]
-    var list: LinkedList[Int] = elements
+    var list: LinkedList[Int] = elements^
     var ptr = UnsafePointer(to=list)
 
     print('Iterating using pointers:')
@@ -47,8 +84,7 @@ def main():
         print(ptr[].get_data())
         ptr = ptr[].get_next_ptr()
 
-    print('\nIterating using refs:')
-    while list.has_next():
-        print(list.get_data())
-        list = list.get_next().copy()
+    print('\nIterating using iterator:')
+    for elem in list:
+        print(elem)
 
