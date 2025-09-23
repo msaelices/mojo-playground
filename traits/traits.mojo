@@ -5,14 +5,12 @@ trait CopiableHashable(Hashable, Copyable):
 trait SizedHashable(Sized, CopiableHashable):
     pass
 
-@value
 struct HashedInt(CopiableHashable):
     var x: Int
 
     fn __hash__(self) -> UInt:
         return self.x
 
-@value
 struct DummyInt(SizedHashable):  # dummy example with minimum code
     fn __hash__(self) -> UInt:
         return 10 * len(self)
@@ -38,7 +36,6 @@ struct HashedKey[K: CopiableHashable]:
         self.hash = sized_hash(key)
 
 
-@value
 struct FooElement[Type: Writable & CollectionElement]:
     """Example of trait composition."""
     var value: Type
@@ -48,7 +45,6 @@ struct FooElement[Type: Writable & CollectionElement]:
 
 
 
-@value
 struct One[Type: CollectionElement]:
     var value: Type
 

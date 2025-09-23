@@ -1,4 +1,3 @@
-@value
 struct ReaderIter:
     var reader: Reader
     var idx: Int
@@ -12,7 +11,6 @@ struct ReaderIter:
         return line
 
 
-@value
 struct Reader:
     var lines: List[String]
     var idx: Int

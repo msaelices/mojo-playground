@@ -2,7 +2,6 @@
 
 import math
 
-@value
 struct Point:
     var x: Float64
     var y: Float64
@@ -13,7 +12,6 @@ struct Point:
         return math.sqrt(x_diff ** 2 + y_diff ** 2)
 
 
-@value
 struct Line:
     var start: Point
     var end: Point
@@ -22,7 +20,6 @@ struct Line:
         return self.start.distance(self.end)
 
 
-@value
 struct Path:
     var points: List[Point]
 

@@ -1,4 +1,3 @@
-@value
 struct Foo:
     fn myfunc(self) -> Int:
         return 42

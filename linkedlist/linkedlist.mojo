@@ -1,8 +1,7 @@
 from memory import UnsafePointer
 
 
-@value
-struct LinkedList[T: KeyElement & Representable]:
+struct LinkedList[T: KeyElement & Representable](Copyable, Movable):
     var _data_ptr: UnsafePointer[T]
     var _next_ptr: UnsafePointer[LinkedList[T]]
 
@@ -15,16 +14,16 @@ struct LinkedList[T: KeyElement & Representable]:
             return
 
         self._data_ptr = UnsafePointer[T].alloc(1)
-        self._data_ptr.init_pointee_move(elements[0])
+        self._data_ptr.init_pointee_copy(elements[0])
 
         self._next_ptr = UnsafePointer[LinkedList[T]].alloc(1)
-        self._next_ptr.init_pointee_move(
+        self._next_ptr.init_pointee_copy(
             LinkedList[T](elements[1:])
         )
 
     fn get_data(self) -> T:
         """Get the data of the current element."""
-        return self._data_ptr[]
+        return self._data_ptr[].copy()
 
     fn has_next(self) -> Bool:
         """Check if the next element exists."""
@@ -51,4 +50,5 @@ def main():
     print('\nIterating using refs:')
     while list.has_next():
         print(list.get_data())
-        list = list.get_next() 
+        list = list.get_next().copy()
+
