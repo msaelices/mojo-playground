@@ -4,7 +4,7 @@ from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
 from memory import stack_allocation, UnsafePointer
-from sys import sizeof
+from sys import size_of
 
 alias dtype = DType.uint32
 alias blocks = 4
