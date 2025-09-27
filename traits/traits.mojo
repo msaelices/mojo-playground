@@ -1,4 +1,6 @@
-trait CopiableHashable(Hashable, Copyable):
+from hashlib import Hasher
+
+trait CopiableHashable(Hashable, ImplicitlyCopyable):
     pass
 
 
@@ -8,35 +10,38 @@ trait SizedHashable(Sized, CopiableHashable):
 struct HashedInt(CopiableHashable):
     var x: Int
 
-    fn __hash__(self) -> UInt:
-        return self.x
+    fn __hash__[H: Hasher](self, mut hasher: H):
+        hasher.update(self.x)
 
 struct DummyInt(SizedHashable):  # dummy example with minimum code
-    fn __hash__(self) -> UInt:
-        return 10 * len(self)
+    fn __init__(out self):
+        pass
+
+    fn __hash__[H: Hasher](self, mut hasher: H):
+        hasher.update(10 * len(self))
 
     fn __len__(self) -> Int:
         return 2
 
 
 fn sized_hash[T: SizedHashable](x: T) -> Int:
-    return hash(x) * len(x)
+    return Int(hash[T](x) * len(x))
 
 
 struct HashedKey[K: CopiableHashable]:
     var key: K
     var hash: Int
 
-    fn __init__(out self, owned key: K):
+    fn __init__(out self, var key: K):
         self.key = key
-        self.hash = hash(key)
+        self.hash = Int(hash(key))
 
     fn __init__[U: SizedHashable](out self: HashedKey[U], key: U):
         self.key = key
         self.hash = sized_hash(key)
 
 
-struct FooElement[Type: Writable & CollectionElement]:
+struct FooElement[Type: Writable & ImplicitlyCopyable & Movable]:
     """Example of trait composition."""
     var value: Type
 
@@ -45,7 +50,7 @@ struct FooElement[Type: Writable & CollectionElement]:
 
 
 
-struct One[Type: CollectionElement]:
+struct One[Type: ImplicitlyCopyable & Movable]:
     var value: Type
 
     fn __init__(out self, value: Type):
@@ -55,7 +60,7 @@ def use_one():
     s1 = One(123)
     s2 = One("Hello")
 
-struct Two[Type: Writable & CollectionElement]:
+struct Two[Type: Writable & ImplicitlyCopyable & Movable]:
     var val1: Type
     var val2: Type
 
