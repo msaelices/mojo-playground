@@ -12,10 +12,10 @@ alias threads = 4
 alias num_elems = blocks * threads
 
 alias layout = Layout.row_major(blocks, threads)
-alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn sum_reduce_kernel(tensor: InputLayoutTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
+fn sum_reduce_kernel(tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
     # Allocates memory to be shared between threads once, prior to the kernel launch
     var shared = stack_allocation[
         blocks * size_of[dtype](),

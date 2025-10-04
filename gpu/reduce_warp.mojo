@@ -12,10 +12,10 @@ alias threads = 4
 alias num_elems = blocks * threads
 
 alias layout = Layout.row_major(blocks, threads)
-alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn warp_reduce_kernel(tensor: InputLayoutTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
+fn warp_reduce_kernel(tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
     var value = tensor.load[1](block_idx.x, thread_idx.x)
 
     # Each thread gets the value from one thread higher, summing them as they go
