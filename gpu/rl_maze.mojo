@@ -20,7 +20,10 @@ alias NUM_BLOCKS = 16                  # Number of blocks
 
 # Layout definitions for our GPU tensors
 alias q_table_layout = Layout.row_major(NUM_STATES, NUM_ACTIONS)
-alias QTable = LayoutTensor[DType.float32, q_table_layout]
+alias QTable = LayoutTensor[DType.float32, q_table_layout, MutableAnyOrigin]
+alias Maze = LayoutTensor[DType.int32, Layout.row_major(NUM_STATES), MutableAnyOrigin]
+alias ValidActions = LayoutTensor[DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS), MutableAnyOrigin]
+alias EpisodeSeeds = LayoutTensor[DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS), MutableAnyOrigin]
 
 # Maze definition - 0 is empty, 1 is wall, 2 is goal
 alias UP = 0
@@ -66,9 +69,10 @@ fn initialize_maze(maze_buffer: HostBuffer[DType.int32]):
     maze_ptr[6 * MAZE_SIZE + 6] = 2
 
 
+
 fn get_valid_actions_kernel(
-    maze: LayoutTensor[DType.int32, Layout.row_major(NUM_STATES)],
-    valid_actions: LayoutTensor[DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS)]
+    maze: Maze,
+    valid_actions: ValidActions,
 ):
     """Compute valid actions for each state in the maze.
     
@@ -115,10 +119,10 @@ fn get_valid_actions_kernel(
 
 
 fn monte_carlo_episode_kernel(
-    maze: LayoutTensor[DType.int32, Layout.row_major(NUM_STATES)],
-    valid_actions: LayoutTensor[DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS)],
+    maze: Maze,
+    valid_actions: ValidActions,
     q_table: QTable,
-    episode_seeds: LayoutTensor[DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS)]
+    episode_seeds: EpisodeSeeds,
 ):
     """Run Monte Carlo episodes to update the Q-table.
     
@@ -184,7 +188,7 @@ fn monte_carlo_episode_kernel(
         rng = (rng * 1664525 + 1013904223) % 2147483647  # Simple LCG for randomness
         var random_value = rng % 100
         
-        if random_value < Int32(EPSILON * 100):  # Explore
+        if Int(random_value) < Int(EPSILON * 100):  # Explore
             var random_idx = Int(rng % valid_count)
             action = Int(valid_action_indices[random_idx])
         else:  # Exploit - choose the best action
@@ -257,11 +261,11 @@ fn monte_carlo_episode_kernel(
 
 
 fn find_optimal_path_kernel(
-    maze: LayoutTensor[DType.int32, Layout.row_major(NUM_STATES)],
-    valid_actions: LayoutTensor[DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS)],
+    maze: Maze,
+    valid_actions: ValidActions,
     q_table: QTable,
-    path_length: LayoutTensor[DType.int32, Layout.row_major(1)],
-    optimal_path: LayoutTensor[DType.int32, Layout.row_major(MAX_STEPS)]
+    path_length: LayoutTensor[DType.int32, Layout.row_major(1), MutableAnyOrigin],
+    optimal_path: LayoutTensor[DType.int32, Layout.row_major(MAX_STEPS), MutableAnyOrigin]
 ):
     """Find the optimal path based on the learned Q-table.
     
@@ -360,10 +364,10 @@ fn main() raises:
         episode_seeds_buffer.enqueue_copy_to(episode_seeds_dev)
         
         # Create tensor views
-        var maze = LayoutTensor[DType.int32, Layout.row_major(NUM_STATES)](maze_dev)
-        var valid_actions = LayoutTensor[DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS)](valid_actions_dev)
+        var maze = Maze(maze_dev)
+        var valid_actions = ValidActions(valid_actions_dev)
         var q_table = QTable(q_table_dev)
-        var episode_seeds = LayoutTensor[DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS)](episode_seeds_dev)
+        var episode_seeds = EpisodeSeeds(episode_seeds_dev)
         
         # Precompute valid actions for all states
         ctx.enqueue_function[get_valid_actions_kernel](
