@@ -81,14 +81,14 @@ fn save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
     with open(filename, "w") as f:
         # Write PPM header (P3 format: width, height, max color value)
         # P3 is ASCII PPM format which is easier to write but larger files
-        f.write(String("P3\n" + String(WIDTH) + " " + String(HEIGHT) + "\n255\n"))
+        f.write("P3\n", WIDTH, " ", HEIGHT, "\n255\n")
 
         # Write image data as RGB triplets (grayscale, so R=G=B)
         for y in range(HEIGHT):
             for x in range(WIDTH):
                 var pixel = image[y, x][0]
                 f.write(
-                    String(pixel) + " " + String(pixel) + " " + String(pixel) + "\n"
+                    pixel, " ", pixel, " ", pixel, "\n"
                 )
 
 
