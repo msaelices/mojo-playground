@@ -3,7 +3,7 @@ from gpu.host import DeviceContext, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from memory import stack_allocation
-from sys import sizeof
+from sys import size_of
 
 # Matrix dimensions
 alias M = 6  # rows of input matrix
@@ -32,7 +32,7 @@ fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):
 fn tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
     # Allocate shared memory for the tile
     var tile = stack_allocation[
-        BLOCK_SIZE * BLOCK_SIZE * sizeof[DType.float32](),
+        BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
         address_space = AddressSpace.SHARED,
     ]()

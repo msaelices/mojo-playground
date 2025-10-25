@@ -4,7 +4,7 @@ from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
 from memory import stack_allocation
-from sys import sizeof
+from sys import size_of
 
 # Matrix dimensions
 alias M = 4  # rows of A and rows of C
@@ -38,13 +38,13 @@ fn matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
 fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     # Allocate shared memory for the tiles
     var A_tile = stack_allocation[
-        BLOCK_SIZE * BLOCK_SIZE * sizeof[DType.float32](),
+        BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
         address_space = AddressSpace.SHARED,
     ]()
 
     var B_tile = stack_allocation[
-        BLOCK_SIZE * BLOCK_SIZE * sizeof[DType.float32](),
+        BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
         address_space = AddressSpace.SHARED,
     ]()

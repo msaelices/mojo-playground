@@ -4,7 +4,7 @@ from gpu.memory import AddressSpace, external_memory
 from memory import stack_allocation
 from layout import Layout, LayoutTensor
 from math import iota
-from sys import sizeof
+from sys import size_of
 
 
 def main():

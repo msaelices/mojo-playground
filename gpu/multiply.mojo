@@ -9,10 +9,10 @@ alias threads = 4
 alias num_elems = blocks * threads
 
 alias layout = Layout.row_major(blocks, threads)
-alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn print_values_kernel(tensor: InputLayoutTensor):
+fn print_values_kernel(tensor: InTensor):
     var block_id = block_idx.x
     var thread_id = thread_idx.x
     print(
@@ -25,7 +25,7 @@ fn print_values_kernel(tensor: InputLayoutTensor):
     )
 
 
-fn multiply_kernel(tensor: InputLayoutTensor):
+fn multiply_kernel(tensor: InTensor):
     tensor[block_idx.x, thread_idx.x] *= 2
 
 

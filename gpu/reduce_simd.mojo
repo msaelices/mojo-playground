@@ -4,7 +4,7 @@ from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
 from memory import stack_allocation, UnsafePointer
-from sys import sizeof
+from sys import size_of
 
 alias dtype = DType.uint32
 alias blocks = 4
@@ -12,10 +12,10 @@ alias threads = 4
 alias num_elems = blocks * threads
 
 alias layout = Layout.row_major(blocks, threads)
-alias InputLayoutTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn simd_reduce_kernel(tensor: InputLayoutTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
+fn simd_reduce_kernel(tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
     out_buffer[block_idx.x] = tensor.load[4](block_idx.x, 0).reduce_add()
 
 

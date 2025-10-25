@@ -8,7 +8,7 @@ alias MyFalse = MyBool(__mlir_attr.false)
 
 
 @register_passable("trivial")
-struct MyBool:
+struct MyBool(Writable):
     # __mlir_type.i1 is the MILR type for a boolean
     var value: __mlir_type.i1
 
