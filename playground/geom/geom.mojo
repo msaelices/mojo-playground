@@ -30,13 +30,3 @@ struct Path:
             total += p.distance(self.points[i + 1])
         return total
 
-
-fn main():
-    var p1 = Point(1, 2)
-    var p2 = Point(4, 6)
-    var l = Line(p1, p2)
-    print('Line length:', l.length())
-    points = [Point(1, 2), Point(3, 4)]
-    poly = Path(points)
-    print('Polygon length:', poly.length())
-
