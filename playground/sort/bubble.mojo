@@ -7,14 +7,3 @@ fn bubble_sort(mut arr: List[Int]):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
-
-def main():
-    var l: List[Int] = []
-    for i in range(10_000, 0, step=-1):
-        l.append(i)
-
-    start = now()
-    bubble_sort(l)
-    end = now()
-    print((end - start) / 1000_000_000)
-    # print(str(l))
