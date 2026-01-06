@@ -5,10 +5,3 @@ fn djbx33a_hash(st: String) -> Int:
     return hash_value
 
 
-fn main():
-    string_to_hash = "Hello, World!"
-    hash_result = djbx33a_hash(string_to_hash)
-    print(string_to_hash)
-    print(hash_result)
-
-
