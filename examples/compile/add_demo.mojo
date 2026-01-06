@@ -1,13 +1,9 @@
 import sys
 from compile import compile_info
+from playground.compile import add_fn
 
 
-@export
-fn add_fn(x: Int, y: Int) -> Int:
-    return x + y
-
-
-fn demo_add() raises:
+fn main() raises:
     args = sys.argv()
     format = "llvm" if len(args) > 1 and String(args[1]).lower() == "llvm" else "asm"
 

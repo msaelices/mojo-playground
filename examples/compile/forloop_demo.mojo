@@ -1,14 +1,9 @@
 import sys
 from compile import compile_info
+from playground.compile import forloop_fn
 
-@export  # this generates cleaner names
-fn forloop_fn() -> Int:
-    var x: Int = 0
-    for _ in range(10):
-        x += 1
-    return x
 
-fn demo_forloop() raises:
+fn main() raises:
     args = sys.argv()
     format = "llvm" if len(args) > 1 and String(args[1]).lower() == "llvm" else "asm"
 
