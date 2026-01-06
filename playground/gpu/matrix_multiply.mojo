@@ -132,7 +132,7 @@ fn print_matrix(tensor: LayoutTensor):
         print("")
 
 
-fn main() raises:
+fn demo_matrix_multiply() raises:
     with DeviceContext() as ctx:
         # Allocate host memory for matrices
         var a_host = ctx.enqueue_create_host_buffer[DType.float32](M * K)

@@ -29,7 +29,7 @@ fn multiply_kernel(tensor: InTensor):
     tensor[block_idx.x, thread_idx.x] *= 2
 
 
-fn main() raises:
+fn demo_multiply() raises:
     with DeviceContext() as ctx:
         # In host buffer:
         # Allocate data on the host and return a buffer which owns that data

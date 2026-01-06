@@ -7,7 +7,7 @@ from math import iota
 from sys import size_of
 
 
-def main():
+def demo_gpuinfo():
     fn print_threads():
         print("GPU thread: [", thread_idx.x, thread_idx.y, thread_idx.z, "]")
 

@@ -92,7 +92,7 @@ fn save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
                 )
 
 
-fn main() raises:
+fn demo_mandelbrot() raises:
     print("Rendering Mandelbrot set...")
     print("Image dimensions:", WIDTH, "x", HEIGHT)
     print("Maximum iterations:", MAX_ITER)

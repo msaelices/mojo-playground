@@ -328,7 +328,7 @@ fn find_optimal_path_kernel(
     path_length[0] = steps
 
 
-fn main() raises:
+fn demo_rl_maze() raises:
     print("Reinforcement Learning Maze Solver (8x8)")
     print("Using Monte Carlo method with", EPISODES, "episodes")
     

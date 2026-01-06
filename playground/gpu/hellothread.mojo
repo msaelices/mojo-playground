@@ -6,7 +6,7 @@ fn kernel():
     print("hello from block idx:", block_idx.x, block_idx.y, block_idx.z, "thread:", thread_idx.x, thread_idx.y, thread_idx.z)
 
 
-fn main() raises:
+fn demo_hellothread() raises:
     # The DeviceContext represents a single stream of execution on a particular accelerator (GPU)
     # it servers as the low-level interface to the GPU
     with DeviceContext() as ctx:

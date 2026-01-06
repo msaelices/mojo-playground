@@ -35,7 +35,7 @@ fn sum_reduce_kernel(tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]])
             out_buffer[block_idx.x] += shared[i]
 
 
-fn main() raises:
+fn demo_reduce_shared() raises:
     with DeviceContext() as ctx:
         # In host buffer:
         # Allocate data on the host and return a buffer which owns that data

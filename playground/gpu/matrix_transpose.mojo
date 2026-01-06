@@ -90,7 +90,7 @@ fn print_matrix(tensor: LayoutTensor, rows: Int, cols: Int):
         print("")
 
 
-fn main() raises:
+fn demo_matrix_transpose() raises:
     with DeviceContext() as ctx:
         # Allocate host memory for matrices
         var input_host = ctx.enqueue_create_host_buffer[DType.float32](M * N)

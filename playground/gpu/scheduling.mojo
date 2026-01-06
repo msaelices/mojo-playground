@@ -9,7 +9,7 @@ fn kernel(buffer: UnsafePointer[Scalar[dtype]]):
     buffer[thread_idx.x] = thread_idx.x
 
 
-fn main() raises:
+fn demo_scheduling() raises:
     alias num_elems = 4
     with DeviceContext() as ctx:
         # All of these method calls run in the order that they were enqueued

@@ -2,7 +2,7 @@ from gpu.host import DeviceContext
 from math import iota
 
 
-fn main() raises:
+fn demo_buffers() raises:
     alias dtype = DType.uint32
     alias blocks = 4
     alias threads = 4

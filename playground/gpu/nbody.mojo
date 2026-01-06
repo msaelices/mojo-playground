@@ -174,7 +174,7 @@ fn get_system_bounds(
     print("  Z range:", min_z, "to", max_z)
 
 
-fn main() raises:
+fn demo_nbody() raises:
     print("N-body simulation with", NUM_PARTICLES, "particles")
     print("Time step:", DT)
     print("Number of iterations:", NUM_ITERATIONS)
