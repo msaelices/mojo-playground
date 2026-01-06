@@ -6,9 +6,9 @@ struct Foo:
 fn high_order_func[f: fn () capturing [_] -> Int]() -> Int:
     return f()
 
-fn main():
+fn demo_high_order_func():
     foo = Foo()
-    
+
     @parameter
     fn foo_myfunc() -> Int:
         return foo.myfunc()

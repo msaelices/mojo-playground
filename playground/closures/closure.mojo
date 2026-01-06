@@ -13,5 +13,5 @@ fn create_closure():
     var y = use_closure[add](2)
     print(y)
 
-fn main():
+fn demo_closure():
     create_closure()
