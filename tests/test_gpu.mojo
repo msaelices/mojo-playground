@@ -39,11 +39,11 @@ def test_gpu_kernel_signatures():
 
 
 fn test_matrix_multiply_cpu() raises:
-    # CPU-based matrix multiplication for testing
-    # This doesn't require GPU hardware
+    # CPU-based matrix multiplication for testing using iota
 
     from gpu.host import DeviceContext, HostBuffer
     from layout import Layout, LayoutTensor
+    from math import iota
 
     alias M = 2
     alias N = 2
@@ -65,21 +65,9 @@ fn test_matrix_multiply_cpu() raises:
 
         ctx.synchronize()
 
-        # Initialize matrices: A = [[1, 2], [3, 4]], B = [[5, 6], [7, 8]]
-        var a_ptr = a_host.unsafe_ptr()
-        var b_ptr = b_host.unsafe_ptr()
-
-        # Matrix A: [[1, 2], [3, 4]]
-        a_ptr.store(0, 1.0)
-        a_ptr.store(1, 2.0)
-        a_ptr.store(2, 3.0)
-        a_ptr.store(3, 4.0)
-
-        # Matrix B: [[5, 6], [7, 8]]
-        b_ptr.store(0, 5.0)
-        b_ptr.store(1, 6.0)
-        b_ptr.store(2, 7.0)
-        b_ptr.store(3, 8.0)
+        # Fill matrices with iota: A = [0,1,2,3], B = [0,1,2,3]
+        iota(a_host.unsafe_ptr(), M * K)
+        iota(b_host.unsafe_ptr(), K * N)
 
         # Create tensor views
         var A = MatrixA(a_host)
@@ -87,7 +75,8 @@ fn test_matrix_multiply_cpu() raises:
         var C = MatrixC(c_host)
 
         # Compute C = A * B on CPU
-        # Expected: [[1*5+2*7, 1*6+2*8], [3*5+4*7, 3*6+4*8]] = [[19, 22], [43, 50]]
+        # A = [[0,1],[2,3]], B = [[0,1],[2,3]]
+        # Expected: [[0*0+1*2, 0*1+1*3], [2*0+3*2, 2*1+3*3]] = [[2, 3], [6, 11]]
         for i in range(M):
             for j in range(N):
                 var sum: Float32 = 0.0
@@ -96,19 +85,19 @@ fn test_matrix_multiply_cpu() raises:
                 C[i, j] = sum
 
         # Verify results
-        assert_equal(C[0, 0][0], 19.0)
-        assert_equal(C[0, 1][0], 22.0)
-        assert_equal(C[1, 0][0], 43.0)
-        assert_equal(C[1, 1][0], 50.0)
+        assert_equal(C[0, 0][0], 2.0)
+        assert_equal(C[0, 1][0], 3.0)
+        assert_equal(C[1, 0][0], 6.0)
+        assert_equal(C[1, 1][0], 11.0)
 
 
 fn test_matrix_multiply_gpu() raises:
-    # GPU-based matrix multiplication test
-    # This requires GPU hardware to execute
+    # GPU-based matrix multiplication test using iota
 
     from gpu import block_idx, thread_idx
     from gpu.host import DeviceContext, HostBuffer
     from layout import Layout, LayoutTensor
+    from math import iota
 
     alias M = 2
     alias N = 2
@@ -146,19 +135,9 @@ fn test_matrix_multiply_gpu() raises:
 
         ctx.synchronize()
 
-        # Initialize matrices: A = [[1, 2], [3, 4]], B = [[5, 6], [7, 8]]
-        var a_ptr = a_host.unsafe_ptr()
-        var b_ptr = b_host.unsafe_ptr()
-
-        a_ptr.store(0, 1.0)
-        a_ptr.store(1, 2.0)
-        a_ptr.store(2, 3.0)
-        a_ptr.store(3, 4.0)
-
-        b_ptr.store(0, 5.0)
-        b_ptr.store(1, 6.0)
-        b_ptr.store(2, 7.0)
-        b_ptr.store(3, 8.0)
+        # Fill matrices with iota: A = [0,1,2,3], B = [0,1,2,3]
+        iota(a_host.unsafe_ptr(), M * K)
+        iota(b_host.unsafe_ptr(), K * N)
 
         # Transfer to device
         a_host.enqueue_copy_to(a_dev)
@@ -185,11 +164,12 @@ fn test_matrix_multiply_gpu() raises:
         # Create tensor view of result
         var result = MatrixC(c_host)
 
-        # Expected: [[19, 22], [43, 50]]
-        assert_equal(result[0, 0][0], 19.0)
-        assert_equal(result[0, 1][0], 22.0)
-        assert_equal(result[1, 0][0], 43.0)
-        assert_equal(result[1, 1][0], 50.0)
+        # A = [[0,1],[2,3]], B = [[0,1],[2,3]]
+        # Expected: [[0*0+1*2, 0*1+1*3], [2*0+3*2, 2*1+3*3]] = [[2, 3], [6, 11]]
+        assert_equal(result[0, 0][0], 2.0)
+        assert_equal(result[0, 1][0], 3.0)
+        assert_equal(result[1, 0][0], 6.0)
+        assert_equal(result[1, 1][0], 11.0)
 
 
 def main():
