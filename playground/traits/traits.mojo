@@ -78,7 +78,7 @@ def use_two():
     Two.fire(One(1), One(2))
 
 
-fn main() raises:
+fn demo_traits() raises:
     var x = DummyInt()
     print(HashedKey(x).hash)
     var y = FooElement(10)
