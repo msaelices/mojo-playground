@@ -33,11 +33,3 @@ fn join_str(delimiter: String, elems: List[String]) -> String:
     buf.resize(unsafe_uninit_length=len(buf) + delimiter_len)
     
     return String(bytes=buf^)
-
-
-fn main():
-    var s: String = ", "
-    var l: List[String] = ["12", "23"]
-    joined = join_str(s, l)
-    print("Joined: ", joined)
-    _ = joined

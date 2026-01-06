@@ -7,6 +7,3 @@ fn print_char():
     # and causing the s.unsafe_ptr() to be a dangling pointer.
     _ = s
 
-fn main():
-    print_char()
-
