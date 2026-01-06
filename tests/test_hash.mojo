@@ -1,4 +1,4 @@
-from testing import assert_equal
+from testing import assert_equal, assert_true
 
 from playground.hash import djbx33a_hash
 

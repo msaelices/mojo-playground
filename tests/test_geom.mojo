@@ -1,4 +1,4 @@
-from testing import assert_equal
+from testing import assert_equal, assert_true
 
 from playground.geom import Point, Line, Path
 
@@ -24,7 +24,8 @@ def test_path():
     var p1 = Point(0, 0)
     var p2 = Point(3, 0)
     var p3 = Point(6, 0)
-    var path = Path([p1, p2, p3])
+    var points: List[Point] = [p1, p2, p3]
+    var path = Path(points^)
     var length = path.length()
     assert_true(length > 5.9 and length < 6.1)
 

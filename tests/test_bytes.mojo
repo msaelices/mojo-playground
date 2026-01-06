@@ -5,7 +5,7 @@ from playground.bytes import folded_multiply
 
 def test_folded_multiply():
     # Test that folded_multiply can be called
-    var result = folded_multiply(42, 24)
+    _ = folded_multiply(42, 24)
     assert_true(True)
 
 
