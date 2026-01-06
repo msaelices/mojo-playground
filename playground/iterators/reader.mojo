@@ -22,10 +22,3 @@ struct Reader:
     def __iter__(self) -> ReaderIter:
         return ReaderIter(self, 0)
 
-
-fn main() raises:
-    with open("input.txt", "r") as f:
-        var r = Reader(f)
-        var r_it = r.__iter__()
-        print(r_it.__next__())
-        print(r_it.__next__())
