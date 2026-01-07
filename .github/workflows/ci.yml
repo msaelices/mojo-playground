@@ -18,6 +18,12 @@ jobs:
           activate-environment: dev
           locked: false
 
+      - name: Install dependencies with retry
+        run: |
+          for i in {1..3}; do
+            pixi install -e dev && break || sleep 10
+          done
+
       - name: Run pre-commit checks
         run: pixi run -e dev pre-commit run --all-files
 
@@ -40,8 +46,11 @@ jobs:
           activate-environment: true
           locked: false
 
-      - name: Install dependencies
-        run: pixi install
+      - name: Install dependencies with retry
+        run: |
+          for i in {1..3}; do
+            pixi install && break || sleep 10
+          done
 
       - name: Run tests
         env:

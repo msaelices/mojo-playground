@@ -1,4 +1,4 @@
-[project]
+[workspace]
 authors = ["Manuel Saelices <msaelices@gmail.com>"]
 channels = ["conda-forge", "https://conda.modular.com/max-nightly"]
 description = "Add a short description here"
