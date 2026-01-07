@@ -1,0 +1,1 @@
+from .bytes_ops import folded_multiply
