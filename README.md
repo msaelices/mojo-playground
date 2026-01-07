@@ -29,6 +29,7 @@ pixi shell
 ```bash
 # Run a standalone example from examples/
 pixi run mojo -I . examples/sort/bubble_demo.mojo
+```
 
 ### Testing
 
