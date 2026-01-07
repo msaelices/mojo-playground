@@ -2,6 +2,7 @@ from algorithm import vectorize
 from memory import UnsafePointer
 from sys import simd_width_of, size_of
 
+
 fn memset(ptr: UnsafePointer[_, mut=True, **_], value: Byte, count: Int):
     _memset_impl(ptr.bitcast[Byte](), value, count * size_of[ptr.type]())
 

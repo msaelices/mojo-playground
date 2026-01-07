@@ -2,6 +2,7 @@
 
 import math
 
+
 @register_passable("trivial")
 struct Point:
     var x: Float64
@@ -14,7 +15,7 @@ struct Point:
     fn distance(self, other: Point) -> Float64:
         x_diff = self.x - other.x
         y_diff = self.y - other.y
-        return math.sqrt(x_diff ** 2 + y_diff ** 2)
+        return math.sqrt(x_diff**2 + y_diff**2)
 
 
 struct Line:
@@ -41,4 +42,3 @@ struct Path:
             p = self.points[i]
             total += p.distance(self.points[i + 1])
         return total
-

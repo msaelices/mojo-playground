@@ -11,7 +11,9 @@ struct LinkedListIter[
     var _src: Pointer[LinkedList[ElementType], origin=origin]
     var _curr: UnsafePointer[LinkedList[ElementType]]
 
-    fn __init__(out self, linked_list_ptr: Pointer[LinkedList[ElementType], origin]):
+    fn __init__(
+        out self, linked_list_ptr: Pointer[LinkedList[ElementType], origin]
+    ):
         self._src = linked_list_ptr
         self._curr = UnsafePointer(to=self._src[])
 
@@ -24,9 +26,9 @@ struct LinkedListIter[
         return next_ptr[].get_data()
 
 
-
-
-struct LinkedList[T: KeyElement & Representable & Writable](Copyable, Movable, Iterable):
+struct LinkedList[T: KeyElement & Representable & Writable](
+    Copyable, Iterable, Movable
+):
     var _data_ptr: UnsafePointer[T]
     var _next_ptr: UnsafePointer[LinkedList[T]]
     var _size: Int
@@ -48,9 +50,7 @@ struct LinkedList[T: KeyElement & Representable & Writable](Copyable, Movable, I
             return
 
         self._next_ptr = UnsafePointer[LinkedList[T]].alloc(1)
-        self._next_ptr.init_pointee_copy(
-            LinkedList[T](elements[1:])
-        )
+        self._next_ptr.init_pointee_copy(LinkedList[T](elements[1:]))
 
     fn __iter__(ref self) -> Self.IteratorType[__origin_of(self)]:
         return LinkedListIter(Pointer(to=self))
@@ -67,10 +67,10 @@ struct LinkedList[T: KeyElement & Representable & Writable](Copyable, Movable, I
         return Bool(self._next_ptr)
 
     fn get_next(self) -> ref [__origin_of(self)] LinkedList[T]:
-        """Get the next element as an auto-dereferenced ref (aka safe pointer)."""
+        """Get the next element as an auto-dereferenced ref (aka safe pointer).
+        """
         return self._next_ptr[]
-        
+
     fn get_next_ptr(self) -> UnsafePointer[LinkedList[T]]:
         """Get the next element as an UnsafePointer."""
         return self._next_ptr
-

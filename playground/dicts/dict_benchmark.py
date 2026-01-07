@@ -2,7 +2,7 @@ from time import time as now
 
 
 def get_wds() -> list[str]:
-    input =  """Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you aspire to heal evolve or revolutionize this podcast is for you. Make sure you subscribe and follow us on Instagram at official back to her. And that too is the number two. Let's get it.
+    input = """Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you aspire to heal evolve or revolutionize this podcast is for you. Make sure you subscribe and follow us on Instagram at official back to her. And that too is the number two. Let's get it.
  Hey friends, we are back with another episode is Joy Jolene and the sugar bread and we're back to end this month off and a like a really good positive way our last episode. We talked about religion and spirituality in this episode. We want to take time for you guys to get to know us better for us to discuss more about ourselves so that you know, we we really a family and we really
  That connection so let's get into it. So it may enjoy decided to do is we both came up with questions that we're going to ask each other. So I haven't seen her questions yet. She hasn't seen my questions yet. So hopefully this can just be fun and funny. Yeah, so let's get into it. All right, so you want to go right? I'll go first. Okay, so, okay. So my first question for you is who is Brittany? Okay, so, Brittany
  She is a badass say is true. So let me just dig a little deep into that. So I actually have an alter ego if you know me Brit badass and before when I was young I used to be like What's Up and Shake It Up it badass. But now I feel like I still want to hold on to it, but just like being a woman that's a badass. So I'm trying to change The Narrative of you know little bit.
@@ -184,7 +184,16 @@ def main():
             duration = t1 - t0
             the = freqs["THE"]
             n_keys = len(freqs.keys())
-            out_str = str(n_wds) + "," + str(n_keys) + "," + str(the) + "," + str(duration) + "\n"
+            out_str = (
+                str(n_wds)
+                + ","
+                + str(n_keys)
+                + ","
+                + str(the)
+                + ","
+                + str(duration)
+                + "\n"
+            )
             outfile.write(out_str)
     print("DONE, saved to", out_path)
 

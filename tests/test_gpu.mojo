@@ -152,10 +152,15 @@ fn test_matrix_multiply_gpu() raises:
         var C = MatrixC(c_dev)
 
         # Execute kernel
-        var grid_dim = ((M + BLOCK_SIZE - 1) // BLOCK_SIZE, (N + BLOCK_SIZE - 1) // BLOCK_SIZE)
+        var grid_dim = (
+            (M + BLOCK_SIZE - 1) // BLOCK_SIZE,
+            (N + BLOCK_SIZE - 1) // BLOCK_SIZE,
+        )
         var block_dim = (BLOCK_SIZE, BLOCK_SIZE)
 
-        ctx.enqueue_function[matmul_kernel](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
+        ctx.enqueue_function[matmul_kernel](
+            A, B, C, grid_dim=grid_dim, block_dim=block_dim
+        )
 
         # Copy result back
         c_dev.enqueue_copy_to(c_host)

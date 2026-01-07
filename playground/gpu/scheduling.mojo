@@ -15,7 +15,9 @@ fn demo_scheduling() raises:
         # All of these method calls run in the order that they were enqueued
         var dev_buffer = ctx.enqueue_create_buffer[dtype](num_elems)
         var host_buffer = ctx.enqueue_create_host_buffer[dtype](num_elems)
-        ctx.enqueue_function[kernel](dev_buffer, grid_dim=1, block_dim=num_elems)
+        ctx.enqueue_function[kernel](
+            dev_buffer, grid_dim=1, block_dim=num_elems
+        )
         dev_buffer.enqueue_copy_to(host_buffer)
 
         ctx.synchronize()

@@ -21,4 +21,3 @@ struct Reader:
 
     def __iter__(self) -> ReaderIter:
         return ReaderIter(self, 0)
-

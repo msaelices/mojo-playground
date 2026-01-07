@@ -77,7 +77,16 @@ fn verify_transpose(
     for i in range(M):
         for j in range(N):
             if input[i, j][0] != output[j, i][0]:
-                print("Error at [", i, ",", j, "]: Input =", input[i, j][0], "Output =", output[j, i][0])
+                print(
+                    "Error at [",
+                    i,
+                    ",",
+                    j,
+                    "]: Input =",
+                    input[i, j][0],
+                    "Output =",
+                    output[j, i][0],
+                )
                 correct = False
 
     return correct

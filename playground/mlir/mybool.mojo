@@ -14,7 +14,7 @@ struct MyBool(Writable):
 
     fn __init__(out self):
         self.value = __mlir_op.`index.bool.constant`[
-            value=__mlir_attr.false,
+            value = __mlir_attr.false,
         ]()
 
     @implicit
@@ -38,15 +38,15 @@ struct MyBool(Writable):
         Performs an equality comparison between the Bool value and the argument.
         This method gets invoked when a user uses the `==` infix operator.
         """
-        var lhs_index = __mlir_op.`index.casts`[_type=__mlir_type.index](
+        var lhs_index = __mlir_op.`index.casts`[_type = __mlir_type.index](
             self.value
         )
-        var rhs_index = __mlir_op.`index.casts`[_type=__mlir_type.index](
+        var rhs_index = __mlir_op.`index.casts`[_type = __mlir_type.index](
             rhs.value
         )
         return Self(
             __mlir_op.`index.cmp`[
-                pred=__mlir_attr.`#index<cmp_predicate eq>`
+                pred = __mlir_attr.`#index<cmp_predicate eq>`
             ](lhs_index, rhs_index)
         )
 

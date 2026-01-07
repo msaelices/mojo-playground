@@ -7,11 +7,11 @@ def main():
     var list: LinkedList[Int] = elements^
     var ptr = UnsafePointer(to=list)
 
-    print('Iterating using pointers:')
+    print("Iterating using pointers:")
     while ptr[].has_next():
         print(ptr[].get_data())
         ptr = ptr[].get_next_ptr()
 
-    print('\nIterating using iterator:')
+    print("\nIterating using iterator:")
     for elem in list:
         print(elem)
