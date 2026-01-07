@@ -8,8 +8,7 @@ fn join_str(delimiter: String, elems: List[String]) -> String:
     # This is only for learning purposes to work with pointers and strings.
     # In real code we can just call buf.append(bytes)
     offset = 0
-    for i in range(len(elems)):
-        elem = elems[i]
+    for elem in elems:
         elem_len = len(elem)
         memcpy(
             dest=buf.unsafe_ptr().offset(offset),
