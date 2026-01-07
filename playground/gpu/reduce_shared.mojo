@@ -17,9 +17,7 @@ comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn sum_reduce_kernel(
-    tensor: InTensor, out_tensor: OutTensor
-):
+fn sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     # Allocates memory to be shared between threads once, prior to the kernel launch
     var shared = stack_allocation[
         blocks * size_of[dtype](),

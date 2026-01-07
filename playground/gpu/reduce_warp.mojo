@@ -17,9 +17,7 @@ comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn warp_reduce_kernel(
-    tensor: InTensor, out_tensor: OutTensor
-):
+fn warp_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     var value = tensor[block_idx.x, thread_idx.x][0]
 
     # Each thread gets the value from one thread higher, summing them as they go

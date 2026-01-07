@@ -273,9 +273,7 @@ fn find_optimal_path_kernel(
     maze: Maze,
     valid_actions: ValidActions,
     q_table: QTable,
-    path_length: LayoutTensor[
-        DType.int32, Layout.row_major(1), MutAnyOrigin
-    ],
+    path_length: LayoutTensor[DType.int32, Layout.row_major(1), MutAnyOrigin],
     optimal_path: LayoutTensor[
         DType.int32, Layout.row_major(MAX_STEPS), MutAnyOrigin
     ],
@@ -397,9 +395,9 @@ fn demo_rl_maze() raises:
         var episode_seeds = EpisodeSeeds(episode_seeds_dev)
 
         # Precompute valid actions for all states
-        ctx.enqueue_function_checked[get_valid_actions_kernel, get_valid_actions_kernel](
-            maze, valid_actions, grid_dim=1, block_dim=NUM_STATES
-        )
+        ctx.enqueue_function_checked[
+            get_valid_actions_kernel, get_valid_actions_kernel
+        ](maze, valid_actions, grid_dim=1, block_dim=NUM_STATES)
 
         # Print maze for visualization
         ctx.synchronize()
@@ -430,7 +428,9 @@ fn demo_rl_maze() raises:
             episode_seeds_buffer.enqueue_copy_to(episode_seeds_dev)
 
             # Run Monte Carlo episodes in parallel
-            ctx.enqueue_function_checked[monte_carlo_episode_kernel, monte_carlo_episode_kernel](
+            ctx.enqueue_function_checked[
+                monte_carlo_episode_kernel, monte_carlo_episode_kernel
+            ](
                 maze,
                 valid_actions,
                 q_table,
@@ -465,7 +465,9 @@ fn demo_rl_maze() raises:
             DType.int32, Layout.row_major(MAX_STEPS)
         ](optimal_path_dev)
 
-        ctx.enqueue_function_checked[find_optimal_path_kernel, find_optimal_path_kernel](
+        ctx.enqueue_function_checked[
+            find_optimal_path_kernel, find_optimal_path_kernel
+        ](
             maze,
             valid_actions,
             q_table,

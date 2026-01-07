@@ -65,12 +65,16 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     for tile in range((K + BLOCK_SIZE - 1) // BLOCK_SIZE):
         # Load tiles into shared memory
         if row < M and tile * BLOCK_SIZE + Int(tx) < K:
-            A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = A[row, Int(tile * BLOCK_SIZE) + Int(tx)][0]
+            A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = A[
+                row, Int(tile * BLOCK_SIZE) + Int(tx)
+            ][0]
         else:
             A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
 
         if tile * BLOCK_SIZE + Int(ty) < K and col < N:
-            B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = B[Int(tile * BLOCK_SIZE) + Int(ty), col][0]
+            B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = B[
+                Int(tile * BLOCK_SIZE) + Int(ty), col
+            ][0]
         else:
             B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
 
@@ -80,7 +84,8 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
         # Compute the partial dot product
         for k in range(BLOCK_SIZE):
             sum += Float32(
-                A_tile[Int(ty) * BLOCK_SIZE + k] * B_tile[k * BLOCK_SIZE + Int(tx)]
+                A_tile[Int(ty) * BLOCK_SIZE + k]
+                * B_tile[k * BLOCK_SIZE + Int(tx)]
             )
 
         # Synchronize before loading next tile
@@ -186,9 +191,9 @@ fn demo_matrix_multiply() raises:
 
         # Run the standard matrix multiplication kernel
         print("\nStandard matrix multiplication:")
-        ctx.enqueue_function_checked[matrix_multiply_kernel, matrix_multiply_kernel](
-            A, B, C, grid_dim=grid_dim, block_dim=block_dim
-        )
+        ctx.enqueue_function_checked[
+            matrix_multiply_kernel, matrix_multiply_kernel
+        ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
 
         # Copy result back to host and verify
         c_dev.enqueue_copy_to(c_host)
@@ -215,9 +220,9 @@ fn demo_matrix_multiply() raises:
         print("\nShared memory matrix multiplication:")
         ctx.enqueue_memset(c_dev, 0)  # Clear the result matrix
 
-        ctx.enqueue_function_checked[matrix_multiply_shared_kernel, matrix_multiply_shared_kernel](
-            A, B, C, grid_dim=grid_dim, block_dim=block_dim
-        )
+        ctx.enqueue_function_checked[
+            matrix_multiply_shared_kernel, matrix_multiply_shared_kernel
+        ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
 
         # Copy result back to host and verify
         c_dev.enqueue_copy_to(c_host)

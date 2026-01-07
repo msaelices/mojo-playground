@@ -17,9 +17,7 @@ comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn simd_reduce_kernel(
-    tensor: InTensor, out_tensor: OutTensor
-):
+fn simd_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     var result = tensor.load[4](Int(block_idx.x), 0).reduce_add()
     out_tensor[block_idx.x] = result
 
