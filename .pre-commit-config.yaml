@@ -3,7 +3,8 @@ repos:
     hooks:
       - id: mojo-format
         name: Format Mojo files
-        entry: pixi run mojo format
-        language: system
+        entry: ./.pre-commit-format.sh
+        language: script
         types: [file]
         files: \.mojo$
+        pass_filenames: true
