@@ -29,3 +29,10 @@ test = """mojo -I . tests/test_async.mojo \
 
 [dependencies]
 mojo = ">0.25.6.0.dev2025090505,<1"
+
+[feature.dev.dependencies]
+pre-commit = ">=3.0.0"
+
+[environments]
+default = { solve-group = "default" }
+dev = { features = ["dev"], solve-group = "default" }
