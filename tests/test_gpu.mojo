@@ -1,3 +1,7 @@
+from gpu import block_idx, thread_idx
+from gpu.host import DeviceContext, HostBuffer
+from layout import Layout, LayoutTensor
+from math import iota
 from testing import assert_equal, assert_true
 
 from playground.gpu import (
@@ -40,10 +44,6 @@ def test_gpu_kernel_signatures():
 
 fn test_matrix_multiply_cpu() raises:
     # CPU-based matrix multiplication for testing using iota
-
-    from gpu.host import DeviceContext, HostBuffer
-    from layout import Layout, LayoutTensor
-    from math import iota
 
     alias M = 2
     alias N = 2
@@ -94,10 +94,6 @@ fn test_matrix_multiply_cpu() raises:
 fn test_matrix_multiply_gpu() raises:
     # GPU-based matrix multiplication test using iota
 
-    from gpu import block_idx, thread_idx
-    from gpu.host import DeviceContext, HostBuffer
-    from layout import Layout, LayoutTensor
-    from math import iota
 
     alias M = 2
     alias N = 2
