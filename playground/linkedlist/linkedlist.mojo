@@ -6,7 +6,7 @@ struct LinkedListIter[
     ElementType: KeyElement & Representable & Writable,
     origin: Origin[mut],
 ](Iterator):
-    alias Element = ElementType  # This shouldn't be needed if Mojo compiler improves
+    comptime Element = ElementType  # This shouldn't be needed if Mojo compiler improves
 
     var _src: Pointer[LinkedList[ElementType], origin=origin]
     var _curr: UnsafePointer[LinkedList[ElementType]]
@@ -33,7 +33,7 @@ struct LinkedList[T: KeyElement & Representable & Writable](
     var _next_ptr: UnsafePointer[LinkedList[T]]
     var _size: Int
 
-    alias IteratorType[
+    comptime IteratorType[
         iterable_mut: Bool, //, iterable_origin: Origin[iterable_mut]
     ]: Iterator = LinkedListIter[ElementType=T, origin=iterable_origin]
 

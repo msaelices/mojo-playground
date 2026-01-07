@@ -6,16 +6,16 @@ from memory import stack_allocation
 from sys import size_of
 
 # Matrix dimensions
-alias M = 6  # rows of input matrix
-alias N = 4  # cols of input matrix
-alias BLOCK_SIZE = 2  # tile size for shared memory implementation
+comptime M = 6  # rows of input matrix
+comptime N = 4  # cols of input matrix
+comptime BLOCK_SIZE = 2  # tile size for shared memory implementation
 
 # Define the layouts for our matrices
-alias layout_in = Layout.row_major(M, N)  # Input matrix layout
-alias layout_out = Layout.row_major(N, M)  # Output (transposed) matrix layout
+comptime layout_in = Layout.row_major(M, N)  # Input matrix layout
+comptime layout_out = Layout.row_major(N, M)  # Output (transposed) matrix layout
 
-alias InputMatrix = LayoutTensor[DType.float32, layout_in, MutableAnyOrigin]
-alias OutputMatrix = LayoutTensor[DType.float32, layout_out, MutableAnyOrigin]
+comptime InputMatrix = LayoutTensor[DType.float32, layout_in, MutableAnyOrigin]
+comptime OutputMatrix = LayoutTensor[DType.float32, layout_out, MutableAnyOrigin]
 
 
 fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):

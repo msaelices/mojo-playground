@@ -6,13 +6,13 @@ from math import iota
 from memory import stack_allocation, UnsafePointer
 from sys import size_of
 
-alias dtype = DType.uint32
-alias blocks = 4
-alias threads = 4
-alias num_elems = blocks * threads
+comptime dtype = DType.uint32
+comptime blocks = 4
+comptime threads = 4
+comptime num_elems = blocks * threads
 
-alias layout = Layout.row_major(blocks, threads)
-alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+comptime layout = Layout.row_major(blocks, threads)
+comptime InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
 fn sum_reduce_kernel(

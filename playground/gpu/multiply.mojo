@@ -3,13 +3,13 @@ from gpu.host import DeviceContext
 from layout import Layout, LayoutTensor
 from math import iota
 
-alias dtype = DType.uint32
-alias blocks = 4
-alias threads = 4
-alias num_elems = blocks * threads
+comptime dtype = DType.uint32
+comptime blocks = 4
+comptime threads = 4
+comptime num_elems = blocks * threads
 
-alias layout = Layout.row_major(blocks, threads)
-alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+comptime layout = Layout.row_major(blocks, threads)
+comptime InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
 fn print_values_kernel(tensor: InTensor):

@@ -45,17 +45,17 @@ def test_gpu_kernel_signatures():
 fn test_matrix_multiply_cpu() raises:
     # CPU-based matrix multiplication for testing using iota
 
-    alias M = 2
-    alias N = 2
-    alias K = 2
+    comptime M = 2
+    comptime N = 2
+    comptime K = 2
 
-    alias layout_a = Layout.row_major(M, K)
-    alias layout_b = Layout.row_major(K, N)
-    alias layout_c = Layout.row_major(M, N)
+    comptime layout_a = Layout.row_major(M, K)
+    comptime layout_b = Layout.row_major(K, N)
+    comptime layout_c = Layout.row_major(M, N)
 
-    alias MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
-    alias MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
-    alias MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
+    comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
+    comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
+    comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
 
     with DeviceContext() as ctx:
         # Allocate host memory for matrices
@@ -94,18 +94,18 @@ fn test_matrix_multiply_cpu() raises:
 fn test_matrix_multiply_gpu() raises:
     # GPU-based matrix multiplication test using iota
 
-    alias M = 2
-    alias N = 2
-    alias K = 2
-    alias BLOCK_SIZE = 2
+    comptime M = 2
+    comptime N = 2
+    comptime K = 2
+    comptime BLOCK_SIZE = 2
 
-    alias layout_a = Layout.row_major(M, K)
-    alias layout_b = Layout.row_major(K, N)
-    alias layout_c = Layout.row_major(M, N)
+    comptime layout_a = Layout.row_major(M, K)
+    comptime layout_b = Layout.row_major(K, N)
+    comptime layout_c = Layout.row_major(M, N)
 
-    alias MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
-    alias MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
-    alias MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
+    comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
+    comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
+    comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
 
     # Define a simple matrix multiply kernel
     fn matmul_kernel(A: MatrixA, B: MatrixB, C: MatrixC):

@@ -1,8 +1,8 @@
 from bit import byte_swap, rotate_bits_left
 from playground.bytes import folded_multiply
 
-alias U128 = SIMD[DType.uint64, 2]
-alias ROT = 23
+comptime U128 = SIMD[DType.uint64, 2]
+comptime ROT = 23
 
 
 fn main():

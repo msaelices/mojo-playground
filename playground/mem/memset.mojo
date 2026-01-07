@@ -17,5 +17,5 @@ fn _memset_impl(
         print(value)
         ptr.store(offset, SIMD[DType.uint8, width](value))
 
-    alias simd_width = simd_width_of[Byte]()
+    comptime simd_width = simd_width_of[Byte]()
     vectorize[fill, simd_width](count)

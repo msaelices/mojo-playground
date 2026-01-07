@@ -1,9 +1,9 @@
 from bit import byte_swap
 from bit import rotate_bits_left
 
-alias U256 = SIMD[DType.uint64, 4]
-alias U128 = SIMD[DType.uint64, 2]
-alias ROT = 23
+comptime U256 = SIMD[DType.uint64, 4]
+comptime U128 = SIMD[DType.uint64, 2]
+comptime ROT = 23
 
 
 @always_inline

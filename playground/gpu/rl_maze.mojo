@@ -8,34 +8,34 @@ import math
 import random
 
 # Maze dimensions and reinforcement learning parameters
-alias MAZE_SIZE = 8  # 8x8 maze
-alias NUM_STATES = MAZE_SIZE * MAZE_SIZE  # Total number of states (64)
-alias NUM_ACTIONS = 4  # 4 actions (up, right, down, left)
-alias GAMMA = 0.9  # Discount factor
-alias EPISODES = 1000  # Number of episodes to simulate
-alias MAX_STEPS = 100  # Maximum steps per episode
-alias EPSILON = 0.1  # Exploration rate
-alias NUM_THREADS = 128  # Number of threads per block
-alias NUM_BLOCKS = 16  # Number of blocks
+comptime MAZE_SIZE = 8  # 8x8 maze
+comptime NUM_STATES = MAZE_SIZE * MAZE_SIZE  # Total number of states (64)
+comptime NUM_ACTIONS = 4  # 4 actions (up, right, down, left)
+comptime GAMMA = 0.9  # Discount factor
+comptime EPISODES = 1000  # Number of episodes to simulate
+comptime MAX_STEPS = 100  # Maximum steps per episode
+comptime EPSILON = 0.1  # Exploration rate
+comptime NUM_THREADS = 128  # Number of threads per block
+comptime NUM_BLOCKS = 16  # Number of blocks
 
 # Layout definitions for our GPU tensors
-alias q_table_layout = Layout.row_major(NUM_STATES, NUM_ACTIONS)
-alias QTable = LayoutTensor[DType.float32, q_table_layout, MutableAnyOrigin]
-alias Maze = LayoutTensor[
+comptime q_table_layout = Layout.row_major(NUM_STATES, NUM_ACTIONS)
+comptime QTable = LayoutTensor[DType.float32, q_table_layout, MutableAnyOrigin]
+comptime Maze = LayoutTensor[
     DType.int32, Layout.row_major(NUM_STATES), MutableAnyOrigin
 ]
-alias ValidActions = LayoutTensor[
+comptime ValidActions = LayoutTensor[
     DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS), MutableAnyOrigin
 ]
-alias EpisodeSeeds = LayoutTensor[
+comptime EpisodeSeeds = LayoutTensor[
     DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS), MutableAnyOrigin
 ]
 
 # Maze definition - 0 is empty, 1 is wall, 2 is goal
-alias UP = 0
-alias RIGHT = 1
-alias DOWN = 2
-alias LEFT = 3
+comptime UP = 0
+comptime RIGHT = 1
+comptime DOWN = 2
+comptime LEFT = 3
 
 
 fn initialize_maze(maze_buffer: HostBuffer[DType.int32]):

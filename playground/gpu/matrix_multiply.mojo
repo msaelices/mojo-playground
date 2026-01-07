@@ -7,19 +7,19 @@ from memory import stack_allocation
 from sys import size_of
 
 # Matrix dimensions
-alias M = 4  # rows of A and rows of C
-alias N = 4  # cols of B and cols of C
-alias K = 4  # cols of A and rows of B
-alias BLOCK_SIZE = 2  # tile size
+comptime M = 4  # rows of A and rows of C
+comptime N = 4  # cols of B and cols of C
+comptime K = 4  # cols of A and rows of B
+comptime BLOCK_SIZE = 2  # tile size
 
 # Define the layouts for our matrices
-alias layout_a = Layout.row_major(M, K)
-alias layout_b = Layout.row_major(K, N)
-alias layout_c = Layout.row_major(M, N)
+comptime layout_a = Layout.row_major(M, K)
+comptime layout_b = Layout.row_major(K, N)
+comptime layout_c = Layout.row_major(M, N)
 
-alias MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
-alias MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
-alias MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
+comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
+comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
+comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
 
 
 fn matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
