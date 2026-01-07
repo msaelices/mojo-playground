@@ -45,7 +45,7 @@ fn demo_reduce_simd() raises:
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function[simd_reduce_kernel](
+        ctx.enqueue_function_checked[simd_reduce_kernel](
             tensor,
             out_dev,
             grid_dim=blocks,

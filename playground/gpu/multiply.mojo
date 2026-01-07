@@ -51,12 +51,12 @@ fn demo_multiply() raises:
         var tensor = LayoutTensor[dtype, layout](in_dev)
 
         # Print the values in the indexed tensors before multiplying them
-        ctx.enqueue_function[print_values_kernel](
+        ctx.enqueue_function_checked[print_values_kernel](
             tensor, grid_dim=blocks, block_dim=threads
         )
 
         # Multiply the values in the in dev tensor
-        ctx.enqueue_function[multiply_kernel](
+        ctx.enqueue_function_checked[multiply_kernel](
             tensor, grid_dim=blocks, block_dim=threads
         )
 

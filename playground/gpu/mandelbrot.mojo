@@ -124,7 +124,7 @@ fn demo_mandelbrot() raises:
         print("Block dimensions:", block_dim[0], "x", block_dim[1])
 
         # Launch the kernel
-        ctx.enqueue_function[mandelbrot_kernel](
+        ctx.enqueue_function_checked[mandelbrot_kernel](
             output, grid_dim=grid_dim, block_dim=block_dim
         )
 

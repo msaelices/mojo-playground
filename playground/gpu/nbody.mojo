@@ -257,7 +257,7 @@ fn demo_nbody() raises:
         # Run simulation for NUM_ITERATIONS steps
         for step in range(NUM_ITERATIONS):
             # Compute forces and update particles
-            ctx.enqueue_function[update_particles_kernel](
+            ctx.enqueue_function_checked[update_particles_kernel](
                 pos_x,
                 pos_y,
                 pos_z,
