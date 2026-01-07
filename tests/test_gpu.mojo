@@ -94,7 +94,6 @@ fn test_matrix_multiply_cpu() raises:
 fn test_matrix_multiply_gpu() raises:
     # GPU-based matrix multiplication test using iota
 
-
     alias M = 2
     alias N = 2
     alias K = 2
