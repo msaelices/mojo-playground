@@ -1,6 +1,6 @@
 from testing import assert_true
 
-from playground.`async` import task1, task2
+from playground.async_module import task1, task2
 
 
 def test_async_imports():
