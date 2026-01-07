@@ -2,7 +2,8 @@ from memory import UnsafePointer
 
 
 struct LinkedListIter[
-    mut: Bool, //,
+    mut: Bool,
+    //,
     ElementType: KeyElement & Representable & Writable,
     origin: Origin[mut],
 ](Iterator):
