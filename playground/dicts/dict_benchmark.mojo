@@ -1,10 +1,10 @@
 from collections import Dict
+from collections.string.string_slice import _to_string_list
 from time import perf_counter_ns as now
 
 
 fn get_wds() raises -> List[String]:
-    input = String(
-        """
+    input = """
 Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you aspire to heal evolve or revolutionize this podcast is for you. Make sure you subscribe and follow us on Instagram at official back to her. And that too is the number two. Let's get it.
  Hey friends, we are back with another episode is Joy Jolene and the sugar bread and we're back to end this month off and a like a really good positive way our last episode. We talked about religion and spirituality in this episode. We want to take time for you guys to get to know us better for us to discuss more about ourselves so that you know, we we really a family and we really
  That connection so let's get into it. So it may enjoy decided to do is we both came up with questions that we're going to ask each other. So I haven't seen her questions yet. She hasn't seen my questions yet. So hopefully this can just be fun and funny. Yeah, so let's get into it. All right, so you want to go right? I'll go first. Okay, so, okay. So my first question for you is who is Brittany? Okay, so, Brittany
@@ -160,20 +160,18 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
  Sure that you repost share with your friends. And yeah, and speaking of next month is Black History Month. Yeah, so we're going to have amazing series coming for you. Also make sure that you all stay tuned. Yes, you guys will love it and you definitely stay tuned in continued like if you missed the last episode make sure you catch up. Please catch up. Yes in the episode before that. Both episodes are regarding like we said before spirituality.
  Religion in you don't want to miss out on that. So thank you guys for tuning in with us and being a part of our conversation and get to know us better. We really appreciate it. And my Instagram is at Joy Jolene Jo y Jo ele any and Minds is accordance of bread with three T's. Thanks guys. Yeah.
     """
-    )
-    return input.upper().split(" ")
+    return _to_string_list(input.upper().split(" "))
 
 
 fn get_freqs[
-    V: Representable & KeyElement
+    V: ImplicitlyCopyable & Representable & KeyElement
 ](wds: List[V]) raises -> Dict[V, UInt64]:
     var freqs: Dict[V, UInt64] = {}
-    for wd_ref in wds:
-        wd = wd_ref[]
+    for wd in wds:
         if wd in freqs:
             old_freq = freqs[wd]
             freqs[wd] = old_freq + 1
             # freqs.__setitem__[String](wd, old_freq + 1)
         else:
             freqs[wd] = 1
-    return freqs
+    return freqs^
