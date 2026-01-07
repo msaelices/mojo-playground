@@ -12,7 +12,7 @@ comptime NUM_ITERATIONS = 10  # Number of simulation steps to run
 
 # Define layouts for particle data
 comptime vec_layout = Layout.row_major(NUM_PARTICLES)
-comptime VecData = LayoutTensor[DType.float32, vec_layout, MutableAnyOrigin]
+comptime VecData = LayoutTensor[DType.float32, vec_layout, MutAnyOrigin]
 
 
 fn update_particles_kernel(
@@ -53,7 +53,7 @@ fn update_particles_kernel(
 
     # Compute forces with all other particles
     for j in range(NUM_PARTICLES):
-        if i == j:  # Skip self-interaction
+        if Int(i) == Int(j):  # Skip self-interaction
             continue
 
         # Compute distance vector
@@ -257,7 +257,7 @@ fn demo_nbody() raises:
         # Run simulation for NUM_ITERATIONS steps
         for step in range(NUM_ITERATIONS):
             # Compute forces and update particles
-            ctx.enqueue_function_checked[update_particles_kernel](
+            ctx.enqueue_function_checked[update_particles_kernel, update_particles_kernel](
                 pos_x,
                 pos_y,
                 pos_z,

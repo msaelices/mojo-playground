@@ -12,7 +12,7 @@ comptime BLOCK_SIZE = 16
 
 # Define the layout for our output image
 comptime layout_out = Layout.row_major(HEIGHT, WIDTH)
-comptime OutputImage = LayoutTensor[DType.uint8, layout_out, MutableAnyOrigin]
+comptime OutputImage = LayoutTensor[DType.uint8, layout_out, MutAnyOrigin]
 
 
 # Complex number structure for mandelbrot calculations
@@ -124,7 +124,7 @@ fn demo_mandelbrot() raises:
         print("Block dimensions:", block_dim[0], "x", block_dim[1])
 
         # Launch the kernel
-        ctx.enqueue_function_checked[mandelbrot_kernel](
+        ctx.enqueue_function_checked[mandelbrot_kernel, mandelbrot_kernel](
             output, grid_dim=grid_dim, block_dim=block_dim
         )
 

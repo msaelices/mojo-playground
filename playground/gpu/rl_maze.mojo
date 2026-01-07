@@ -20,15 +20,15 @@ comptime NUM_BLOCKS = 16  # Number of blocks
 
 # Layout definitions for our GPU tensors
 comptime q_table_layout = Layout.row_major(NUM_STATES, NUM_ACTIONS)
-comptime QTable = LayoutTensor[DType.float32, q_table_layout, MutableAnyOrigin]
+comptime QTable = LayoutTensor[DType.float32, q_table_layout, MutAnyOrigin]
 comptime Maze = LayoutTensor[
-    DType.int32, Layout.row_major(NUM_STATES), MutableAnyOrigin
+    DType.int32, Layout.row_major(NUM_STATES), MutAnyOrigin
 ]
 comptime ValidActions = LayoutTensor[
-    DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS), MutableAnyOrigin
+    DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS), MutAnyOrigin
 ]
 comptime EpisodeSeeds = LayoutTensor[
-    DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS), MutableAnyOrigin
+    DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS), MutAnyOrigin
 ]
 
 # Maze definition - 0 is empty, 1 is wall, 2 is goal
@@ -274,10 +274,10 @@ fn find_optimal_path_kernel(
     valid_actions: ValidActions,
     q_table: QTable,
     path_length: LayoutTensor[
-        DType.int32, Layout.row_major(1), MutableAnyOrigin
+        DType.int32, Layout.row_major(1), MutAnyOrigin
     ],
     optimal_path: LayoutTensor[
-        DType.int32, Layout.row_major(MAX_STEPS), MutableAnyOrigin
+        DType.int32, Layout.row_major(MAX_STEPS), MutAnyOrigin
     ],
 ):
     """Find the optimal path based on the learned Q-table.
@@ -397,7 +397,7 @@ fn demo_rl_maze() raises:
         var episode_seeds = EpisodeSeeds(episode_seeds_dev)
 
         # Precompute valid actions for all states
-        ctx.enqueue_function_checked[get_valid_actions_kernel](
+        ctx.enqueue_function_checked[get_valid_actions_kernel, get_valid_actions_kernel](
             maze, valid_actions, grid_dim=1, block_dim=NUM_STATES
         )
 
@@ -430,7 +430,7 @@ fn demo_rl_maze() raises:
             episode_seeds_buffer.enqueue_copy_to(episode_seeds_dev)
 
             # Run Monte Carlo episodes in parallel
-            ctx.enqueue_function_checked[monte_carlo_episode_kernel](
+            ctx.enqueue_function_checked[monte_carlo_episode_kernel, monte_carlo_episode_kernel](
                 maze,
                 valid_actions,
                 q_table,
@@ -465,7 +465,7 @@ fn demo_rl_maze() raises:
             DType.int32, Layout.row_major(MAX_STEPS)
         ](optimal_path_dev)
 
-        ctx.enqueue_function_checked[find_optimal_path_kernel](
+        ctx.enqueue_function_checked[find_optimal_path_kernel, find_optimal_path_kernel](
             maze,
             valid_actions,
             q_table,
@@ -486,8 +486,10 @@ fn demo_rl_maze() raises:
         # Display the optimal path
         print("\nOptimal path found! Length:", path_len)
 
-        # Create a maze with path
-        var maze_with_path = UnsafePointer[Int32].alloc(NUM_STATES)
+        # Create a maze with path - use a List instead of UnsafePointer.alloc
+        var maze_with_path = List[Int32](capacity=NUM_STATES)
+        for _ in range(NUM_STATES):
+            maze_with_path.append(0)
 
         # Copy maze
         for i in range(NUM_STATES):

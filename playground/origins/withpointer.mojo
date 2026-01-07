@@ -22,12 +22,12 @@ struct PointBox[
         self.point_ptr = Pointer(to=point)
 
 
-fn random_pointer() -> PointBox[MutableAnyOrigin]:
+fn random_pointer() -> PointBox[MutAnyOrigin]:
     var point: Point = Point(
         x=random_float64(),
         y=random_float64(),
     )
-    var point_box = PointBox[MutableAnyOrigin](
+    var point_box = PointBox[MutAnyOrigin](
         point=point,
     )
     return point_box^

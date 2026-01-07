@@ -53,9 +53,9 @@ fn test_matrix_multiply_cpu() raises:
     comptime layout_b = Layout.row_major(K, N)
     comptime layout_c = Layout.row_major(M, N)
 
-    comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
-    comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
-    comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
+    comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutAnyOrigin]
+    comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutAnyOrigin]
+    comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutAnyOrigin]
 
     with DeviceContext() as ctx:
         # Allocate host memory for matrices
@@ -103,9 +103,9 @@ fn test_matrix_multiply_gpu() raises:
     comptime layout_b = Layout.row_major(K, N)
     comptime layout_c = Layout.row_major(M, N)
 
-    comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
-    comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
-    comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
+    comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutAnyOrigin]
+    comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutAnyOrigin]
+    comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutAnyOrigin]
 
     # Define a simple matrix multiply kernel
     fn matmul_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
@@ -153,7 +153,7 @@ fn test_matrix_multiply_gpu() raises:
         )
         var block_dim = (BLOCK_SIZE, BLOCK_SIZE)
 
-        ctx.enqueue_function_checked[matmul_kernel](
+        ctx.enqueue_function_checked[matmul_kernel, matmul_kernel](
             A, B, C, grid_dim=grid_dim, block_dim=block_dim
         )
 
