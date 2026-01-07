@@ -3,7 +3,16 @@ from gpu import block_idx, thread_idx
 
 
 fn kernel():
-    print("hello from block idx:", block_idx.x, block_idx.y, block_idx.z, "thread:", thread_idx.x, thread_idx.y, thread_idx.z)
+    print(
+        "hello from block idx:",
+        block_idx.x,
+        block_idx.y,
+        block_idx.z,
+        "thread:",
+        thread_idx.x,
+        thread_idx.y,
+        thread_idx.z,
+    )
 
 
 fn demo_hellothread() raises:

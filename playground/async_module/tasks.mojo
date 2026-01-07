@@ -11,5 +11,3 @@ async fn task2():
     print("Task 2 started")
     time.sleep(1.0)
     print("Task 2 completed")
-
-

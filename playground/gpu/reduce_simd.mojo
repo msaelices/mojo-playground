@@ -15,7 +15,9 @@ alias layout = Layout.row_major(blocks, threads)
 alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
 
 
-fn simd_reduce_kernel(tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]):
+fn simd_reduce_kernel(
+    tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]
+):
     out_buffer[block_idx.x] = tensor.load[4](block_idx.x, 0).reduce_add()
 
 

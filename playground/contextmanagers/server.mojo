@@ -13,6 +13,7 @@ struct Server(ImplicitlyCopyable):
     fn shutdown(self):
         print("Shutting down server at", self.address)
 
+
 struct serve:
     var server: Server
 

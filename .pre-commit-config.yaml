@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: mojo-format
+        name: Format Mojo files
+        entry: ./.pre-commit-format.sh
+        language: script
+        types: [file]
+        files: \.mojo$
+        pass_filenames: true

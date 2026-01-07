@@ -4,6 +4,7 @@
 *.swp
 *.swo
 *~
+*.so
 
 # Jupyter
 .ipynb_checkpoints/

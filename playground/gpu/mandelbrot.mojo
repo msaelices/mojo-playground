@@ -87,9 +87,7 @@ fn save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
         for y in range(HEIGHT):
             for x in range(WIDTH):
                 var pixel = image[y, x][0]
-                f.write(
-                    pixel, " ", pixel, " ", pixel, "\n"
-                )
+                f.write(pixel, " ", pixel, " ", pixel, "\n")
 
 
 fn demo_mandelbrot() raises:
@@ -99,10 +97,14 @@ fn demo_mandelbrot() raises:
 
     with DeviceContext() as ctx:
         # Allocate host buffer for the output image
-        var host_buffer = ctx.enqueue_create_host_buffer[DType.uint8](WIDTH * HEIGHT)
+        var host_buffer = ctx.enqueue_create_host_buffer[DType.uint8](
+            WIDTH * HEIGHT
+        )
 
         # Allocate device buffer for the output image
-        var device_buffer = ctx.enqueue_create_buffer[DType.uint8](WIDTH * HEIGHT)
+        var device_buffer = ctx.enqueue_create_buffer[DType.uint8](
+            WIDTH * HEIGHT
+        )
 
         # Create tensor view of the device buffer
         var output = LayoutTensor[DType.uint8, layout_out](device_buffer)
@@ -138,6 +140,6 @@ fn demo_mandelbrot() raises:
         save_ppm(filename, host_buffer)
         print("Done!")
         print(
-            "To view the image, you can use tools like 'display' from ImageMagick,"
-            " GIMP, or convert to PNG."
+            "To view the image, you can use tools like 'display' from"
+            " ImageMagick, GIMP, or convert to PNG."
         )

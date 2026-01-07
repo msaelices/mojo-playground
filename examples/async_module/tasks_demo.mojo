@@ -1,5 +1,5 @@
 import time
-from playground.async import task1, task2
+from playground.async_module import task1, task2
 
 
 fn main():
