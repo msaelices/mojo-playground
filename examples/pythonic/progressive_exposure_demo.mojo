@@ -5,7 +5,9 @@ This demo runs all the progressive examples in order, showing how Mojo
 syntax is gradually introduced from Python-like to more advanced features.
 """
 
-from playground.pythonic import (
+import progressive_exposure
+
+from progressive_exposure import (
     demo_print,
     demo_variables,
     demo_function_call,
