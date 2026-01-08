@@ -1,23 +1,23 @@
 from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, HostBuffer
+from gpu.host import DeviceContext, HostBuffer, DeviceBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
 from memory import stack_allocation, UnsafePointer
 from sys import size_of
 
-alias dtype = DType.uint32
-alias blocks = 4
-alias threads = 4
-alias num_elems = blocks * threads
+comptime dtype = DType.uint32
+comptime blocks = 4
+comptime threads = 4
+comptime num_elems = blocks * threads
 
-alias layout = Layout.row_major(blocks, threads)
-alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+comptime layout = Layout.row_major(blocks, threads)
+comptime out_layout = Layout.row_major(blocks)
+comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
+comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn sum_reduce_kernel(
-    tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]
-):
+fn sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     # Allocates memory to be shared between threads once, prior to the kernel launch
     var shared = stack_allocation[
         blocks * size_of[dtype](),
@@ -33,8 +33,10 @@ fn sum_reduce_kernel(
 
     # If this is the first thread, sum and write the result to global memory
     if thread_idx.x == 0:
+        var sum: UInt32 = 0
         for i in range(threads):
-            out_buffer[block_idx.x] += shared[i]
+            sum += shared[i]
+        out_tensor[block_idx.x] = sum
 
 
 fn demo_reduce_shared() raises:
@@ -56,14 +58,15 @@ fn demo_reduce_shared() raises:
         var out_host = ctx.enqueue_create_host_buffer[dtype](blocks)
         var out_dev = ctx.enqueue_create_buffer[dtype](blocks)
 
-        var tensor = LayoutTensor[dtype, layout](in_dev)
+        var tensor = InTensor(in_dev)
+        var out_tensor = OutTensor(out_dev)
 
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function[sum_reduce_kernel](
+        ctx.enqueue_function_checked[sum_reduce_kernel, sum_reduce_kernel](
             tensor,
-            out_dev,
+            out_tensor,
             grid_dim=blocks,
             block_dim=threads,
         )

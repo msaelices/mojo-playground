@@ -1,24 +1,25 @@
 from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, HostBuffer
+from gpu.host import DeviceContext, HostBuffer, DeviceBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from math import iota
 from memory import stack_allocation, UnsafePointer
 from sys import size_of
 
-alias dtype = DType.uint32
-alias blocks = 4
-alias threads = 4
-alias num_elems = blocks * threads
+comptime dtype = DType.uint32
+comptime blocks = 4
+comptime threads = 4
+comptime num_elems = blocks * threads
 
-alias layout = Layout.row_major(blocks, threads)
-alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+comptime layout = Layout.row_major(blocks, threads)
+comptime out_layout = Layout.row_major(blocks)
+comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
+comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn simd_reduce_kernel(
-    tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]
-):
-    out_buffer[block_idx.x] = tensor.load[4](block_idx.x, 0).reduce_add()
+fn simd_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
+    var result = tensor.load[4](Int(block_idx.x), 0).reduce_add()
+    out_tensor[block_idx.x] = result
 
 
 fn demo_reduce_simd() raises:
@@ -40,14 +41,15 @@ fn demo_reduce_simd() raises:
         var out_host = ctx.enqueue_create_host_buffer[dtype](blocks)
         var out_dev = ctx.enqueue_create_buffer[dtype](blocks)
 
-        var tensor = LayoutTensor[dtype, layout](in_dev)
+        var tensor = InTensor(in_dev)
+        var out_tensor = OutTensor(out_dev)
 
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function[simd_reduce_kernel](
+        ctx.enqueue_function_checked[simd_reduce_kernel, simd_reduce_kernel](
             tensor,
-            out_dev,
+            out_tensor,
             grid_dim=blocks,
             block_dim=threads,
         )

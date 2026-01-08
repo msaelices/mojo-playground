@@ -3,8 +3,8 @@ For a in depth explanation of this file,
 See https://docs.modular.com/mojo/notebooks/BoolMLIR/
 """
 
-alias MyTrue = MyBool(__mlir_attr.true)
-alias MyFalse = MyBool(__mlir_attr.false)
+comptime MyTrue = MyBool(__mlir_attr.true)
+comptime MyFalse = MyBool(__mlir_attr.false)
 
 
 @register_passable("trivial")

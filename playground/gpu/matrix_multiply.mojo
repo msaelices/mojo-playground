@@ -7,19 +7,19 @@ from memory import stack_allocation
 from sys import size_of
 
 # Matrix dimensions
-alias M = 4  # rows of A and rows of C
-alias N = 4  # cols of B and cols of C
-alias K = 4  # cols of A and rows of B
-alias BLOCK_SIZE = 2  # tile size
+comptime M = 4  # rows of A and rows of C
+comptime N = 4  # cols of B and cols of C
+comptime K = 4  # cols of A and rows of B
+comptime BLOCK_SIZE = 2  # tile size
 
 # Define the layouts for our matrices
-alias layout_a = Layout.row_major(M, K)
-alias layout_b = Layout.row_major(K, N)
-alias layout_c = Layout.row_major(M, N)
+comptime layout_a = Layout.row_major(M, K)
+comptime layout_b = Layout.row_major(K, N)
+comptime layout_c = Layout.row_major(M, N)
 
-alias MatrixA = LayoutTensor[DType.float32, layout_a, MutableAnyOrigin]
-alias MatrixB = LayoutTensor[DType.float32, layout_b, MutableAnyOrigin]
-alias MatrixC = LayoutTensor[DType.float32, layout_c, MutableAnyOrigin]
+comptime MatrixA = LayoutTensor[DType.float32, layout_a, MutAnyOrigin]
+comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutAnyOrigin]
+comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutAnyOrigin]
 
 
 fn matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
@@ -64,15 +64,19 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     # Loop over tiles
     for tile in range((K + BLOCK_SIZE - 1) // BLOCK_SIZE):
         # Load tiles into shared memory
-        if row < M and tile * BLOCK_SIZE + tx < K:
-            A_tile[ty * BLOCK_SIZE + tx] = A[row, tile * BLOCK_SIZE + tx][0]
+        if row < M and tile * BLOCK_SIZE + Int(tx) < K:
+            A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = A[
+                row, Int(tile * BLOCK_SIZE) + Int(tx)
+            ][0]
         else:
-            A_tile[ty * BLOCK_SIZE + tx] = 0.0
+            A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
 
-        if tile * BLOCK_SIZE + ty < K and col < N:
-            B_tile[ty * BLOCK_SIZE + tx] = B[tile * BLOCK_SIZE + ty, col][0]
+        if tile * BLOCK_SIZE + Int(ty) < K and col < N:
+            B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = B[
+                Int(tile * BLOCK_SIZE) + Int(ty), col
+            ][0]
         else:
-            B_tile[ty * BLOCK_SIZE + tx] = 0.0
+            B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
 
         # Synchronize to make sure tiles are loaded
         barrier()
@@ -80,7 +84,8 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
         # Compute the partial dot product
         for k in range(BLOCK_SIZE):
             sum += Float32(
-                A_tile[ty * BLOCK_SIZE + k] * B_tile[k * BLOCK_SIZE + tx]
+                A_tile[Int(ty) * BLOCK_SIZE + k]
+                * B_tile[k * BLOCK_SIZE + Int(tx)]
             )
 
         # Synchronize before loading next tile
@@ -186,9 +191,9 @@ fn demo_matrix_multiply() raises:
 
         # Run the standard matrix multiplication kernel
         print("\nStandard matrix multiplication:")
-        ctx.enqueue_function[matrix_multiply_kernel](
-            A, B, C, grid_dim=grid_dim, block_dim=block_dim
-        )
+        ctx.enqueue_function_checked[
+            matrix_multiply_kernel, matrix_multiply_kernel
+        ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
 
         # Copy result back to host and verify
         c_dev.enqueue_copy_to(c_host)
@@ -215,9 +220,9 @@ fn demo_matrix_multiply() raises:
         print("\nShared memory matrix multiplication:")
         ctx.enqueue_memset(c_dev, 0)  # Clear the result matrix
 
-        ctx.enqueue_function[matrix_multiply_shared_kernel](
-            A, B, C, grid_dim=grid_dim, block_dim=block_dim
-        )
+        ctx.enqueue_function_checked[
+            matrix_multiply_shared_kernel, matrix_multiply_shared_kernel
+        ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
 
         # Copy result back to host and verify
         c_dev.enqueue_copy_to(c_host)

@@ -6,19 +6,19 @@ from math import iota
 from memory import stack_allocation, UnsafePointer
 from sys import size_of
 
-alias dtype = DType.uint32
-alias blocks = 4
-alias threads = 4
-alias num_elems = blocks * threads
+comptime dtype = DType.uint32
+comptime blocks = 4
+comptime threads = 4
+comptime num_elems = blocks * threads
 
-alias layout = Layout.row_major(blocks, threads)
-alias InTensor = LayoutTensor[dtype, layout, MutableAnyOrigin]
+comptime layout = Layout.row_major(blocks, threads)
+comptime out_layout = Layout.row_major(blocks)
+comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
+comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn warp_reduce_kernel(
-    tensor: InTensor, out_buffer: UnsafePointer[Scalar[dtype]]
-):
-    var value = tensor.load[1](block_idx.x, thread_idx.x)
+fn warp_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
+    var value = tensor[block_idx.x, thread_idx.x][0]
 
     # Each thread gets the value from one thread higher, summing them as they go
     value = warp.sum(value)
@@ -31,7 +31,7 @@ fn warp_reduce_kernel(
 
     # Thread 0 has the reduced sum of the values from all the other threads
     if thread_idx.x == 0:
-        out_buffer[block_idx.x] = value
+        out_tensor[block_idx.x] = value
 
 
 fn demo_reduce_warp() raises:
@@ -53,14 +53,15 @@ fn demo_reduce_warp() raises:
         var out_host = ctx.enqueue_create_host_buffer[dtype](blocks)
         var out_dev = ctx.enqueue_create_buffer[dtype](blocks)
 
-        var tensor = LayoutTensor[dtype, layout](in_dev)
+        var tensor = InTensor(in_dev)
+        var out_tensor = OutTensor(out_dev)
 
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function[warp_reduce_kernel](
+        ctx.enqueue_function_checked[warp_reduce_kernel, warp_reduce_kernel](
             tensor,
-            out_dev,
+            out_tensor,
             grid_dim=blocks,
             block_dim=threads,
         )

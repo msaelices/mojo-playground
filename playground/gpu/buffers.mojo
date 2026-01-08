@@ -3,10 +3,10 @@ from math import iota
 
 
 fn demo_buffers() raises:
-    alias dtype = DType.uint32
-    alias blocks = 4
-    alias threads = 4
-    alias num_elems = blocks * threads
+    comptime dtype = DType.uint32
+    comptime blocks = 4
+    comptime threads = 4
+    comptime num_elems = blocks * threads
     with DeviceContext() as ctx:
         # In host buffer:
         # Allocate data on the host and return a buffer which owns that data

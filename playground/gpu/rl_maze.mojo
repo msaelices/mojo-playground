@@ -8,34 +8,34 @@ import math
 import random
 
 # Maze dimensions and reinforcement learning parameters
-alias MAZE_SIZE = 8  # 8x8 maze
-alias NUM_STATES = MAZE_SIZE * MAZE_SIZE  # Total number of states (64)
-alias NUM_ACTIONS = 4  # 4 actions (up, right, down, left)
-alias GAMMA = 0.9  # Discount factor
-alias EPISODES = 1000  # Number of episodes to simulate
-alias MAX_STEPS = 100  # Maximum steps per episode
-alias EPSILON = 0.1  # Exploration rate
-alias NUM_THREADS = 128  # Number of threads per block
-alias NUM_BLOCKS = 16  # Number of blocks
+comptime MAZE_SIZE = 8  # 8x8 maze
+comptime NUM_STATES = MAZE_SIZE * MAZE_SIZE  # Total number of states (64)
+comptime NUM_ACTIONS = 4  # 4 actions (up, right, down, left)
+comptime GAMMA = 0.9  # Discount factor
+comptime EPISODES = 1000  # Number of episodes to simulate
+comptime MAX_STEPS = 100  # Maximum steps per episode
+comptime EPSILON = 0.1  # Exploration rate
+comptime NUM_THREADS = 128  # Number of threads per block
+comptime NUM_BLOCKS = 16  # Number of blocks
 
 # Layout definitions for our GPU tensors
-alias q_table_layout = Layout.row_major(NUM_STATES, NUM_ACTIONS)
-alias QTable = LayoutTensor[DType.float32, q_table_layout, MutableAnyOrigin]
-alias Maze = LayoutTensor[
-    DType.int32, Layout.row_major(NUM_STATES), MutableAnyOrigin
+comptime q_table_layout = Layout.row_major(NUM_STATES, NUM_ACTIONS)
+comptime QTable = LayoutTensor[DType.float32, q_table_layout, MutAnyOrigin]
+comptime Maze = LayoutTensor[
+    DType.int32, Layout.row_major(NUM_STATES), MutAnyOrigin
 ]
-alias ValidActions = LayoutTensor[
-    DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS), MutableAnyOrigin
+comptime ValidActions = LayoutTensor[
+    DType.int32, Layout.row_major(NUM_STATES, NUM_ACTIONS), MutAnyOrigin
 ]
-alias EpisodeSeeds = LayoutTensor[
-    DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS), MutableAnyOrigin
+comptime EpisodeSeeds = LayoutTensor[
+    DType.int32, Layout.row_major(NUM_BLOCKS * NUM_THREADS), MutAnyOrigin
 ]
 
 # Maze definition - 0 is empty, 1 is wall, 2 is goal
-alias UP = 0
-alias RIGHT = 1
-alias DOWN = 2
-alias LEFT = 3
+comptime UP = 0
+comptime RIGHT = 1
+comptime DOWN = 2
+comptime LEFT = 3
 
 
 fn initialize_maze(maze_buffer: HostBuffer[DType.int32]):
@@ -273,11 +273,9 @@ fn find_optimal_path_kernel(
     maze: Maze,
     valid_actions: ValidActions,
     q_table: QTable,
-    path_length: LayoutTensor[
-        DType.int32, Layout.row_major(1), MutableAnyOrigin
-    ],
+    path_length: LayoutTensor[DType.int32, Layout.row_major(1), MutAnyOrigin],
     optimal_path: LayoutTensor[
-        DType.int32, Layout.row_major(MAX_STEPS), MutableAnyOrigin
+        DType.int32, Layout.row_major(MAX_STEPS), MutAnyOrigin
     ],
 ):
     """Find the optimal path based on the learned Q-table.
@@ -397,9 +395,9 @@ fn demo_rl_maze() raises:
         var episode_seeds = EpisodeSeeds(episode_seeds_dev)
 
         # Precompute valid actions for all states
-        ctx.enqueue_function[get_valid_actions_kernel](
-            maze, valid_actions, grid_dim=1, block_dim=NUM_STATES
-        )
+        ctx.enqueue_function_checked[
+            get_valid_actions_kernel, get_valid_actions_kernel
+        ](maze, valid_actions, grid_dim=1, block_dim=NUM_STATES)
 
         # Print maze for visualization
         ctx.synchronize()
@@ -430,7 +428,9 @@ fn demo_rl_maze() raises:
             episode_seeds_buffer.enqueue_copy_to(episode_seeds_dev)
 
             # Run Monte Carlo episodes in parallel
-            ctx.enqueue_function[monte_carlo_episode_kernel](
+            ctx.enqueue_function_checked[
+                monte_carlo_episode_kernel, monte_carlo_episode_kernel
+            ](
                 maze,
                 valid_actions,
                 q_table,
@@ -465,7 +465,9 @@ fn demo_rl_maze() raises:
             DType.int32, Layout.row_major(MAX_STEPS)
         ](optimal_path_dev)
 
-        ctx.enqueue_function[find_optimal_path_kernel](
+        ctx.enqueue_function_checked[
+            find_optimal_path_kernel, find_optimal_path_kernel
+        ](
             maze,
             valid_actions,
             q_table,
@@ -486,8 +488,10 @@ fn demo_rl_maze() raises:
         # Display the optimal path
         print("\nOptimal path found! Length:", path_len)
 
-        # Create a maze with path
-        var maze_with_path = UnsafePointer[Int32].alloc(NUM_STATES)
+        # Create a maze with path - use a List instead of UnsafePointer.alloc
+        var maze_with_path = List[Int32](capacity=NUM_STATES)
+        for _ in range(NUM_STATES):
+            maze_with_path.append(0)
 
         # Copy maze
         for i in range(NUM_STATES):

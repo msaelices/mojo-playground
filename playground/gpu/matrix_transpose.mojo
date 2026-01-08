@@ -6,16 +6,18 @@ from memory import stack_allocation
 from sys import size_of
 
 # Matrix dimensions
-alias M = 6  # rows of input matrix
-alias N = 4  # cols of input matrix
-alias BLOCK_SIZE = 2  # tile size for shared memory implementation
+comptime M = 6  # rows of input matrix
+comptime N = 4  # cols of input matrix
+comptime BLOCK_SIZE = 2  # tile size for shared memory implementation
 
 # Define the layouts for our matrices
-alias layout_in = Layout.row_major(M, N)  # Input matrix layout
-alias layout_out = Layout.row_major(N, M)  # Output (transposed) matrix layout
+comptime layout_in = Layout.row_major(M, N)  # Input matrix layout
+comptime layout_out = Layout.row_major(
+    N, M
+)  # Output (transposed) matrix layout
 
-alias InputMatrix = LayoutTensor[DType.float32, layout_in, MutableAnyOrigin]
-alias OutputMatrix = LayoutTensor[DType.float32, layout_out, MutableAnyOrigin]
+comptime InputMatrix = LayoutTensor[DType.float32, layout_in, MutAnyOrigin]
+comptime OutputMatrix = LayoutTensor[DType.float32, layout_out, MutAnyOrigin]
 
 
 fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):
@@ -143,9 +145,9 @@ fn demo_matrix_transpose() raises:
 
         # Run the naive transpose kernel
         print("\nNaive matrix transposition:")
-        ctx.enqueue_function[naive_transpose_kernel](
-            input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim
-        )
+        ctx.enqueue_function_checked[
+            naive_transpose_kernel, naive_transpose_kernel
+        ](input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim)
 
         # Copy result back to host and verify
         output_dev.enqueue_copy_to(output_host)
@@ -168,9 +170,9 @@ fn demo_matrix_transpose() raises:
         print("\nTiled matrix transposition:")
         ctx.enqueue_memset(output_dev, 0)  # Clear the output matrix
 
-        ctx.enqueue_function[tiled_transpose_kernel](
-            input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim
-        )
+        ctx.enqueue_function_checked[
+            tiled_transpose_kernel, tiled_transpose_kernel
+        ](input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim)
 
         # Copy result back to host and verify
         output_dev.enqueue_copy_to(output_host)
