@@ -34,8 +34,35 @@ pixi run mojo -I . examples/sort/bubble_demo.mojo
 ### Testing
 
 ```bash
+# Run all tests
+pixi run test
+
 # Run tests for a specific module (requires -I . for module resolution)
 pixi run mojo -I . tests/test_sort.mojo
+```
+
+### Pre-commit Hooks
+
+This repository uses [pre-commit](https://pre-commit.com/) to automatically format Mojo files before each commit.
+
+Install pre-commit and set up the hooks:
+
+```bash
+# Install pre-commit (if not already installed)
+pip install pre-commit
+
+# Install the git hooks
+pre-commit install
+```
+
+To manually run all pre-commit hooks:
+```bash
+pre-commit run --all-files
+```
+
+To bypass the pre-commit hooks if needed:
+```bash
+git commit --no-verify
 ```
 
 ### Using as a Library
