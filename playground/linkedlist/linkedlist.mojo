@@ -4,6 +4,7 @@ from memory import UnsafePointer
 # Simplified singly-linked list implementation
 # This uses the new Mojo memory API with MutOrigin.external for heap-allocated nodes
 
+
 struct _Node[ElementType: Copyable & ImplicitlyDestructible](Copyable):
     var data: Self.ElementType
     var next: UnsafePointer[Self, MutOrigin.external]
