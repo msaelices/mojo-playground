@@ -47,16 +47,16 @@ struct HashedKey[K: CopiableHashable]:
 struct FooElement[Type: Writable & ImplicitlyCopyable & Movable]:
     """Example of trait composition."""
 
-    var value: Type
+    var value: Self.Type
 
-    fn __init__(out self, value: Type):
+    fn __init__(out self, value: Self.Type):
         self.value = value
 
 
 struct One[Type: ImplicitlyCopyable & Movable]:
-    var value: Type
+    var value: Self.Type
 
-    fn __init__(out self, value: Type):
+    fn __init__(out self, value: Self.Type):
         self.value = value
 
 
@@ -66,16 +66,16 @@ def use_one():
 
 
 struct Two[Type: Writable & ImplicitlyCopyable & Movable]:
-    var val1: Type
-    var val2: Type
+    var val1: Self.Type
+    var val2: Self.Type
 
-    fn __init__(out self, one: One[Type], another: One[Type]):
+    fn __init__(out self, one: One[Self.Type], another: One[Self.Type]):
         self.val1 = one.value
         self.val2 = another.value
         print(String(self.val1), String(self.val2))
 
     @staticmethod
-    fn fire(thing1: One[Type], thing2: One[Type]):
+    fn fire(thing1: One[Self.Type], thing2: One[Self.Type]):
         print("🔥", String(thing1.value), String(thing2.value))
 
 

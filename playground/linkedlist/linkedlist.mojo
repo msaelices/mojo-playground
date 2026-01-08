@@ -1,77 +1,52 @@
 from memory import UnsafePointer
 
 
-struct LinkedListIter[
-    mut: Bool,
-    //,
-    ElementType: KeyElement & Representable & Writable,
-    origin: Origin[mut=mut],
-](Iterator):
-    comptime Element = Self.ElementType  # This shouldn't be needed if Mojo compiler improves
+# Simplified singly-linked list implementation
+# This uses the new Mojo memory API with MutOrigin.external for heap-allocated nodes
 
-    var _src: Pointer[LinkedList[Self.ElementType], origin=Self.origin]
-    var _curr: UnsafePointer[LinkedList[Self.ElementType], origin=MutOrigin.external]
+struct _Node[ElementType: Copyable & ImplicitlyDestructible](Copyable):
+    var data: Self.ElementType
+    var next: UnsafePointer[Self, MutOrigin.external]
 
-    fn __init__(
-        out self, linked_list_ptr: Pointer[LinkedList[Self.ElementType], Self.origin]
-    ):
-        self._src = linked_list_ptr
-        if len(linked_list_ptr[]) == 0:
-            self._curr = UnsafePointer[LinkedList[Self.ElementType], origin=MutOrigin.external]()
-        else:
-            self._curr = UnsafePointer(to=linked_list_ptr[]).unsafe_origin_cast[MutOrigin.external]()
-
-    fn __next__(mut self) raises StopIteration -> ref [Self.origin] Self.Element:
-        if not self._curr:
-            raise StopIteration()
-        self._curr = self._curr[].get_next_ptr().unsafe_origin_cast[MutOrigin.external]()
-        return self._curr[].get_data()
+    @always_inline
+    fn __init__(out self, var data: Self.ElementType):
+        self.data = data^
+        self.next = UnsafePointer[Self, MutOrigin.external]()
 
 
-struct LinkedList[T: KeyElement & Representable & Writable](
-    Copyable, Iterable, Movable, Sized
-):
-    var _data_ptr: UnsafePointer[Self.T, MutAnyOrigin]
-    var _next_ptr: UnsafePointer[LinkedList[Self.T], MutAnyOrigin]
+struct LinkedList[T: Copyable & ImplicitlyDestructible](Sized):
+    var _head: UnsafePointer[_Node[Self.T], MutOrigin.external]
     var _size: Int
 
-    comptime IteratorType[
-        iterable_mut: Bool, //, iterable_origin: Origin[mut=iterable_mut]
-    ]: Iterator = LinkedListIter[ElementType=Self.T, origin=iterable_origin]
+    fn __init__(out self):
+        self._head = UnsafePointer[_Node[Self.T], MutOrigin.external]()
+        self._size = 0
 
-    @implicit
-    fn __init__(out self, var elements: Span[Self.T]):
-        self._size = len(elements)
+    fn __del__(deinit self):
+        """Clean up the list by freeing all nodes."""
+        var curr = self._head
+        while curr:
+            var next = curr[].next
+            curr.destroy_pointee()
+            curr.free()
+            curr = next
 
-        self._data_ptr = alloc[Self.T](1)
-        self._data_ptr.init_pointee_copy(elements[0])
+    fn append(mut self, var value: Self.T):
+        """Add an element to the end of the list."""
+        var node_ptr = alloc[_Node[Self.T]](1)
+        if not node_ptr:
+            return
 
-        if self._size == 1:
-            # Null pointer
-            self._next_ptr = UnsafePointer[LinkedList[Self.T], MutAnyOrigin]()
+        node_ptr.init_pointee_move(_Node[Self.T](value^))
+
+        if not self._head:
+            self._head = node_ptr
         else:
-            self._next_ptr = alloc[LinkedList[Self.T]](1)
-            self._next_ptr.init_pointee_copy(LinkedList[Self.T](elements[1:]))
-
-    fn __iter__(ref self) -> Self.IteratorType[origin_of(self)]:
-        return LinkedListIter(Pointer(to=self))
+            var curr = self._head
+            while curr[].next:
+                curr = curr[].next
+            curr[].next = node_ptr
+        self._size += 1
 
     fn __len__(self) -> Int:
         return self._size
-
-    fn get_data(self) -> ref [self] Self.T:
-        """Get the data of the current element."""
-        return self._data_ptr[]
-
-    fn has_next(self) -> Bool:
-        """Check if the next element exists."""
-        return Bool(self._next_ptr)
-
-    fn get_next(ref self) -> ref [self] LinkedList[Self.T]:
-        """Get the next element as an auto-dereferenced ref (aka safe pointer).
-        """
-        return self._next_ptr[]
-
-    fn get_next_ptr(self) -> UnsafePointer[LinkedList[Self.T], MutAnyOrigin]:
-        """Get the next element as an UnsafePointer."""
-        return self._next_ptr
