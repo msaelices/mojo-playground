@@ -13,6 +13,7 @@
 # Modular/Mojo
 modular/
 .modular/
+kgen.trace.json.*
 
 # Pixi
 .pixi/
