@@ -1,1 +1,1 @@
-from .memset import memset
+from memory import memset
