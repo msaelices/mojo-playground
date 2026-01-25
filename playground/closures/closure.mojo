@@ -12,6 +12,7 @@ fn create_closure():
     fn add(i: Int) -> Int:
         return x + i
 
+    _ = x  # Silence "unused" warning; x is captured by add
     var y = use_closure[add](2)
     print(y)
 
