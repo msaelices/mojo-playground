@@ -1,5 +1,5 @@
 from playground.gpu.gpuinfo import demo_gpuinfo
 
 
-fn main():
+fn main() raises:
     demo_gpuinfo()
