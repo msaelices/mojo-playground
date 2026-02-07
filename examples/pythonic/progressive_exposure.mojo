@@ -53,7 +53,7 @@ fn demo_pointer():
 
 
 # return auto dereference (not learned origin yet)
-fn return_ref(arg: List[Int]) -> ref [arg] List[Int]:
+fn return_ref(arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
@@ -64,7 +64,7 @@ fn demo_return_ref():
 
 
 # return mutable auto dereference (not learned origin yet)
-fn return_mut_ref(mut arg: List[Int]) -> ref [arg] List[Int]:
+fn return_mut_ref(mut arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
@@ -75,7 +75,7 @@ fn demo_return_mut_ref():
 
 
 # return inferred mutability auto dereference (not learned origin yet)
-fn return_inferred_mut_ref(ref arg: List[Int]) -> ref [arg] List[Int]:
+fn return_inferred_mut_ref(ref arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
@@ -86,7 +86,7 @@ fn demo_inferred_mut_ref():
 
 
 # return immutable auto dereference
-fn return_immutable_ref(ref [_]arg: List[Int]) -> ref [arg] List[Int]:
+fn return_immutable_ref(ref[_] arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
@@ -98,7 +98,9 @@ fn demo_immutable_ref():
 
 
 # return mutable reference
-fn return_mutable_ref2(ref [_]arg: List[Int]) -> Pointer[List[Int], origin_of(arg)]:
+fn return_mutable_ref2(
+    ref[_] arg: List[Int],
+) -> Pointer[List[Int], origin_of(arg)]:
     return Pointer(to=arg)
 
 

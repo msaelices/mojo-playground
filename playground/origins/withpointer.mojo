@@ -17,7 +17,7 @@ struct PointBox[
 
     fn __init__(
         out self,
-        ref [Self.point_origin]point: Point,
+        ref[Self.point_origin] point: Point,
     ):
         self.point_ptr = Pointer(to=point)
 

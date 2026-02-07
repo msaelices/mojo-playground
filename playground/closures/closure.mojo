@@ -1,7 +1,7 @@
 # Parametric closures
 
 
-fn use_closure[func: fn (Int) capturing -> Int](num: Int) -> Int:
+fn use_closure[func: fn(Int) capturing -> Int](num: Int) -> Int:
     return func(num)
 
 
