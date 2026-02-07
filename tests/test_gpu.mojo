@@ -153,7 +153,7 @@ fn test_matrix_multiply_gpu() raises:
         )
         var block_dim = (BLOCK_SIZE, BLOCK_SIZE)
 
-        ctx.enqueue_function_checked[matmul_kernel, matmul_kernel](
+        ctx.enqueue_function[matmul_kernel, matmul_kernel](
             A, B, C, grid_dim=grid_dim, block_dim=block_dim
         )
 

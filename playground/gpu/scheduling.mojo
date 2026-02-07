@@ -10,7 +10,7 @@ comptime Tensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 
 
 fn kernel(tensor: Tensor):
-    tensor[thread_idx.x] = thread_idx.x
+    tensor[thread_idx.x] = UInt8(thread_idx.x)
 
 
 fn demo_scheduling() raises:
@@ -20,7 +20,7 @@ fn demo_scheduling() raises:
         var host_buffer = ctx.enqueue_create_host_buffer[dtype](num_elems)
 
         var tensor = Tensor(dev_buffer)
-        ctx.enqueue_function_checked[kernel, kernel](
+        ctx.enqueue_function[kernel, kernel](
             tensor, grid_dim=1, block_dim=num_elems
         )
         dev_buffer.enqueue_copy_to(host_buffer)

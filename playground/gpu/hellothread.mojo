@@ -25,7 +25,7 @@ fn demo_hellothread() raises:
         block_dim = (4, 3, 2)
         print("grid dimension:", grid_dim)
         print("block dimension:", block_dim[0], block_dim[1], block_dim[2])
-        ctx.enqueue_function_checked[kernel, kernel](
+        ctx.enqueue_function[kernel, kernel](
             grid_dim=grid_dim, block_dim=block_dim
         )
         # wait for the GPU to finish executing the kernel

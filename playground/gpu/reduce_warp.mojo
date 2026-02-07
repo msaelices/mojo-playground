@@ -1,4 +1,5 @@
-from gpu import barrier, thread_idx, block_idx, warp
+from gpu import barrier, thread_idx, block_idx
+from gpu.primitives.warp import sum as warp_sum
 from gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
@@ -21,7 +22,7 @@ fn warp_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     var value = tensor[block_idx.x, thread_idx.x][0]
 
     # Each thread gets the value from one thread higher, summing them as they go
-    value = warp.sum(value)
+    value = warp_sum(value)
 
     # Print each reduction step in the first block
     if block_idx.x == 0:
@@ -59,7 +60,7 @@ fn demo_reduce_warp() raises:
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function_checked[warp_reduce_kernel, warp_reduce_kernel](
+        ctx.enqueue_function[warp_reduce_kernel, warp_reduce_kernel](
             tensor,
             out_tensor,
             grid_dim=blocks,

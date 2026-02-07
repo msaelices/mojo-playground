@@ -118,7 +118,7 @@ fn demo_matrix_transpose() raises:
 
         for i in range(M):
             for j in range(N):
-                input_ptr.offset(i * N + j).store(Float32(i * 10 + j))
+                (input_ptr + (i * N + j)).store(Float32(i * 10 + j))
 
         # Transfer data to device
         input_host.enqueue_copy_to(input_dev)
@@ -145,7 +145,7 @@ fn demo_matrix_transpose() raises:
 
         # Run the naive transpose kernel
         print("\nNaive matrix transposition:")
-        ctx.enqueue_function_checked[
+        ctx.enqueue_function[
             naive_transpose_kernel, naive_transpose_kernel
         ](input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim)
 
@@ -170,7 +170,7 @@ fn demo_matrix_transpose() raises:
         print("\nTiled matrix transposition:")
         ctx.enqueue_memset(output_dev, 0)  # Clear the output matrix
 
-        ctx.enqueue_function_checked[
+        ctx.enqueue_function[
             tiled_transpose_kernel, tiled_transpose_kernel
         ](input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim)
 

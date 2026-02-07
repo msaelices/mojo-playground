@@ -135,7 +135,7 @@ fn monte_carlo_episode_kernel(
 
     Each thread simulates one episode starting from a random position.
     """
-    var thread_id = block_idx.x * NUM_THREADS + thread_idx.x
+    var thread_id = Int(block_idx.x * NUM_THREADS + thread_idx.x)
 
     if thread_id >= NUM_BLOCKS * NUM_THREADS:
         return
@@ -395,7 +395,7 @@ fn demo_rl_maze() raises:
         var episode_seeds = EpisodeSeeds(episode_seeds_dev)
 
         # Precompute valid actions for all states
-        ctx.enqueue_function_checked[
+        ctx.enqueue_function[
             get_valid_actions_kernel, get_valid_actions_kernel
         ](maze, valid_actions, grid_dim=1, block_dim=NUM_STATES)
 
@@ -428,7 +428,7 @@ fn demo_rl_maze() raises:
             episode_seeds_buffer.enqueue_copy_to(episode_seeds_dev)
 
             # Run Monte Carlo episodes in parallel
-            ctx.enqueue_function_checked[
+            ctx.enqueue_function[
                 monte_carlo_episode_kernel, monte_carlo_episode_kernel
             ](
                 maze,
@@ -465,7 +465,7 @@ fn demo_rl_maze() raises:
             DType.int32, Layout.row_major(MAX_STEPS)
         ](optimal_path_dev)
 
-        ctx.enqueue_function_checked[
+        ctx.enqueue_function[
             find_optimal_path_kernel, find_optimal_path_kernel
         ](
             maze,

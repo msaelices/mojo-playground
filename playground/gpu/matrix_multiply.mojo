@@ -159,11 +159,11 @@ fn demo_matrix_multiply() raises:
 
         for i in range(M):
             for j in range(K):
-                a_ptr.offset(i * K + j).store(Float32(i + j))
+                (a_ptr + (i * K + j)).store(Float32(i + j))
 
         for i in range(K):
             for j in range(N):
-                b_ptr.offset(i * N + j).store(Float32(i - j))
+                (b_ptr + (i * N + j)).store(Float32(i - j))
 
         # Transfer data to device
         a_host.enqueue_copy_to(a_dev)
@@ -191,7 +191,7 @@ fn demo_matrix_multiply() raises:
 
         # Run the standard matrix multiplication kernel
         print("\nStandard matrix multiplication:")
-        ctx.enqueue_function_checked[
+        ctx.enqueue_function[
             matrix_multiply_kernel, matrix_multiply_kernel
         ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
 
@@ -220,7 +220,7 @@ fn demo_matrix_multiply() raises:
         print("\nShared memory matrix multiplication:")
         ctx.enqueue_memset(c_dev, 0)  # Clear the result matrix
 
-        ctx.enqueue_function_checked[
+        ctx.enqueue_function[
             matrix_multiply_shared_kernel, matrix_multiply_shared_kernel
         ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
 

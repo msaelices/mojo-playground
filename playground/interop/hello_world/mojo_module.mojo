@@ -12,9 +12,7 @@ fn PyInit_mojo_module() -> PythonObject:
         )
         return m.finalize()
     except e:
-        return abort[PythonObject](
-            String("Failed to initialize mojo_module: ", e)
-        )
+        abort("Failed to initialize mojo_module: " + String(e))
 
 
 fn hello_world(name: PythonObject) raises:
