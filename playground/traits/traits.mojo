@@ -32,10 +32,10 @@ fn sized_hash[T: SizedHashable](x: T) -> Int:
 
 
 struct HashedKey[K: CopiableHashable]:
-    var key: K
+    var key: Self.K
     var hash: Int
 
-    fn __init__(out self, var key: K):
+    fn __init__(out self, var key: Self.K):
         self.key = key
         self.hash = Int(hash(key))
 
@@ -61,8 +61,8 @@ struct One[Type: ImplicitlyCopyable & Movable]:
 
 
 def use_one():
-    s1 = One(123)
-    s2 = One("Hello")
+    _ = One(123)
+    _ = One("Hello")
 
 
 struct Two[Type: Writable & ImplicitlyCopyable & Movable]:
@@ -80,7 +80,7 @@ struct Two[Type: Writable & ImplicitlyCopyable & Movable]:
 
 
 def use_two():
-    s3 = Two(One(String("infer")), One(String("me")))
+    _ = Two(One(String("infer")), One(String("me")))
     Two.fire(One(1), One(2))
 
 

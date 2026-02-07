@@ -1,4 +1,7 @@
 struct Foo:
+    fn __init__(out self):
+        pass
+
     fn myfunc(self) -> Int:
         return 42
 
