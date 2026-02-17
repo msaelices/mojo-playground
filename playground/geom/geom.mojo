@@ -3,8 +3,7 @@
 import math
 
 
-@register_passable("trivial")
-struct Point:
+struct Point(TrivialRegisterType):
     var x: Float64
     var y: Float64
 

@@ -131,12 +131,12 @@ fn initialize_uniform_sphere(
         var vel_z = 0.01 * (i % 10)
 
         # Store in buffers
-        pos_x_ptr.offset(i).store(Float32(pos_x))
-        pos_y_ptr.offset(i).store(Float32(pos_y))
-        pos_z_ptr.offset(i).store(Float32(pos_z))
-        vel_x_ptr.offset(i).store(Float32(vel_x))
-        vel_y_ptr.offset(i).store(Float32(vel_y))
-        vel_z_ptr.offset(i).store(Float32(vel_z))
+        (pos_x_ptr + i).store(Float32(pos_x))
+        (pos_y_ptr + i).store(Float32(pos_y))
+        (pos_z_ptr + i).store(Float32(pos_z))
+        (vel_x_ptr + i).store(Float32(vel_x))
+        (vel_y_ptr + i).store(Float32(vel_y))
+        (vel_z_ptr + i).store(Float32(vel_z))
 
 
 fn get_system_bounds(
@@ -157,9 +157,9 @@ fn get_system_bounds(
     var max_z = pos_z_ptr.load()
 
     for i in range(1, NUM_PARTICLES):
-        var x = pos_x_ptr.offset(i).load()
-        var y = pos_y_ptr.offset(i).load()
-        var z = pos_z_ptr.offset(i).load()
+        var x = (pos_x_ptr + i).load()
+        var y = (pos_y_ptr + i).load()
+        var z = (pos_z_ptr + i).load()
 
         if x < min_x:
             min_x = x
@@ -257,7 +257,7 @@ fn demo_nbody() raises:
         # Run simulation for NUM_ITERATIONS steps
         for step in range(NUM_ITERATIONS):
             # Compute forces and update particles
-            ctx.enqueue_function_checked[
+            ctx.enqueue_function[
                 update_particles_kernel, update_particles_kernel
             ](
                 pos_x,

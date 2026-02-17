@@ -38,8 +38,8 @@ struct Complex:
 
 fn mandelbrot_kernel(output: OutputImage):
     # Get thread and block indices
-    var x = block_idx.x * BLOCK_SIZE + thread_idx.x
-    var y = block_idx.y * BLOCK_SIZE + thread_idx.y
+    var x = Int(block_idx.x * BLOCK_SIZE + thread_idx.x)
+    var y = Int(block_idx.y * BLOCK_SIZE + thread_idx.y)
 
     # Check boundaries
     if x >= WIDTH or y >= HEIGHT:
@@ -124,7 +124,7 @@ fn demo_mandelbrot() raises:
         print("Block dimensions:", block_dim[0], "x", block_dim[1])
 
         # Launch the kernel
-        ctx.enqueue_function_checked[mandelbrot_kernel, mandelbrot_kernel](
+        ctx.enqueue_function[mandelbrot_kernel, mandelbrot_kernel](
             output, grid_dim=grid_dim, block_dim=block_dim
         )
 

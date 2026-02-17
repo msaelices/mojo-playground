@@ -2,25 +2,25 @@ from memory import UnsafePointer
 
 
 # Simplified singly-linked list implementation
-# This uses the new Mojo memory API with MutOrigin.external for heap-allocated nodes
+# This uses the Mojo memory API with MutAnyOrigin for heap-allocated nodes
 
 
 struct _Node[ElementType: Copyable & ImplicitlyDestructible](Copyable):
     var data: Self.ElementType
-    var next: UnsafePointer[Self, MutOrigin.external]
+    var next: UnsafePointer[Self, MutAnyOrigin]
 
     @always_inline
     fn __init__(out self, var data: Self.ElementType):
         self.data = data^
-        self.next = UnsafePointer[Self, MutOrigin.external]()
+        self.next = UnsafePointer[Self, MutAnyOrigin]()
 
 
 struct LinkedList[T: Copyable & ImplicitlyDestructible](Sized):
-    var _head: UnsafePointer[_Node[Self.T], MutOrigin.external]
+    var _head: UnsafePointer[_Node[Self.T], MutAnyOrigin]
     var _size: Int
 
     fn __init__(out self):
-        self._head = UnsafePointer[_Node[Self.T], MutOrigin.external]()
+        self._head = UnsafePointer[_Node[Self.T], MutAnyOrigin]()
         self._size = 0
 
     fn __del__(deinit self):

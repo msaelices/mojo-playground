@@ -64,7 +64,7 @@ fn demo_reduce_shared() raises:
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function_checked[sum_reduce_kernel, sum_reduce_kernel](
+        ctx.enqueue_function[sum_reduce_kernel, sum_reduce_kernel](
             tensor,
             out_tensor,
             grid_dim=blocks,
