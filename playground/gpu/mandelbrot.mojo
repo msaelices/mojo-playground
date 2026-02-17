@@ -47,8 +47,8 @@ fn mandelbrot_kernel(output: OutputImage):
 
     # Map pixel coordinates to the complex plane
     # The mandelbrot set is typically viewed in the region [-2.5, 1] x [-1, 1]
-    var x_pos = 3.5 * x / Float64(WIDTH) - 2.5
-    var y_pos = 2.0 * y / Float64(HEIGHT) - 1.0
+    var x_pos = 3.5 * Float64(x) / Float64(WIDTH) - 2.5
+    var y_pos = 2.0 * Float64(y) / Float64(HEIGHT) - 1.0
 
     # Mandelbrot iteration
     var c = Complex(x_pos, y_pos)

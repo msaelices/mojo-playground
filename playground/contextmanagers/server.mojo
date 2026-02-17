@@ -4,8 +4,8 @@ struct Server(ImplicitlyCopyable):
     fn __init__(out self, address: String):
         self.address = address
 
-    fn __moveinit__(out self, deinit other: Server):
-        self.address = other.address^
+    fn __moveinit__(out self, deinit take: Server):
+        self.address = take.address^
 
     fn listen(self):
         print("Listening on", self.address)

@@ -7,7 +7,7 @@ comptime MyTrue = MyBool(__mlir_attr.true)
 comptime MyFalse = MyBool(__mlir_attr.false)
 
 
-struct MyBool(TrivialRegisterType, Writable):
+struct MyBool(TrivialRegisterPassable, Writable):
     # __mlir_type.i1 is the MILR type for a boolean
     var value: __mlir_type.i1
 

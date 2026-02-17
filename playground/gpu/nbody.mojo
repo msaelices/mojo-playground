@@ -116,9 +116,9 @@ fn initialize_uniform_sphere(
         # Initialize position in a sphere with radius 1
         var r = 1.0
         # Longitude in spherical coordinates (0 to 2*pi)
-        var theta = 2.0 * math.pi * i / NUM_PARTICLES
+        var theta = 2.0 * math.pi * Float64(i) / NUM_PARTICLES
         # Latitude in spherical coordinates (0 to pi)
-        var phi = math.pi * (i % 100) / 100.0
+        var phi = math.pi * Float64(i % 100) / 100.0
 
         # Convert spherical coordinates to Cartesian coordinates
         var pos_x = r * math.sin(phi) * math.cos(theta)
@@ -128,7 +128,7 @@ fn initialize_uniform_sphere(
         # Initialize with small deterministic velocities
         var vel_x = 0.1 * math.sin(theta * 2.5)
         var vel_y = 0.1 * math.cos(phi * 3.0)
-        var vel_z = 0.01 * (i % 10)
+        var vel_z = 0.01 * Float64(i % 10)
 
         # Store in buffers
         (pos_x_ptr + i).store(Float32(pos_x))

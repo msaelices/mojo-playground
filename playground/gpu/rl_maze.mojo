@@ -142,7 +142,9 @@ fn monte_carlo_episode_kernel(
 
     # Use different seeds for each thread for randomness
     var seed = episode_seeds[thread_id][0]
-    var rng = thread_id + seed * 17  # Simple pseudo-random number generator
+    var rng = (
+        Int32(thread_id) + seed * 17
+    )  # Simple pseudo-random number generator
 
     # Shared memory for storing the episode trajectory
     var states_memory = stack_allocation[
@@ -177,7 +179,7 @@ fn monte_carlo_episode_kernel(
             var state_idx = Int(state)
             var action_idx = Int(action)
             if valid_actions[state_idx, action_idx] == 1:
-                valid_action_indices[valid_count] = action
+                valid_action_indices[valid_count] = Int32(action)
                 valid_count += 1
 
         # No valid actions
@@ -194,8 +196,8 @@ fn monte_carlo_episode_kernel(
         var random_value = rng % 100
 
         if Int(random_value) < Int(EPSILON * 100):  # Explore
-            var random_idx = Int(rng % valid_count)
-            action = Int(valid_action_indices[random_idx])
+            var random_idx = Int(rng % Int32(valid_count))
+            action = Int32(valid_action_indices[random_idx])
         else:  # Exploit - choose the best action
             var best_action = Int(valid_action_indices[0])
             var state_idx = Int(state)
@@ -209,7 +211,7 @@ fn monte_carlo_episode_kernel(
                     best_action = current_action
                     best_value = current_value
 
-            action = best_action
+            action = Int32(best_action)
 
         # Get next state based on action
         var next_state = state
@@ -232,7 +234,7 @@ fn monte_carlo_episode_kernel(
             is_done = True
 
         # Store step in trajectory
-        states_memory[steps] = state
+        states_memory[steps] = Int32(state)
         actions_memory[steps] = action
         rewards_memory[steps] = reward
 
@@ -293,7 +295,7 @@ fn find_optimal_path_kernel(
 
     while not is_done and steps < MAX_STEPS:
         # Store current state in path
-        optimal_path[steps] = state
+        optimal_path[steps] = Int32(state)
 
         # Find best action for current state
         var best_action = -1
@@ -332,11 +334,11 @@ fn find_optimal_path_kernel(
 
         # Check if goal reached
         if maze[state] == 2:
-            optimal_path[steps] = state  # Add goal to path
+            optimal_path[steps] = Int32(state)  # Add goal to path
             steps += 1
             is_done = True
 
-    path_length[0] = steps
+    path_length[0] = Int32(steps)
 
 
 fn demo_rl_maze() raises:
