@@ -1,6 +1,6 @@
 # Self-educational example of a simple geometry library in Mojo
 
-import math
+from std import math
 
 
 struct Point(TrivialRegisterPassable):

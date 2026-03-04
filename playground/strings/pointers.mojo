@@ -1,4 +1,4 @@
-from memory import memcpy
+from std.memory import memcpy
 
 
 fn join_str(delimiter: String, elems: List[String]) -> String:

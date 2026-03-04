@@ -1,5 +1,5 @@
-from gpu.host import DeviceContext
-from gpu import block_idx, thread_idx
+from std.gpu.host import DeviceContext
+from std.gpu import block_idx, thread_idx
 
 
 fn kernel():

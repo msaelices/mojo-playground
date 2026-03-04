@@ -1,4 +1,4 @@
-from memory import UnsafePointer
+from std.memory import UnsafePointer
 
 
 # Simplified singly-linked list implementation

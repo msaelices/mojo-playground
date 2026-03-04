@@ -1,1 +1,1 @@
-from memory import memset
+from std.memory import memset

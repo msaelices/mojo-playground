@@ -1,5 +1,5 @@
-from bit import byte_swap
-from bit import rotate_bits_left
+from std.bit import byte_swap
+from std.bit import rotate_bits_left
 
 comptime U256 = SIMD[DType.uint64, 4]
 comptime U128 = SIMD[DType.uint64, 2]

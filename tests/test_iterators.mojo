@@ -1,4 +1,4 @@
-from testing import assert_equal, assert_true
+from std.testing import assert_equal, assert_true
 
 from playground.iterators import Reader, ReaderIter
 

@@ -1,4 +1,4 @@
-from testing import assert_true
+from std.testing import assert_true
 
 from playground.async_module import task1, task2
 

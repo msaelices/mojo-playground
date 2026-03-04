@@ -1,11 +1,11 @@
-from gpu import thread_idx, block_idx, barrier
-from gpu.host import DeviceContext, DeviceBuffer, HostBuffer
-from gpu.memory import AddressSpace
+from std.gpu import thread_idx, block_idx, barrier
+from std.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
+from std.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
-from memory import stack_allocation, UnsafePointer
-from sys import size_of
-import math
-import random
+from std.memory import stack_allocation, UnsafePointer
+from std.sys import size_of
+from std import math
+from std import random
 
 # Maze dimensions and reinforcement learning parameters
 comptime MAZE_SIZE = 8  # 8x8 maze

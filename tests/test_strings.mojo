@@ -1,4 +1,4 @@
-from testing import assert_true
+from std.testing import assert_true
 
 from playground.strings import print_char, join_str
 

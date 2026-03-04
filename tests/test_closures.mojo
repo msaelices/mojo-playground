@@ -1,4 +1,4 @@
-from testing import assert_true
+from std.testing import assert_true
 
 from playground.closures import use_closure, create_closure, high_order_func
 

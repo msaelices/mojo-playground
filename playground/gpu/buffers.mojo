@@ -1,5 +1,5 @@
-from gpu.host import DeviceContext
-from math import iota
+from std.gpu.host import DeviceContext
+from std.math import iota
 
 
 fn demo_buffers() raises:

@@ -1,10 +1,10 @@
-from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, HostBuffer, DeviceBuffer
-from gpu.memory import AddressSpace
+from std.gpu import barrier, thread_idx, block_idx
+from std.gpu.host import DeviceContext, HostBuffer, DeviceBuffer
+from std.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
-from math import iota
-from memory import stack_allocation, UnsafePointer
-from sys import size_of
+from std.math import iota
+from std.memory import stack_allocation, UnsafePointer
+from std.sys import size_of
 
 comptime dtype = DType.uint32
 comptime blocks = 4

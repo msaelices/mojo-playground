@@ -1,8 +1,8 @@
-from gpu import block_idx, thread_idx
-from gpu.host import DeviceContext, HostBuffer
+from std.gpu import block_idx, thread_idx
+from std.gpu.host import DeviceContext, HostBuffer
 from layout import Layout, LayoutTensor
-from math import iota
-from testing import assert_equal, assert_true
+from std.math import iota
+from std.testing import assert_equal, assert_true
 
 from playground.gpu import (
     demo_buffers,
