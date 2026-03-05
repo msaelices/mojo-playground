@@ -1,6 +1,6 @@
-from collections import Dict
-from collections.string.string_slice import _to_string_list
-from time import perf_counter_ns as now
+from std.collections import Dict
+from std.collections.string.string_slice import _to_string_list
+from std.time import perf_counter_ns as now
 
 
 fn get_wds() raises -> List[String]:
@@ -164,7 +164,7 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
 
 
 fn get_freqs[
-    V: ImplicitlyCopyable & Representable & KeyElement
+    V: ImplicitlyCopyable & Writable & KeyElement
 ](wds: List[V]) raises -> Dict[V, UInt64]:
     var freqs: Dict[V, UInt64] = {}
     for wd in wds:

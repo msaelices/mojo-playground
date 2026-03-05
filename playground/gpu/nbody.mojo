@@ -1,7 +1,7 @@
-from gpu import thread_idx, block_idx
-from gpu.host import DeviceContext, DeviceBuffer, HostBuffer
+from std.gpu import thread_idx, block_idx
+from std.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from layout import Layout, LayoutTensor
-import math
+from std import math
 
 # Simulation parameters
 comptime NUM_PARTICLES = 512  # Number of particles in the simulation

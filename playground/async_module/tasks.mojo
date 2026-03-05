@@ -1,4 +1,4 @@
-import time
+from std import time
 
 
 async fn task1():

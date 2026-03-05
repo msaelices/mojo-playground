@@ -1,4 +1,4 @@
-from testing import assert_true, assert_equal
+from std.testing import assert_true, assert_equal
 
 from playground.linkedlist import LinkedList
 

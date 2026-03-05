@@ -1,11 +1,11 @@
-from gpu import barrier, thread_idx, block_idx
-from gpu.primitives.warp import sum as warp_sum
-from gpu.host import DeviceContext, DeviceBuffer, HostBuffer
-from gpu.memory import AddressSpace
+from std.gpu import barrier, thread_idx, block_idx
+from std.gpu.primitives.warp import sum as warp_sum
+from std.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
+from std.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
-from math import iota
-from memory import stack_allocation, UnsafePointer
-from sys import size_of
+from std.math import iota
+from std.memory import stack_allocation, UnsafePointer
+from std.sys import size_of
 
 comptime dtype = DType.uint32
 comptime blocks = 4

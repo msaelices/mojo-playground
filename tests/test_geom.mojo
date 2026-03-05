@@ -1,4 +1,4 @@
-from testing import assert_equal, assert_true
+from std.testing import assert_equal, assert_true
 
 from playground.geom import Point, Line, Path
 

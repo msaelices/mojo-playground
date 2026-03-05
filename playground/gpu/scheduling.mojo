@@ -1,5 +1,5 @@
-from gpu import thread_idx
-from gpu.host import HostBuffer, DeviceContext
+from std.gpu import thread_idx
+from std.gpu.host import HostBuffer, DeviceContext
 from layout import Layout, LayoutTensor
 
 comptime dtype = DType.uint8

@@ -1,4 +1,4 @@
-from testing import assert_true
+from std.testing import assert_true
 
 from playground.compile import add_fn, forloop_fn, print_fn
 

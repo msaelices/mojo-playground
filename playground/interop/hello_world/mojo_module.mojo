@@ -1,6 +1,6 @@
-from python import PythonObject
-from python.bindings import PythonModuleBuilder
-from os import abort
+from std.python import PythonObject
+from std.python.bindings import PythonModuleBuilder
+from std.os import abort
 
 
 @export

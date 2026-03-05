@@ -1,7 +1,7 @@
-from python import PythonObject
-from python.bindings import PythonModuleBuilder
-import math
-from os import abort
+from std.python import PythonObject
+from std.python.bindings import PythonModuleBuilder
+from std import math
+from std.os import abort
 
 
 @export

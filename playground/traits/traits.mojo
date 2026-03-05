@@ -1,4 +1,4 @@
-from hashlib import Hasher
+from std.hashlib import Hasher
 
 
 trait CopiableHashable(Hashable, ImplicitlyCopyable):

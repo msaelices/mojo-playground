@@ -1,10 +1,10 @@
-from gpu import barrier, thread_idx, block_idx
-from gpu.host import DeviceContext, HostBuffer
-from gpu.memory import AddressSpace
+from std.gpu import barrier, thread_idx, block_idx
+from std.gpu.host import DeviceContext, HostBuffer
+from std.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
-from math import iota
-from memory import stack_allocation
-from sys import size_of
+from std.math import iota
+from std.memory import stack_allocation
+from std.sys import size_of
 
 # Matrix dimensions
 comptime M = 4  # rows of A and rows of C

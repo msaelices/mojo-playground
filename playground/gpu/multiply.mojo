@@ -1,7 +1,7 @@
-from gpu import thread_idx, block_idx
-from gpu.host import DeviceContext
+from std.gpu import thread_idx, block_idx
+from std.gpu.host import DeviceContext
 from layout import Layout, LayoutTensor
-from math import iota
+from std.math import iota
 
 comptime dtype = DType.uint32
 comptime blocks = 4

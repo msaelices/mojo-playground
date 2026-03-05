@@ -1,4 +1,4 @@
-from testing import assert_true
+from std.testing import assert_true
 
 from playground.interop.factorial import factorial
 from playground.interop.hello_world import hello_world
