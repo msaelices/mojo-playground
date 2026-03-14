@@ -1,7 +1,7 @@
 from time import perf_counter_ns as now
 
 
-fn main():
+def main():
     l = List[String](capacity=1_000_000)
     for i in range(1_000):
         l.append(String(i))

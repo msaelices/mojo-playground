@@ -2,7 +2,7 @@ from std.gpu.host import DeviceContext
 from std.gpu import block_idx, thread_idx
 
 
-fn kernel():
+def kernel():
     print(
         "hello from block idx:",
         block_idx.x,
@@ -15,7 +15,7 @@ fn kernel():
     )
 
 
-fn demo_hellothread() raises:
+def demo_hellothread() raises:
     # The DeviceContext represents a single stream of execution on a particular accelerator (GPU)
     # it servers as the low-level interface to the GPU
     with DeviceContext() as ctx:

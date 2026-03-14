@@ -21,7 +21,7 @@ from progressive_exposure import (
 )
 
 
-fn main():
+def main():
     print("=== Progressive Mojo Examples ===\n")
 
     print("1. Basic print:")

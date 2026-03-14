@@ -1,7 +1,7 @@
 from std.memory import memcpy
 
 
-fn join_str(delimiter: String, elems: List[String]) -> String:
+def join_str(delimiter: String, elems: List[String]) -> String:
     buf = List[UInt8](capacity=10)
     delimiter_len = len(delimiter)
     delimiter_ptr = delimiter.unsafe_ptr()

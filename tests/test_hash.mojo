@@ -3,7 +3,7 @@ from std.testing import assert_equal, assert_true
 from playground.hash import djbx33a_hash
 
 
-def test_djbx33a_hash():
+def test_djbx33a_hash() raises:
     # Test basic hash functionality
     var hash1 = djbx33a_hash("hello")
     var hash2 = djbx33a_hash("hello")
@@ -13,5 +13,5 @@ def test_djbx33a_hash():
     assert_true(hash1 != hash3)
 
 
-def main():
+def main() raises:
     test_djbx33a_hash()

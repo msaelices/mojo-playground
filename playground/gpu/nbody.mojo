@@ -15,7 +15,7 @@ comptime vec_layout = Layout.row_major(NUM_PARTICLES)
 comptime VecData = LayoutTensor[DType.float32, vec_layout, MutAnyOrigin]
 
 
-fn update_particles_kernel(
+def update_particles_kernel(
     pos_x: VecData,
     pos_y: VecData,
     pos_z: VecData,
@@ -93,7 +93,7 @@ fn update_particles_kernel(
     vel_z[i] = vel_i_z
 
 
-fn initialize_uniform_sphere(
+def initialize_uniform_sphere(
     buffer_pos_x: HostBuffer[DType.float32],
     buffer_pos_y: HostBuffer[DType.float32],
     buffer_pos_z: HostBuffer[DType.float32],
@@ -139,7 +139,7 @@ fn initialize_uniform_sphere(
         (vel_z_ptr + i).store(Float32(vel_z))
 
 
-fn get_system_bounds(
+def get_system_bounds(
     buffer_pos_x: HostBuffer[DType.float32],
     buffer_pos_y: HostBuffer[DType.float32],
     buffer_pos_z: HostBuffer[DType.float32],
@@ -180,7 +180,7 @@ fn get_system_bounds(
     print("  Z range:", min_z, "to", max_z)
 
 
-fn demo_nbody() raises:
+def demo_nbody() raises:
     print("N-body simulation with", NUM_PARTICLES, "particles")
     print("Time step:", DT)
     print("Number of iterations:", NUM_ITERATIONS)

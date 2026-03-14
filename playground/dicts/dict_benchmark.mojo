@@ -3,7 +3,7 @@ from std.collections.string.string_slice import _to_string_list
 from std.time import perf_counter_ns as now
 
 
-fn get_wds() raises -> List[String]:
+def get_wds() raises -> List[String]:
     input = """
 Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you aspire to heal evolve or revolutionize this podcast is for you. Make sure you subscribe and follow us on Instagram at official back to her. And that too is the number two. Let's get it.
  Hey friends, we are back with another episode is Joy Jolene and the sugar bread and we're back to end this month off and a like a really good positive way our last episode. We talked about religion and spirituality in this episode. We want to take time for you guys to get to know us better for us to discuss more about ourselves so that you know, we we really a family and we really
@@ -163,7 +163,7 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
     return _to_string_list(input.upper().split(" "))
 
 
-fn get_freqs[
+def get_freqs[
     V: ImplicitlyCopyable & Writable & KeyElement
 ](wds: List[V]) raises -> Dict[V, UInt64]:
     var freqs: Dict[V, UInt64] = {}

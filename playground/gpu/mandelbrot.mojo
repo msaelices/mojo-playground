@@ -20,23 +20,23 @@ struct Complex:
     var real: Float64
     var imag: Float64
 
-    fn __init__(out self, r: Float64, i: Float64):
+    def __init__(out self, r: Float64, i: Float64):
         self.real = r
         self.imag = i
 
-    fn __add__(self, other: Complex) -> Complex:
+    def __add__(self, other: Complex) -> Complex:
         return Complex(self.real + other.real, self.imag + other.imag)
 
-    fn __mul__(self, other: Complex) -> Complex:
+    def __mul__(self, other: Complex) -> Complex:
         var r = self.real * other.real - self.imag * other.imag
         var i = self.real * other.imag + self.imag * other.real
         return Complex(r, i)
 
-    fn abs_squared(self) -> Float64:
+    def abs_squared(self) -> Float64:
         return self.real * self.real + self.imag * self.imag
 
 
-fn mandelbrot_kernel(output: OutputImage):
+def mandelbrot_kernel(output: OutputImage):
     # Get thread and block indices
     var x = Int(block_idx.x * BLOCK_SIZE + thread_idx.x)
     var y = Int(block_idx.y * BLOCK_SIZE + thread_idx.y)
@@ -73,7 +73,7 @@ fn mandelbrot_kernel(output: OutputImage):
     output[y, x] = color
 
 
-fn save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
+def save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
     # Create a tensor view for easier access
     var image = LayoutTensor[DType.uint8, layout_out](buffer)
 
@@ -90,7 +90,7 @@ fn save_ppm(filename: String, buffer: HostBuffer[DType.uint8]) raises:
                 f.write(pixel, " ", pixel, " ", pixel, "\n")
 
 
-fn demo_mandelbrot() raises:
+def demo_mandelbrot() raises:
     print("Rendering Mandelbrot set...")
     print("Image dimensions:", WIDTH, "x", HEIGHT)
     print("Maximum iterations:", MAX_ITER)

@@ -32,12 +32,12 @@ from playground.gpu import (
 )
 
 
-def test_gpu_imports():
+def test_gpu_imports() raises:
     # Test that GPU demo functions can be imported and are callable
     assert_true(True)
 
 
-def test_gpu_kernel_signatures():
+def test_gpu_kernel_signatures() raises:
     # Verify kernel functions are properly defined
     assert_true(True)
 
@@ -172,7 +172,7 @@ fn test_matrix_multiply_gpu() raises:
         assert_equal(result[1, 1][0], 11.0)
 
 
-def main():
+def main() raises:
     test_gpu_imports()
     test_gpu_kernel_signatures()
     # Commented out as GPU tests may not run in all environments like GH Actions

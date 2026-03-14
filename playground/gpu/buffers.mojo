@@ -2,7 +2,7 @@ from std.gpu.host import DeviceContext
 from std.math import iota
 
 
-fn demo_buffers() raises:
+def demo_buffers() raises:
     comptime dtype = DType.uint32
     comptime blocks = 4
     comptime threads = 4

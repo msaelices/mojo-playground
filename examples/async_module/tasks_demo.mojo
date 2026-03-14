@@ -2,7 +2,7 @@ import time
 from playground.async_module import task1, task2
 
 
-fn main():
+def main():
     start = time.perf_counter_ns()
     await task1()
     t = task2()

@@ -1,7 +1,7 @@
 from playground.origins import random_pointer
 
 
-fn main() raises:
+def main() raises:
     var point_box = random_pointer()
     print(
         "PointBox contains a point at: ({}, {})".format(

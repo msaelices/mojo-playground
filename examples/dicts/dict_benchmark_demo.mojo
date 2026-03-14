@@ -4,7 +4,7 @@ from collections import Dict
 from playground.dicts import get_wds, get_freqs
 
 
-fn main() raises:
+def main() raises:
     var wds: List[String] = get_wds()
     var n_wds = len(wds)
 

@@ -11,28 +11,28 @@ struct MyBool(TrivialRegisterPassable, Writable):
     # __mlir_type.i1 is the MILR type for a boolean
     var value: __mlir_type.i1
 
-    fn __init__(out self):
+    def __init__(out self):
         self.value = __mlir_op.`index.bool.constant`[
             value = __mlir_attr.false,
         ]()
 
     @implicit
-    fn __init__(out self, value: __mlir_type.i1):
+    def __init__(out self, value: __mlir_type.i1):
         self.value = value
 
-    fn __bool__(self) -> Bool:
+    def __bool__(self) -> Bool:
         # This will never be called in if conditions as we have __mlir_i1__, which is the one the Mojo compiler converts to
         print("Calling __bool__")
         return self.value
 
-    fn __mlir_i1__(self) -> __mlir_type.i1:
+    def __mlir_i1__(self) -> __mlir_type.i1:
         """Convert MyBool to __mlir_type.i1.
         This method is a special hook used by the Mojo compiler to test boolean
         objects in control flow conditions.
         """
         return self.value
 
-    fn __eq__(self, rhs: Self) -> Self:
+    def __eq__(self, rhs: Self) -> Self:
         """Compare this Bool to RHS.
         Performs an equality comparison between the Bool value and the argument.
         This method gets invoked when a user uses the `==` infix operator.
@@ -50,7 +50,7 @@ struct MyBool(TrivialRegisterPassable, Writable):
         )
 
     @no_inline
-    fn write_to[W: Writer](self, mut writer: W):
+    def write_to[W: Writer](self, mut writer: W):
         """
         Formats this boolean to the provided Writer.
         """

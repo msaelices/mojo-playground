@@ -1,7 +1,7 @@
 from playground.iterators import Reader
 
 
-fn main() raises:
+def main() raises:
     with open("playground/iterators/input.txt", "r") as f:
         var r = Reader(f)
         var r_it = r.into_iter()

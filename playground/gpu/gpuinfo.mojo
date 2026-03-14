@@ -2,11 +2,11 @@ from std.gpu import thread_idx, block_idx
 from std.gpu.host import DeviceContext
 
 
-def demo_gpuinfo():
-    fn print_threads():
+def demo_gpuinfo() raises:
+    def print_threads():
         print("GPU thread: [", thread_idx.x, thread_idx.y, thread_idx.z, "]")
 
-    fn block_kernel():
+    def block_kernel():
         print(
             "block: [",
             block_idx.x,

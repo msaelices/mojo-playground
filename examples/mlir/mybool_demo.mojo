@@ -1,7 +1,7 @@
 from playground.mlir import MyTrue, MyFalse
 
 
-fn main():
+def main():
     var b = MyTrue
     if b:
         print("b is True")

@@ -3,7 +3,7 @@ from std.testing import assert_equal, assert_true
 from playground.geom import Point, Line, Path
 
 
-def test_point():
+def test_point() raises:
     var p1 = Point(0, 0)
     var p2 = Point(3, 4)
     # Distance between (0,0) and (3,4) is 5
@@ -12,7 +12,7 @@ def test_point():
     assert_true(dist > 4.9 and dist < 5.1)
 
 
-def test_line():
+def test_line() raises:
     var p1 = Point(0, 0)
     var p2 = Point(3, 4)
     var line = Line(p1, p2)
@@ -20,7 +20,7 @@ def test_line():
     assert_true(length > 4.9 and length < 5.1)
 
 
-def test_path():
+def test_path() raises:
     var p1 = Point(0, 0)
     var p2 = Point(3, 0)
     var p3 = Point(6, 0)
@@ -30,7 +30,7 @@ def test_path():
     assert_true(length > 5.9 and length < 6.1)
 
 
-def main():
+def main() raises:
     test_point()
     test_line()
     test_path()

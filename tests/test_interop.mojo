@@ -4,10 +4,10 @@ from playground.interop.factorial import factorial
 from playground.interop.hello_world import hello_world
 
 
-def test_interop_imports():
+def test_interop_imports() raises:
     # Test that interop functions can be imported
     assert_true(True)
 
 
-def main():
+def main() raises:
     test_interop_imports()

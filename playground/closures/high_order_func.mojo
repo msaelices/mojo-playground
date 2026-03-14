@@ -1,21 +1,21 @@
 struct Foo:
-    fn __init__(out self):
+    def __init__(out self):
         pass
 
-    fn myfunc(self) -> Int:
+    def myfunc(self) -> Int:
         return 42
 
 
 # Note: capturing [_] for lifetimes/origin !
-fn high_order_func[f: fn() capturing[_] -> Int]() -> Int:
+def high_order_func[f: fn() capturing[_] -> Int]() -> Int:
     return f()
 
 
-fn demo_high_order_func():
+def demo_high_order_func():
     foo = Foo()
 
     @parameter
-    fn foo_myfunc() -> Int:
+    def foo_myfunc() -> Int:
         return foo.myfunc()
 
     # __type_of(foo).__del__(foo^)

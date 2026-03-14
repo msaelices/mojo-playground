@@ -3,7 +3,7 @@ from std.testing import assert_true
 from playground.mlir import MyBool, MyTrue, MyFalse
 
 
-def test_mybool():
+def test_mybool() raises:
     var b = MyTrue
     if b:
         assert_true(True)
@@ -17,5 +17,5 @@ def test_mybool():
         assert_true(True)
 
 
-def main():
+def main() raises:
     test_mybool()

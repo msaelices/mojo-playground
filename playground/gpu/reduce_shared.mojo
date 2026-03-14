@@ -17,7 +17,7 @@ comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
+def sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     # Allocates memory to be shared between threads once, prior to the kernel launch
     var shared = stack_allocation[
         blocks * size_of[dtype](),
@@ -39,7 +39,7 @@ fn sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
         out_tensor[block_idx.x] = sum
 
 
-fn demo_reduce_shared() raises:
+def demo_reduce_shared() raises:
     with DeviceContext() as ctx:
         # In host buffer:
         # Allocate data on the host and return a buffer which owns that data

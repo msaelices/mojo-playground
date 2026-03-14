@@ -1,7 +1,7 @@
 from memory import memset
 
 
-fn main():
+def main():
     var array = InlineArray[Int64, 10](fill=0)
     memset(array.unsafe_ptr(), 2, len(array))
     # Should print: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]

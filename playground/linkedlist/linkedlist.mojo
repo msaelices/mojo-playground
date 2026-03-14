@@ -10,7 +10,7 @@ struct _Node[ElementType: Copyable & ImplicitlyDestructible](Copyable):
     var next: UnsafePointer[Self, MutAnyOrigin]
 
     @always_inline
-    fn __init__(out self, var data: Self.ElementType):
+    def __init__(out self, var data: Self.ElementType):
         self.data = data^
         self.next = UnsafePointer[Self, MutAnyOrigin]()
 
@@ -19,11 +19,11 @@ struct LinkedList[T: Copyable & ImplicitlyDestructible](Sized):
     var _head: UnsafePointer[_Node[Self.T], MutAnyOrigin]
     var _size: Int
 
-    fn __init__(out self):
+    def __init__(out self):
         self._head = UnsafePointer[_Node[Self.T], MutAnyOrigin]()
         self._size = 0
 
-    fn __del__(deinit self):
+    def __del__(deinit self):
         """Clean up the list by freeing all nodes."""
         var curr = self._head
         while curr:
@@ -32,7 +32,7 @@ struct LinkedList[T: Copyable & ImplicitlyDestructible](Sized):
             curr.free()
             curr = next
 
-    fn append(mut self, var value: Self.T):
+    def append(mut self, var value: Self.T):
         """Add an element to the end of the list."""
         var node_ptr = alloc[_Node[Self.T]](1)
         if not node_ptr:
@@ -49,5 +49,5 @@ struct LinkedList[T: Copyable & ImplicitlyDestructible](Sized):
             curr[].next = node_ptr
         self._size += 1
 
-    fn __len__(self) -> Int:
+    def __len__(self) -> Int:
         return self._size

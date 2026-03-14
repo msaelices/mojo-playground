@@ -38,7 +38,7 @@ comptime DOWN = 2
 comptime LEFT = 3
 
 
-fn initialize_maze(maze_buffer: HostBuffer[DType.int32]):
+def initialize_maze(maze_buffer: HostBuffer[DType.int32]):
     """Initialize an 8x8 maze with walls, start, and goal positions."""
     var maze_ptr = maze_buffer.unsafe_ptr()
 
@@ -75,7 +75,7 @@ fn initialize_maze(maze_buffer: HostBuffer[DType.int32]):
     maze_ptr[6 * MAZE_SIZE + 6] = 2
 
 
-fn get_valid_actions_kernel(
+def get_valid_actions_kernel(
     maze: Maze,
     valid_actions: ValidActions,
 ):
@@ -125,7 +125,7 @@ fn get_valid_actions_kernel(
         valid_actions[state_idx, LEFT] = 0
 
 
-fn monte_carlo_episode_kernel(
+def monte_carlo_episode_kernel(
     maze: Maze,
     valid_actions: ValidActions,
     q_table: QTable,
@@ -271,7 +271,7 @@ fn monte_carlo_episode_kernel(
         barrier()
 
 
-fn find_optimal_path_kernel(
+def find_optimal_path_kernel(
     maze: Maze,
     valid_actions: ValidActions,
     q_table: QTable,
@@ -341,7 +341,7 @@ fn find_optimal_path_kernel(
     path_length[0] = Int32(steps)
 
 
-fn demo_rl_maze() raises:
+def demo_rl_maze() raises:
     print("Reinforcement Learning Maze Solver (8x8)")
     print("Using Monte Carlo method with", EPISODES, "episodes")
 
