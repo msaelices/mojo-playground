@@ -40,13 +40,13 @@ def matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     var A_tile = stack_allocation[
         BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     var B_tile = stack_allocation[
         BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     # Get our block and thread indices

@@ -12,9 +12,7 @@ struct MyBool(TrivialRegisterPassable, Writable):
     var value: __mlir_type.i1
 
     def __init__(out self):
-        self.value = __mlir_op.`index.bool.constant`[
-            value = __mlir_attr.false,
-        ]()
+        self.value = __mlir_op.`index.bool.constant`[value=__mlir_attr.false,]()
 
     @implicit
     def __init__(out self, value: __mlir_type.i1):
@@ -37,16 +35,16 @@ struct MyBool(TrivialRegisterPassable, Writable):
         Performs an equality comparison between the Bool value and the argument.
         This method gets invoked when a user uses the `==` infix operator.
         """
-        var lhs_index = __mlir_op.`index.casts`[_type = __mlir_type.index](
+        var lhs_index = __mlir_op.`index.casts`[_type=__mlir_type.index](
             self.value
         )
-        var rhs_index = __mlir_op.`index.casts`[_type = __mlir_type.index](
+        var rhs_index = __mlir_op.`index.casts`[_type=__mlir_type.index](
             rhs.value
         )
         return Self(
-            __mlir_op.`index.cmp`[
-                pred = __mlir_attr.`#index<cmp_predicate eq>`
-            ](lhs_index, rhs_index)
+            __mlir_op.`index.cmp`[pred=__mlir_attr.`#index<cmp_predicate eq>`](
+                lhs_index, rhs_index
+            )
         )
 
     @no_inline

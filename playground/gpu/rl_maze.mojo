@@ -148,17 +148,17 @@ def monte_carlo_episode_kernel(
 
     # Shared memory for storing the episode trajectory
     var states_memory = stack_allocation[
-        MAX_STEPS * size_of[Int32](), Int32, address_space = AddressSpace.SHARED
+        MAX_STEPS * size_of[Int32](), Int32, address_space=AddressSpace.SHARED
     ]()
 
     var actions_memory = stack_allocation[
-        MAX_STEPS * size_of[Int32](), Int32, address_space = AddressSpace.SHARED
+        MAX_STEPS * size_of[Int32](), Int32, address_space=AddressSpace.SHARED
     ]()
 
     var rewards_memory = stack_allocation[
         MAX_STEPS * size_of[Float32](),
         Float32,
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     # Find a valid starting state (not a wall or the goal)

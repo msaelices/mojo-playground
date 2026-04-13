@@ -22,7 +22,7 @@ def sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     var shared = stack_allocation[
         blocks * size_of[dtype](),
         Scalar[dtype],
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     # Place the corresponding value into shared memory
