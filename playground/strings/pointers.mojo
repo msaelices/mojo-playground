@@ -3,13 +3,13 @@ from std.memory import memcpy
 
 def join_str(delimiter: String, elems: List[String]) -> String:
     buf = List[UInt8](capacity=10)
-    delimiter_len = len(delimiter)
+    delimiter_len = delimiter.byte_length()
     delimiter_ptr = delimiter.unsafe_ptr()
     # This is only for learning purposes to work with pointers and strings.
     # In real code we can just call buf.append(bytes)
     offset = 0
     for elem in elems:
-        elem_len = len(elem)
+        elem_len = elem.byte_length()
         memcpy(
             dest=buf.unsafe_ptr() + offset,
             src=elem.unsafe_ptr(),

@@ -1,5 +1,5 @@
-import sys
-from compile import compile_info
+import std.sys as sys
+from std.compile import compile_info
 from playground.compile import print_fn
 
 

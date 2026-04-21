@@ -1,4 +1,4 @@
-from bit import byte_swap, rotate_bits_left
+from std.bit import byte_swap, rotate_bits_left
 from playground.bytes import folded_multiply
 
 comptime U128 = SIMD[DType.uint64, 2]

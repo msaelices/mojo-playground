@@ -42,7 +42,7 @@ def test_gpu_kernel_signatures() raises:
     assert_true(True)
 
 
-fn test_matrix_multiply_cpu() raises:
+def test_matrix_multiply_cpu() raises:
     # CPU-based matrix multiplication for testing using iota
 
     comptime M = 2
@@ -91,7 +91,7 @@ fn test_matrix_multiply_cpu() raises:
         assert_equal(C[1, 1][0], 11.0)
 
 
-fn test_matrix_multiply_gpu() raises:
+def test_matrix_multiply_gpu() raises:
     # GPU-based matrix multiplication test using iota
 
     comptime M = 2
@@ -108,7 +108,7 @@ fn test_matrix_multiply_gpu() raises:
     comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutAnyOrigin]
 
     # Define a simple matrix multiply kernel
-    fn matmul_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
+    def matmul_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
         var row = block_idx.y * BLOCK_SIZE + thread_idx.y
         var col = block_idx.x * BLOCK_SIZE + thread_idx.x
 

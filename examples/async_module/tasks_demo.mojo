@@ -1,4 +1,4 @@
-import time
+import std.time as time
 from playground.async_module import task1, task2
 
 
