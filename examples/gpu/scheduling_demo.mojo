@@ -1,5 +1,5 @@
 from playground.gpu.scheduling import demo_scheduling
 
 
-fn main() raises:
+def main() raises:
     demo_scheduling()

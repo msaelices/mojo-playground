@@ -7,7 +7,7 @@ from playground.traits import (
 )
 
 
-fn main() raises:
+def main() raises:
     var x = DummyInt()
     print(HashedKey(x).hash)
     var y = FooElement(10)

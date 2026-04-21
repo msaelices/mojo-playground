@@ -1,5 +1,5 @@
 from playground.gpu.nbody import demo_nbody
 
 
-fn main() raises:
+def main() raises:
     demo_nbody()

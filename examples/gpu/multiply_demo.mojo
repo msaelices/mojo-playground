@@ -1,5 +1,5 @@
 from playground.gpu.multiply import demo_multiply
 
 
-fn main() raises:
+def main() raises:
     demo_multiply()

@@ -5,7 +5,7 @@ comptime U128 = SIMD[DType.uint64, 2]
 comptime ROT = 23
 
 
-fn main():
+def main():
     var a = U128(1, 2)
     var b = U128(5, 6)
     print(a[0])

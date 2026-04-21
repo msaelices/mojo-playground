@@ -4,7 +4,7 @@ from std.os import abort
 
 
 @export
-fn PyInit_mojo_module() -> PythonObject:
+def PyInit_mojo_module() -> PythonObject:
     try:
         var m = PythonModuleBuilder("mojo_module")
         m.def_function[hello_world](
@@ -15,5 +15,5 @@ fn PyInit_mojo_module() -> PythonObject:
         abort("Failed to initialize mojo_module: " + String(e))
 
 
-fn hello_world(name: PythonObject) raises:
+def hello_world(name: PythonObject) raises:
     print("Hello to", name, "from Mojo 👋")

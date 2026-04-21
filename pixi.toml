@@ -28,7 +28,7 @@ test = """mojo -I . tests/test_async.mojo \
   && mojo -I . tests/test_traits.mojo"""
 
 [dependencies]
-mojo = ">0.25.6.0.dev2025090505,<1"
+mojo = ">=0.26.3.0.dev2026031405,<1"
 
 [feature.dev.dependencies]
 pre-commit = ">=3.0.0"

@@ -12,7 +12,7 @@ comptime layout = Layout.row_major(blocks, threads)
 comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 
 
-fn print_values_kernel(tensor: InTensor):
+def print_values_kernel(tensor: InTensor):
     var block_id = block_idx.x
     var thread_id = thread_idx.x
     print(
@@ -25,11 +25,11 @@ fn print_values_kernel(tensor: InTensor):
     )
 
 
-fn multiply_kernel(tensor: InTensor):
+def multiply_kernel(tensor: InTensor):
     tensor[block_idx.x, thread_idx.x] *= 2
 
 
-fn demo_multiply() raises:
+def demo_multiply() raises:
     with DeviceContext() as ctx:
         # In host buffer:
         # Allocate data on the host and return a buffer which owns that data

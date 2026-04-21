@@ -1,7 +1,7 @@
 from playground.geom import Point, Line, Path
 
 
-fn main():
+def main():
     var p1 = Point(1, 2)
     var p2 = Point(4, 6)
     var l = Line(p1, p2)

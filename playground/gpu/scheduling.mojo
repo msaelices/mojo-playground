@@ -9,11 +9,11 @@ comptime layout = Layout.row_major(num_elems)
 comptime Tensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 
 
-fn kernel(tensor: Tensor):
+def kernel(tensor: Tensor):
     tensor[thread_idx.x] = UInt8(thread_idx.x)
 
 
-fn demo_scheduling() raises:
+def demo_scheduling() raises:
     with DeviceContext() as ctx:
         # All of these method calls run in the order that they were enqueued
         var dev_buffer = ctx.enqueue_create_buffer[dtype](num_elems)

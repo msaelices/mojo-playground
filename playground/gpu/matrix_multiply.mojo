@@ -22,7 +22,7 @@ comptime MatrixB = LayoutTensor[DType.float32, layout_b, MutAnyOrigin]
 comptime MatrixC = LayoutTensor[DType.float32, layout_c, MutAnyOrigin]
 
 
-fn matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
+def matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     # Get our thread and block indices
     var row = block_idx.y * BLOCK_SIZE + thread_idx.y
     var col = block_idx.x * BLOCK_SIZE + thread_idx.x
@@ -35,18 +35,18 @@ fn matrix_multiply_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
         C[row, col] = sum
 
 
-fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
+def matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     # Allocate shared memory for the tiles
     var A_tile = stack_allocation[
         BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     var B_tile = stack_allocation[
         BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     # Get our block and thread indices
@@ -96,7 +96,7 @@ fn matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
         C[row, col] = sum
 
 
-fn verify_result(
+def verify_result(
     host_a: HostBuffer[DType.float32],
     host_b: HostBuffer[DType.float32],
     host_c: HostBuffer[DType.float32],
@@ -131,7 +131,7 @@ fn verify_result(
     return correct
 
 
-fn print_matrix(tensor: LayoutTensor):
+def print_matrix(tensor: LayoutTensor):
     # Since we know our dimension, we can use them directly
     for i in range(M):
         for j in range(N):
@@ -139,7 +139,7 @@ fn print_matrix(tensor: LayoutTensor):
         print("")
 
 
-fn demo_matrix_multiply() raises:
+def demo_matrix_multiply() raises:
     with DeviceContext() as ctx:
         # Allocate host memory for matrices
         var a_host = ctx.enqueue_create_host_buffer[DType.float32](M * K)

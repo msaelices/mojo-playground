@@ -8,33 +8,33 @@ gradually introduced to the user.
 
 
 # print
-fn demo_print():
+def demo_print():
     print("hello world")
 
 
 # create variable (not learned types yet)
-fn demo_variables():
+def demo_variables():
     a = "hello world"
     b = 1
     print(a, b)
 
 
 # print trough function
-fn printer(a: String):
+def printer(a: String):
     print(a)
 
 
-fn demo_function_call():
+def demo_function_call():
     a = "hello world"
     printer(a)
 
 
 # modify variables
-fn add_one(mut a: Int):
+def add_one(mut a: Int):
     a += 1
 
 
-fn demo_mut_argument():
+def demo_mut_argument():
     a = 0
     add_one(a)
     print(a)
@@ -45,7 +45,7 @@ fn demo_mut_argument():
 
 
 # create safe reference (not learned origin yet)
-fn demo_pointer():
+def demo_pointer():
     a = 0
     b = Pointer(to=a)
     a += 1
@@ -53,44 +53,44 @@ fn demo_pointer():
 
 
 # return auto dereference (not learned origin yet)
-fn return_ref(arg: List[Int]) -> ref[arg] List[Int]:
+def return_ref(arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
-fn demo_return_ref():
+def demo_return_ref():
     a = [1, 2, 3]
     a.append(4)
     print(return_ref(a)[3])
 
 
 # return mutable auto dereference (not learned origin yet)
-fn return_mut_ref(mut arg: List[Int]) -> ref[arg] List[Int]:
+def return_mut_ref(mut arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
-fn demo_return_mut_ref():
+def demo_return_mut_ref():
     a = [1, 2, 3]
     return_mut_ref(a).append(4)
     print(len(a))
 
 
 # return inferred mutability auto dereference (not learned origin yet)
-fn return_inferred_mut_ref(ref arg: List[Int]) -> ref[arg] List[Int]:
+def return_inferred_mut_ref(ref arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
-fn demo_inferred_mut_ref():
+def demo_inferred_mut_ref():
     a = [1, 2, 3]
     return_mut_ref(a).append(4)
     print(len(a))
 
 
 # return immutable auto dereference
-fn return_immutable_ref(ref[_] arg: List[Int]) -> ref[arg] List[Int]:
+def return_immutable_ref(ref[_] arg: List[Int]) -> ref[arg] List[Int]:
     return arg
 
 
-fn demo_immutable_ref():
+def demo_immutable_ref():
     a = [1, 2, 3]
     a.append(4)
     print(return_immutable_ref(a)[3])
@@ -98,13 +98,13 @@ fn demo_immutable_ref():
 
 
 # return mutable reference
-fn return_mutable_ref2(
+def return_mutable_ref2(
     ref[_] arg: List[Int],
 ) -> Pointer[List[Int], origin_of(arg)]:
     return Pointer(to=arg)
 
 
-fn demo_mutable_pointer():
+def demo_mutable_pointer():
     a = [1, 2, 3]
     b = return_mutable_ref2(a)
     c = b

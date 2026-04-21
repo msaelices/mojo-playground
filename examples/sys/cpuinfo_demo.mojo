@@ -1,5 +1,5 @@
 from playground.sys import print_cpu_info
 
 
-fn main() raises:
+def main() raises:
     print_cpu_info()

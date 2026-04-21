@@ -1,5 +1,5 @@
 from playground.gpu.hellothread import demo_hellothread
 
 
-fn main() raises:
+def main() raises:
     demo_hellothread()

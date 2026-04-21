@@ -7,7 +7,7 @@ comptime ROT = 23
 
 
 @always_inline
-fn folded_multiply(lhs: UInt64, rhs: UInt64) -> UInt64:
+def folded_multiply(lhs: UInt64, rhs: UInt64) -> UInt64:
     """A fast function to emulate a folded multiply of two 64 bit uints.
     Used because we don't have UInt128 type.
     Args:

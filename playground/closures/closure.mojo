@@ -1,15 +1,15 @@
 # Parametric closures
 
 
-fn use_closure[func: fn(Int) capturing -> Int](num: Int) -> Int:
+def use_closure[func: fn(Int) capturing -> Int](num: Int) -> Int:
     return func(num)
 
 
-fn create_closure():
+def create_closure():
     var x = 1
 
     @parameter
-    fn add(i: Int) -> Int:
+    def add(i: Int) -> Int:
         return x + i
 
     _ = x  # Silence "unused" warning; x is captured by add
@@ -17,5 +17,5 @@ fn create_closure():
     print(y)
 
 
-fn demo_closure():
+def demo_closure():
     create_closure()

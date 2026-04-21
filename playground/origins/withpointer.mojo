@@ -5,7 +5,7 @@ struct Point:
     var x: Float64
     var y: Float64
 
-    fn __init__(out self, x: Float64, y: Float64):
+    def __init__(out self, x: Float64, y: Float64):
         self.x = x
         self.y = y
 
@@ -15,14 +15,14 @@ struct PointBox[
 ](Movable):
     var point_ptr: Pointer[Point, Self.point_origin]
 
-    fn __init__(
+    def __init__(
         out self,
         ref[Self.point_origin] point: Point,
     ):
         self.point_ptr = Pointer(to=point)
 
 
-fn random_pointer() -> PointBox[MutAnyOrigin]:
+def random_pointer() -> PointBox[MutAnyOrigin]:
     var point: Point = Point(
         x=random_float64(),
         y=random_float64(),

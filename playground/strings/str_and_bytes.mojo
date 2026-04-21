@@ -1,4 +1,4 @@
-fn print_char():
+def print_char():
     var s = String("ab")
     var p = s.unsafe_ptr()
 

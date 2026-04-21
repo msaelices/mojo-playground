@@ -3,7 +3,7 @@ from std.testing import assert_true, assert_equal
 from playground.linkedlist import LinkedList
 
 
-def test_linkedlist():
+def test_linkedlist() raises:
     var list = LinkedList[Int]()
 
     # Test basic append
@@ -14,5 +14,5 @@ def test_linkedlist():
     assert_equal(len(list), 3)
 
 
-def main():
+def main() raises:
     test_linkedlist()

@@ -1,5 +1,5 @@
 from playground.strings import print_char
 
 
-fn main():
+def main():
     print_char()

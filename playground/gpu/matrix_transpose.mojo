@@ -20,7 +20,7 @@ comptime InputMatrix = LayoutTensor[DType.float32, layout_in, MutAnyOrigin]
 comptime OutputMatrix = LayoutTensor[DType.float32, layout_out, MutAnyOrigin]
 
 
-fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):
+def naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):
     # Get our thread and block indices
     var row = block_idx.y * BLOCK_SIZE + thread_idx.y
     var col = block_idx.x * BLOCK_SIZE + thread_idx.x
@@ -31,12 +31,12 @@ fn naive_transpose_kernel(input: InputMatrix, output: OutputMatrix):
         output[col, row] = input[row, col]
 
 
-fn tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
+def tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
     # Allocate shared memory for the tile
     var tile = stack_allocation[
         BLOCK_SIZE * BLOCK_SIZE * size_of[DType.float32](),
         Scalar[DType.float32],
-        address_space = AddressSpace.SHARED,
+        address_space=AddressSpace.SHARED,
     ]()
 
     # Get our block and thread indices
@@ -67,7 +67,7 @@ fn tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
         output[out_row, out_col] = tile[tx * BLOCK_SIZE + ty]
 
 
-fn verify_transpose(
+def verify_transpose(
     input_host: HostBuffer[DType.float32],
     output_host: HostBuffer[DType.float32],
 ) -> Bool:
@@ -94,14 +94,14 @@ fn verify_transpose(
     return correct
 
 
-fn print_matrix(tensor: LayoutTensor, rows: Int, cols: Int):
+def print_matrix(tensor: LayoutTensor, rows: Int, cols: Int):
     for i in range(rows):
         for j in range(cols):
             print(tensor[i, j][0], end=" ")
         print("")
 
 
-fn demo_matrix_transpose() raises:
+def demo_matrix_transpose() raises:
     with DeviceContext() as ctx:
         # Allocate host memory for matrices
         var input_host = ctx.enqueue_create_host_buffer[DType.float32](M * N)

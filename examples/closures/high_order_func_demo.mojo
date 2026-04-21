@@ -1,5 +1,5 @@
 from playground.closures import demo_high_order_func
 
 
-fn main():
+def main():
     demo_high_order_func()

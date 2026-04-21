@@ -18,7 +18,7 @@ comptime InTensor = LayoutTensor[dtype, layout, MutAnyOrigin]
 comptime OutTensor = LayoutTensor[dtype, out_layout, MutAnyOrigin]
 
 
-fn warp_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
+def warp_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     var value = tensor[block_idx.x, thread_idx.x][0]
 
     # Each thread gets the value from one thread higher, summing them as they go
@@ -35,7 +35,7 @@ fn warp_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
         out_tensor[block_idx.x] = value
 
 
-fn demo_reduce_warp() raises:
+def demo_reduce_warp() raises:
     with DeviceContext() as ctx:
         # In host buffer:
         # Allocate data on the host and return a buffer which owns that data

@@ -3,7 +3,7 @@ from std.testing import assert_true
 from playground.traits import DummyInt, FooElement, One
 
 
-def test_traits_imports():
+def test_traits_imports() raises:
     # Test that trait types can be imported
     _ = DummyInt()
     _ = FooElement(10)
@@ -11,5 +11,5 @@ def test_traits_imports():
     assert_true(True)
 
 
-def main():
+def main() raises:
     test_traits_imports()
