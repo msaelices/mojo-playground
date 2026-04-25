@@ -7,7 +7,7 @@ struct Foo:
 
 
 # Note: capturing [_] for lifetimes/origin !
-def high_order_func[f: fn() capturing[_] -> Int]() -> Int:
+def high_order_func[f: def() capturing[_] -> Int]() -> Int:
     return f()
 
 

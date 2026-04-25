@@ -28,7 +28,7 @@ struct DummyInt(SizedHashable):  # dummy example with minimum code
 
 
 def sized_hash[T: SizedHashable](x: T) -> Int:
-    return Int(hash[T](x) * len(x))
+    return Int(hash(x) * UInt64(len(x)))
 
 
 struct HashedKey[K: CopiableHashable]:

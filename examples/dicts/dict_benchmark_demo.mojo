@@ -1,5 +1,5 @@
-from time import perf_counter_ns as now
-from collections import Dict
+from std.time import perf_counter_ns as now
+from std.collections import Dict
 
 from playground.dicts import get_wds, get_freqs
 

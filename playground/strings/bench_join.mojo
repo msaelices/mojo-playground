@@ -1,4 +1,4 @@
-from time import perf_counter_ns as now
+from std.time import perf_counter_ns as now
 
 
 def main():

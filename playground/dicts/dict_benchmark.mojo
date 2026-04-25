@@ -163,15 +163,12 @@ Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you a
     return _to_string_list(input.upper().split(" "))
 
 
-def get_freqs[
-    V: ImplicitlyCopyable & Writable & KeyElement
-](wds: List[V]) raises -> Dict[V, UInt64]:
-    var freqs: Dict[V, UInt64] = {}
+def get_freqs(wds: List[String]) raises -> Dict[String, UInt64]:
+    var freqs: Dict[String, UInt64] = {}
     for wd in wds:
         if wd in freqs:
             old_freq = freqs[wd]
             freqs[wd] = old_freq + 1
-            # freqs.__setitem__[String](wd, old_freq + 1)
         else:
             freqs[wd] = 1
     return freqs^
