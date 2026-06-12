@@ -20,9 +20,7 @@ def demo_scheduling() raises:
         var host_buffer = ctx.enqueue_create_host_buffer[dtype](num_elems)
 
         var tensor = Tensor(dev_buffer)
-        ctx.enqueue_function[kernel, kernel](
-            tensor, grid_dim=1, block_dim=num_elems
-        )
+        ctx.enqueue_function[kernel](tensor, grid_dim=1, block_dim=num_elems)
         dev_buffer.enqueue_copy_to(host_buffer)
 
         ctx.synchronize()

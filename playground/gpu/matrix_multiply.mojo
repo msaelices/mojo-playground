@@ -191,7 +191,7 @@ def demo_matrix_multiply() raises:
 
         # Run the standard matrix multiplication kernel
         print("\nStandard matrix multiplication:")
-        ctx.enqueue_function[matrix_multiply_kernel, matrix_multiply_kernel](
+        ctx.enqueue_function[matrix_multiply_kernel](
             A, B, C, grid_dim=grid_dim, block_dim=block_dim
         )
 
@@ -220,9 +220,9 @@ def demo_matrix_multiply() raises:
         print("\nShared memory matrix multiplication:")
         ctx.enqueue_memset(c_dev, 0)  # Clear the result matrix
 
-        ctx.enqueue_function[
-            matrix_multiply_shared_kernel, matrix_multiply_shared_kernel
-        ](A, B, C, grid_dim=grid_dim, block_dim=block_dim)
+        ctx.enqueue_function[matrix_multiply_shared_kernel](
+            A, B, C, grid_dim=grid_dim, block_dim=block_dim
+        )
 
         # Copy result back to host and verify
         c_dev.enqueue_copy_to(c_host)

@@ -145,7 +145,7 @@ def demo_matrix_transpose() raises:
 
         # Run the naive transpose kernel
         print("\nNaive matrix transposition:")
-        ctx.enqueue_function[naive_transpose_kernel, naive_transpose_kernel](
+        ctx.enqueue_function[naive_transpose_kernel](
             input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim
         )
 
@@ -170,7 +170,7 @@ def demo_matrix_transpose() raises:
         print("\nTiled matrix transposition:")
         ctx.enqueue_memset(output_dev, 0)  # Clear the output matrix
 
-        ctx.enqueue_function[tiled_transpose_kernel, tiled_transpose_kernel](
+        ctx.enqueue_function[tiled_transpose_kernel](
             input_tensor, output_tensor, grid_dim=grid_dim, block_dim=block_dim
         )
 
