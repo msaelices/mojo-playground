@@ -3,7 +3,7 @@ from compile import compile_info
 
 
 @export  # this generates cleaner names
-def forloop_fn() -> Int:
+def forloop_fn() abi("C") -> Int:
     var x: Int = 0
     for _ in range(10):
         x += 1
