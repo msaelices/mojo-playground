@@ -60,7 +60,7 @@ def demo_reduce_warp() raises:
         # Reset the output values first
         ctx.enqueue_memset(out_dev, 0)
 
-        ctx.enqueue_function[warp_reduce_kernel, warp_reduce_kernel](
+        ctx.enqueue_function[warp_reduce_kernel](
             tensor,
             out_tensor,
             grid_dim=blocks,

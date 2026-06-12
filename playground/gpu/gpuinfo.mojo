@@ -22,10 +22,8 @@ def demo_gpuinfo() raises:
 
     var ctx = DeviceContext()
 
-    ctx.enqueue_function[print_threads, print_threads](grid_dim=1, block_dim=2)
-    ctx.enqueue_function[block_kernel, block_kernel](
-        grid_dim=(2, 2), block_dim=2
-    )
+    ctx.enqueue_function[print_threads](grid_dim=1, block_dim=2)
+    ctx.enqueue_function[block_kernel](grid_dim=(2, 2), block_dim=2)
 
     ctx.synchronize()
 
