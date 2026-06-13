@@ -4,7 +4,7 @@ from std.os import abort
 
 
 @export
-def PyInit_mojo_module() -> PythonObject:
+def PyInit_mojo_module() abi("C") -> PythonObject:
     try:
         var m = PythonModuleBuilder("mojo_module")
         m.def_function[hello_world](
