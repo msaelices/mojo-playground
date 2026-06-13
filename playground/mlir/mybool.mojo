@@ -1,6 +1,7 @@
-"""
-For a in depth explanation of this file,
-See https://docs.modular.com/mojo/notebooks/BoolMLIR/
+"""Implements a Bool type using MLIR primitives.
+
+For an in-depth explanation of this file, see
+https://docs.modular.com/mojo/notebooks/BoolMLIR/
 """
 
 comptime MyTrue = MyBool(__mlir_attr.true)

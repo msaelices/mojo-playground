@@ -10,4 +10,10 @@ def main():
     for _ in range(10_000):
         s = String(",").join(l)
     end = now()
-    print("Len: ", len(s), "Time: ", (end - start) / 1_000_000_000, "seconds")
+    print(
+        "Len: ",
+        s.byte_length(),
+        "Time: ",
+        (end - start) / 1_000_000_000,
+        "seconds",
+    )
