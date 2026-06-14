@@ -3,7 +3,7 @@ from compile import compile_info
 
 
 @export
-def add_fn(x: Int, y: Int) -> Int:
+def add_fn(x: Int, y: Int) abi("C") -> Int:
     return x + y
 
 
