@@ -1,40 +1,17 @@
 """Linear types: compiler-enforced explicit deallocation.
 
-The `Allocation` handle returned by `alloc` is an `@explicit_destroy` type,
-i.e. a *linear* type. This is what makes it special:
-
-  * Affine types (e.g. values in Rust) are dropped *automatically* when you
-    stop using them. Forgetting to use a value is harmless.
-  * A linear type has NO implicit destructor. The compiler proves, on every
-    control-flow path, that the value is consumed exactly once -- either by
-    handing it to `dealloc(handle^)`, or by taking ownership of the raw
-    pointer with `handle^.unsafe_leak()`.
-
-Forgetting to release it is a *compile-time* error, not a runtime leak.
-Almost no mainstream language enforces this statically.
-
-The leak the compiler rejects::
-
-    def leak():
-        var a = alloc(Layout[Int32](count=4))
-        # no dealloc, no unsafe_leak -> does NOT compile:
-        # error: 'a' abandoned without being explicitly destroyed: An
-        # `Allocation` owns heap storage and must be consumed before it goes
-        # out of scope. Deallocate it with `dealloc(allocation^)`, or call
-        # `unsafe_leak()` to take ownership of the underlying pointer.
-
-The check is flow-sensitive: an early `return` that skips the `dealloc` on
-*one* branch is rejected too (see `first_or_release` below).
+The `Allocation` from `alloc` is an `@explicit_destroy` (linear) type: it has
+no implicit destructor, so the compiler proves on every control-flow path that
+it is consumed exactly once, via `dealloc(handle^)` or `handle^.unsafe_leak()`.
+Forgetting it is a compile-time error, not a runtime leak; unlike affine types
+(e.g. Rust values), dropping it on the floor simply does not compile.
 """
 
 from std.memory.alloc import alloc, dealloc, Layout
 
 
 def fill_and_sum() -> Int32:
-    """Correct usage: allocate, use, then explicitly deallocate.
-
-    Returns the sum of squares 0..<8 computed through the raw storage.
-    """
+    """Allocate, use, then explicitly deallocate (sum of squares 0..<8)."""
     var layout = Layout[Int32](count=8)
     var a = alloc(layout)
     # `unsafe_ptr()` borrows a view of the storage; it does NOT consume the
@@ -52,12 +29,8 @@ def fill_and_sum() -> Int32:
 
 
 def first_or_release(produce: Bool) -> Int32:
-    """Every branch must consume the handle -- the compiler checks them all.
-
-    Removing the `dealloc` from either branch fails to compile, which is the
-    property affine/RAII systems cannot express: here the release is explicit
-    yet still statically guaranteed.
-    """
+    """Every branch must consume the handle: removing `dealloc` from either
+    one fails to compile. The release is explicit yet statically guaranteed."""
     var a = alloc(Layout[Int32](count=1))
     var ptr = a.unsafe_ptr()
     ptr.init_pointee_move(Int32(42))
@@ -72,11 +45,8 @@ def first_or_release(produce: Bool) -> Int32:
 
 
 def manual_lifetime() -> Int32:
-    """`unsafe_leak` is the other way to satisfy the compiler.
-
-    It transfers ownership out of the linear handle and hands you the bare
-    pointer; from then on you are responsible for calling `free()`.
-    """
+    """`unsafe_leak` consumes the handle and hands you the bare pointer, so
+    satisfying the compiler now makes you responsible for calling `free()`."""
     var a = alloc(Layout[Int32](count=3))
     var raw = a^.unsafe_leak()  # consumes `a`, yields the raw UnsafePointer
 
