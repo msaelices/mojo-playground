@@ -29,12 +29,12 @@ def main():
 
     # Bridge to linear types: we allocate LENGTH Int32s and must release them.
     var a = alloc(Layout[Int32](count=LENGTH))
-    var ptr = a.unsafe_ptr()
+    var data = a.unsafe_span()  # a list-like view over the allocation
     for i in range(LENGTH):
-        (ptr + i).init_pointee_move(Int32(i))
+        data[i] = Int32(i)
     var total = Int32(0)
-    for i in range(LENGTH):
-        total += ptr[i]
+    for value in data:
+        total += value
     dealloc(a^)  # linear handle consumed; checked by the compiler
     print(
         "allocated ", LENGTH, " Int32s, sum 0..<", LENGTH, " = ", total, sep=""
