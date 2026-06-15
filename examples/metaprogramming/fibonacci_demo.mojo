@@ -11,6 +11,8 @@ from playground.metaprogramming import fib, fib_sequence
 
 def main():
     comptime N = 10
+    # The array length is a Fibonacci number computed at compile time.
+    comptime LENGTH = fib[N]()
 
     print("comptime: the compiler runs `fib[n]()` while building the binary.\n")
 
@@ -20,29 +22,20 @@ def main():
     comptime for i in range(N):
         print(SEQ[i], end=" " if i + 1 < N else "\n")
 
-    # Proof it is compile-time: a type's size must be a constant.
-    var buf = InlineArray[Int32, fib[N]()](fill=0)
-    print("InlineArray[Int32, fib[", N, "]()] has length ", len(buf), sep="")
+    # Proof it is compile-time: LENGTH can be used where a constant is required.
+    print("LENGTH = fib[", N, "]() = ", LENGTH, sep="")
+    var buf = InlineArray[Int32, LENGTH](fill=0)
+    print("used as a type size: InlineArray[Int32, LENGTH], len =", len(buf))
 
-    # Bridge to linear types: the amount of heap we allocate is itself a
-    # compile-time Fibonacci number, and the handle must still be released.
-    comptime COUNT = fib[N]()
-    var a = alloc(Layout[Int32](count=COUNT))
+    # Bridge to linear types: we allocate LENGTH Int32s and must release them.
+    var a = alloc(Layout[Int32](count=LENGTH))
     var ptr = a.unsafe_ptr()
-    for i in range(COUNT):
+    for i in range(LENGTH):
         (ptr + i).init_pointee_move(Int32(i))
     var total = Int32(0)
-    for i in range(COUNT):
+    for i in range(LENGTH):
         total += ptr[i]
     dealloc(a^)  # linear handle consumed; checked by the compiler
     print(
-        "allocated fib[",
-        N,
-        "]() = ",
-        COUNT,
-        " Int32s, sum 0..<",
-        COUNT,
-        " = ",
-        total,
-        sep="",
+        "allocated ", LENGTH, " Int32s, sum 0..<", LENGTH, " = ", total, sep=""
     )
