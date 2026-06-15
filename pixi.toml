@@ -11,6 +11,7 @@ test = """mojo -I . tests/test_async.mojo \
   && mojo -I . tests/test_bytes.mojo \
   && mojo -I . tests/test_closures.mojo \
   && mojo -I . tests/test_compile.mojo \
+  && mojo -I . tests/test_metaprogramming.mojo \
   && mojo -I . tests/test_contextmanagers.mojo \
   && mojo -I . tests/test_dicts.mojo \
   && mojo -I . tests/test_geom.mojo \
