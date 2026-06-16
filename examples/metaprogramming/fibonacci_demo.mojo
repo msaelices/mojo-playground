@@ -24,18 +24,19 @@ def main():
 
     # Proof it is compile-time: LENGTH can be used where a constant is required.
     print("LENGTH = fib[", N, "]() = ", LENGTH, sep="")
-    var buf = InlineArray[Int32, LENGTH](fill=0)
-    print("used as a type size: InlineArray[Int32, LENGTH], len =", len(buf))
+    var buf = InlineArray[Int, LENGTH](fill=0)
+    print("used as a type size: InlineArray[Int, LENGTH], len =", len(buf))
 
-    # Bridge to linear types: we allocate LENGTH Int32s and must release them.
-    var a = alloc(Layout[Int32](count=LENGTH))
+    # Bridge to linear types: we allocate LENGTH Ints and must release them.
+    var a = alloc(Layout[Int](count=LENGTH))
     var data = a.unsafe_span()  # a list-like view over the allocation
     for i in range(LENGTH):
-        data[i] = Int32(i)
-    var total = Int32(0)
+        data[i] = Int(i)
+
+    var total: Int = 0
     for value in data:
         total += value
     dealloc(a^)  # linear handle consumed; checked by the compiler
     print(
-        "allocated ", LENGTH, " Int32s, sum 0..<", LENGTH, " = ", total, sep=""
+        "allocated ", LENGTH, " Ints, sum 0..<", LENGTH, " = ", total, sep=""
     )
