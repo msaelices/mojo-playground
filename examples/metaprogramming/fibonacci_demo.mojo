@@ -6,7 +6,24 @@ Run with:
 
 from std.memory.alloc import alloc, dealloc, Layout
 
-from playground.metaprogramming import fib, fib_sequence
+
+def fib[n: Int]() -> Int:
+    """The n-th Fibonacci number, via parameter recursion (`comptime if`)."""
+    comptime if n < 2:
+        return n
+    else:
+        return fib[n - 1]() + fib[n - 2]()
+
+
+def fib_sequence[n: Int]() -> InlineArray[Int, n]:
+    """The first `n` Fibonacci numbers; the `InlineArray[Int, n]` return type is
+    sized by the compile-time parameter, so it fits in a `comptime` binding."""
+    var arr = InlineArray[Int, n](fill=0)
+    comptime if n >= 2:
+        arr[1] = 1
+    comptime for i in range(2, n):
+        arr[i] = arr[i - 1] + arr[i - 2]
+    return arr
 
 
 def main():
