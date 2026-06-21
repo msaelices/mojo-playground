@@ -4,6 +4,10 @@
 
 This software is just for self-educational purposes, and it's using the Mojo nightly version.
 
+## Learning index 📚
+
+New to the repo? See **[LEARN.md](LEARN.md)** for an index of every topic and what each example teaches.
+
 ## Installation
 
 1. **Install [pixi](https://pixi.sh/latest/)** package manager
