@@ -4,7 +4,8 @@ Run with:
     pixi run mojo -I . examples/variants/spreadsheet_row.mojo
 """
 
-from playground.variants import Cell, describe, sum_ints, reassign
+from playground.variants.cells import Cell, describe, sum_ints
+from playground.variants.reassign import reassign
 
 
 def main():

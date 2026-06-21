@@ -1,2 +1,2 @@
-from .cells import Cell, describe, sum_ints
-from .reassign import reassign
+# Import the submodules directly (e.g. `playground.variants.cells`); this
+# package intentionally does not re-export their symbols.
