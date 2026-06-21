@@ -40,6 +40,16 @@ def demo_mut_argument():
     print(a)
 
 
+# a variable that can hold one of several types (not learned origin yet)
+def demo_variant():
+    from std.utils import Variant
+
+    a: Variant[Int, String] = 1  # statically a Variant, currently an Int
+    print(a[Int])  # read it as an Int -> 1
+    a = "hello"  # same variable, now holds a String
+    print(a[String])  # read it as a String -> hello
+
+
 # here there is another gradual step (currently worked on)
 # (create auto dereferenced reference and not learned origin yet)
 
