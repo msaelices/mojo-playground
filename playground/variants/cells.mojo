@@ -32,13 +32,3 @@ def sum_ints(values: List[Cell]) -> Int:
         if item.isa[Int]():
             total += item[Int]
     return total
-
-
-def reassign() -> String:
-    """A Variant variable can switch between its types while keeping a single
-    static type: the same `a` holds an Int and then a String."""
-    comptime StringOrInt = Variant[String, Int]
-    var a: StringOrInt = 1
-    var first = String("int ", a[Int])
-    a = "now text"
-    return String(first, " -> string ", a[String])
