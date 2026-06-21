@@ -12,6 +12,7 @@ from progressive_exposure import (
     demo_variables,
     demo_function_call,
     demo_mut_argument,
+    demo_variant,
     demo_pointer,
     demo_return_ref,
     demo_return_mut_ref,
@@ -40,25 +41,29 @@ def main():
     demo_mut_argument()
     print()
 
-    print("5. Pointer (safe reference):")
+    print("5. Variant (one variable, several types):")
+    demo_variant()
+    print()
+
+    print("6. Pointer (safe reference):")
     demo_pointer()
     print()
 
-    print("6. Return auto-dereferencing ref:")
+    print("7. Return auto-dereferencing ref:")
     demo_return_ref()
     print()
 
-    print("7. Return mutable auto-dereferencing ref:")
+    print("8. Return mutable auto-dereferencing ref:")
     demo_return_mut_ref()
     print()
 
-    print("8. Return inferred mutability auto-dereferencing ref:")
+    print("9. Return inferred mutability auto-dereferencing ref:")
     demo_inferred_mut_ref()
     print()
 
-    print("9. Return immutable ref:")
+    print("10. Return immutable ref:")
     demo_immutable_ref()
     print()
 
-    print("10. Return mutable pointer:")
+    print("11. Return mutable pointer:")
     demo_mutable_pointer()
