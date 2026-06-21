@@ -26,7 +26,8 @@ test = """mojo -I . tests/test_async.mojo \
   && mojo -I . tests/test_sort.mojo \
   && mojo -I . tests/test_strings.mojo \
   && mojo -I . tests/test_sys.mojo \
-  && mojo -I . tests/test_traits.mojo"""
+  && mojo -I . tests/test_traits.mojo \
+  && mojo -I . tests/test_variants.mojo"""
 
 [dependencies]
 mojo = ">=1.0.0b3.dev2026061206,<2"
