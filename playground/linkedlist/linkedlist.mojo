@@ -2,11 +2,12 @@ from std.memory import UnsafePointer
 
 
 # Simplified singly-linked list implementation
-# This uses the Mojo memory API with MutAnyOrigin for heap-allocated nodes
+# Heap-allocated nodes with explicitly managed lifetimes, so the pointers use
+# MutUntrackedOrigin (AnyOrigin can no longer be exposed in struct fields).
 
 
 comptime _NodePtr[T: Copyable & ImplicitlyDestructible] = Optional[
-    UnsafePointer[_Node[T], MutAnyOrigin]
+    UnsafePointer[_Node[T], MutUntrackedOrigin]
 ]
 
 
