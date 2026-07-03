@@ -126,6 +126,8 @@ def main():
 
     print("\n4) Keepalive: a buffer outliving the owner that made it")
     var orphan = make_buffer_outliving_its_context()
-    print("  orphan still usable:", orphan.byte_size, "bytes on", orphan.device())
+    print(
+        "  orphan still usable:", orphan.byte_size, "bytes on", orphan.device()
+    )
     print("  it is the last reference, so dropping it closes the context:")
     _ = orphan^  # explicit last use: the "[Context] closed gpu:0" lands here
