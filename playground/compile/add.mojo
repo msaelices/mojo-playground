@@ -1,4 +1,4 @@
-import sys
+import std.sys as sys
 from compile import compile_info
 
 
