@@ -6,12 +6,12 @@ from std.memory import UnsafePointer
 # MutUntrackedOrigin (AnyOrigin can no longer be exposed in struct fields).
 
 
-comptime _NodePtr[T: Copyable & ImplicitlyDestructible] = Optional[
+comptime _NodePtr[T: Movable & ImplicitlyDeletable] = Optional[
     UnsafePointer[_Node[T], MutUntrackedOrigin]
 ]
 
 
-struct _Node[ElementType: Copyable & ImplicitlyDestructible](Copyable):
+struct _Node[ElementType: Movable & ImplicitlyDeletable](Movable):
     var data: Self.ElementType
     var next: _NodePtr[Self.ElementType]
 
@@ -21,7 +21,7 @@ struct _Node[ElementType: Copyable & ImplicitlyDestructible](Copyable):
         self.next = None
 
 
-struct LinkedList[T: Copyable & ImplicitlyDestructible](Sized):
+struct LinkedList[T: Movable & ImplicitlyDeletable](Sized):
     var _head: _NodePtr[Self.T]
     var _size: Int
 
