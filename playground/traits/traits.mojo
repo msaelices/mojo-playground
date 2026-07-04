@@ -44,9 +44,7 @@ struct HashedKey[K: CopiableHashable]:
         self.hash = sized_hash(key)
 
 
-struct FooElement[
-    Type: Writable & ImplicitlyCopyable & Movable & ImplicitlyDestructible
-]:
+struct FooElement[Type: Writable & ImplicitlyCopyable & ImplicitlyDeletable]:
     """Example of trait composition."""
 
     var value: Self.Type
@@ -55,7 +53,7 @@ struct FooElement[
         self.value = value
 
 
-struct One[Type: ImplicitlyCopyable & Movable & ImplicitlyDestructible]:
+struct One[Type: ImplicitlyCopyable & ImplicitlyDeletable]:
     var value: Self.Type
 
     def __init__(out self, value: Self.Type):
@@ -67,9 +65,7 @@ def use_one():
     _ = One("Hello")
 
 
-struct Two[
-    Type: Writable & ImplicitlyCopyable & Movable & ImplicitlyDestructible
-]:
+struct Two[Type: Writable & ImplicitlyCopyable & ImplicitlyDeletable]:
     var val1: Self.Type
     var val2: Self.Type
 
