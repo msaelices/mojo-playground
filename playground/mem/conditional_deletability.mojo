@@ -6,8 +6,8 @@ an implicit destructor and the compiler forces you to consume it exactly once.
 
 This example shows the *conditional* case. A generic wrapper is normally
 deletable, but should become linear precisely when it holds a linear payload.
-As of Mojo 1.0.0b3.dev2026070406 you express that directly, without the
-`@explicit_destroy` decorator, using a `where` clause on the conformance:
+Mojo lets you express that directly, without the `@explicit_destroy`
+decorator, using a `where` clause on the conformance:
 
     struct Box[T: Movable](
         ImplicitlyDeletable where conforms_to(T, ImplicitlyDeletable)
