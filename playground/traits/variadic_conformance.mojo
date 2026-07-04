@@ -2,8 +2,8 @@
 
 The variadic counterpart to conditional deletability. Mojo can reason about a
 trait check applied to an *entire* variadic parameter pack `*Ts`, via
-`Ts.all_conforms_to[Trait]()` (backed by `conforms_to(Ts.values, Trait)`, from
-nightly 1.0.0b3.dev2026070406). Two things this unlocks:
+`Ts.all_conforms_to[Trait]()` (backed by `conforms_to(Ts.values, Trait)`).
+Two things this unlocks:
 
 1. Per-element refinement. Inside `comptime if` / `comptime for`, once
    `Ts.all_conforms_to[Writable]()` is proven, every element of the pack is
