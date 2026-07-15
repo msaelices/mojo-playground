@@ -35,14 +35,14 @@ struct LinkedList[T: Movable & ImplicitlyDeletable](Sized):
         while curr:
             var ptr = curr.value()
             var next = ptr[].next
-            ptr.destroy_pointee()
+            ptr.unsafe_deinit_pointee()
             ptr.free()
             curr = next
 
     def append(mut self, var value: Self.T):
         """Add an element to the end of the list."""
         var node_ptr = alloc[_Node[Self.T]](1)
-        node_ptr.init_pointee_move(_Node[Self.T](value^))
+        node_ptr.unsafe_write(_Node[Self.T](value^))
 
         if not self._head:
             self._head = node_ptr
