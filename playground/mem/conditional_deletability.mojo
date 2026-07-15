@@ -1,34 +1,37 @@
 """Conditional deletability: a container inherits its payload's linearity.
 
 Companion to `linear_alloc.mojo`. That example showed an *unconditional*
-linear type: the stdlib `Allocation` is `@explicit_destroy`, so it never has
-an implicit destructor and the compiler forces you to consume it exactly once.
+linear type: the stdlib `Allocation` is never `ImplicitlyDeletable`, so it has
+no implicit destructor and the compiler forces you to consume it exactly once.
 
 This example shows the *conditional* case. A generic wrapper is normally
 deletable, but should become linear precisely when it holds a linear payload.
-Mojo lets you express that directly, without the `@explicit_destroy`
-decorator, using a `where` clause on the conformance:
+Mojo expresses both ends with the same tool: a `where` clause on the
+`ImplicitlyDeletable` conformance.
 
+    # linear: opt out unconditionally
+    struct Handle(Movable, ImplicitlyDeletable where False):
+        ...
+
+    # conditional: deletable exactly when the payload is
     struct Box[T: Movable](
         ImplicitlyDeletable where conforms_to(T, ImplicitlyDeletable)
     ):
         ...
 
-Before this change the same struct had to be annotated `@explicit_destroy`;
-now Mojo derives the container's deletability from its payload:
+Mojo derives the container's deletability from its payload:
   * `Box[Int]`    is `ImplicitlyDeletable`  -> normal implicit cleanup.
   * `Box[Handle]` is NOT (`Handle` is linear) -> the `Box` is linear too and
     must be consumed explicitly, exactly like the resource it holds.
 """
 
 
-@explicit_destroy
-struct Handle(Movable):
-    """A linear resource: no implicit destructor, so it must be `close`d.
+struct Handle(ImplicitlyDeletable where False, Movable):
+    """A linear resource: never `ImplicitlyDeletable`, so it must be `close`d.
 
-    `@explicit_destroy` opts out of `ImplicitlyDeletable`; the value can still
-    be moved (it conforms to `Movable`), but the compiler proves on every path
-    that it is consumed exactly once via `close`.
+    `ImplicitlyDeletable where False` opts the type out of implicit deletion;
+    the value can still be moved (it conforms to `Movable`), but the compiler
+    proves on every path that it is consumed exactly once via `close`.
     """
 
     var id: Int

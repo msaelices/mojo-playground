@@ -1,4 +1,4 @@
-from std.memory import memcpy
+from std.memory import unsafe_memcpy
 
 
 def join_str(delimiter: String, elems: List[String]) -> String:
@@ -10,7 +10,7 @@ def join_str(delimiter: String, elems: List[String]) -> String:
     offset = 0
     for elem in elems:
         elem_len = elem.byte_length()
-        memcpy(
+        unsafe_memcpy(
             dest=buf.unsafe_ptr() + offset,
             src=elem.unsafe_ptr(),
             count=elem_len,
@@ -20,7 +20,7 @@ def join_str(delimiter: String, elems: List[String]) -> String:
         _ = elem
         offset += elem_len
         buf.resize(unsafe_uninit_length=len(buf) + elem_len)
-        memcpy(
+        unsafe_memcpy(
             dest=buf.unsafe_ptr() + offset,
             src=delimiter_ptr,
             count=delimiter_len,
