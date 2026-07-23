@@ -49,7 +49,9 @@ def manual_lifetime() -> Int32:
     var a = alloc(Layout[Int32](count=3))
     var raw = a^.unsafe_leak()  # consumes `a`, yields the raw pointer
 
-    var data = Span(ptr=raw, length=3)  # a list-like view over the raw pointer
+    var data = Span(
+        unsafe_ptr=raw, length=3
+    )  # a list-like view over the raw pointer
     for i in range(len(data)):
         data[i] = Int32((i + 1) * 10)
     var total = Int32(0)
