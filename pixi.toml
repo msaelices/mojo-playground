@@ -31,6 +31,7 @@ test = """mojo -I . tests/test_async.mojo \
 
 [dependencies]
 mojo = ">=1.0.0b3.dev2026061206,<2"
+max = ">=26.5.0.dev2026072306"
 
 [feature.dev.dependencies]
 pre-commit = ">=3.0.0"
