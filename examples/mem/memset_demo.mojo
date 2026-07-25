@@ -2,7 +2,7 @@ from std.memory import unsafe_memset
 
 
 def main():
-    var array = InlineArray[Int64, 10](fill=0)
+    var array = Array[Int64, 10](fill=0)
     unsafe_memset(array.unsafe_ptr(), 2, len(array))
     # Should print: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
     # TODO: It's not because it's filling all the bytes in the b64 value with twos
