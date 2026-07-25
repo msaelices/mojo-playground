@@ -2,7 +2,6 @@ from std.gpu import thread_idx, block_idx
 from std.gpu.host import DeviceContext, HostBuffer
 from layout import Layout, LayoutTensor
 from std import math
-from std.memory import memset
 
 # Image dimensions - keep them small for quicker testing
 comptime WIDTH = 400

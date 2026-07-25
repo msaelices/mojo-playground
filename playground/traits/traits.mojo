@@ -31,7 +31,9 @@ def sized_hash[T: SizedHashable](x: T) -> Int:
     return Int(hash(x) * UInt64(len(x)))
 
 
-struct HashedKey[K: CopiableHashable]:
+struct HashedKey[K: CopiableHashable](
+    ImplicitlyDeletable where conforms_to(K, ImplicitlyDeletable)
+):
     var key: Self.K
     var hash: Int
 
