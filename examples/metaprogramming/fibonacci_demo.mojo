@@ -24,8 +24,8 @@ def main():
 
     # Proof it is compile-time: LENGTH can be used where a constant is required.
     print("LENGTH = fib[", N, "]() = ", LENGTH, sep="")
-    var buf = InlineArray[Int, LENGTH](fill=0)
-    print("used as a type size: InlineArray[Int, LENGTH], len =", len(buf))
+    var buf = Array[Int, LENGTH](fill=0)
+    print("used as a type size: Array[Int, LENGTH], len =", len(buf))
 
     # Bridge to linear types: we allocate LENGTH Ints and must release them.
     var a = alloc(Layout[Int](count=LENGTH))

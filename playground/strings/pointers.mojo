@@ -11,7 +11,7 @@ def join_str(delimiter: String, elems: List[String]) -> String:
     for elem in elems:
         elem_len = elem.byte_length()
         unsafe_memcpy(
-            dest=buf.unsafe_ptr() + offset,
+            dest=buf.unsafe_ptr().unsafe_offset(offset),
             src=elem.unsafe_ptr(),
             count=elem_len,
         )
@@ -21,7 +21,7 @@ def join_str(delimiter: String, elems: List[String]) -> String:
         offset += elem_len
         buf.resize(unsafe_uninit_length=len(buf) + elem_len)
         unsafe_memcpy(
-            dest=buf.unsafe_ptr() + offset,
+            dest=buf.unsafe_ptr().unsafe_offset(offset),
             src=delimiter_ptr,
             count=delimiter_len,
         )
