@@ -29,14 +29,14 @@ struct LinkedList[T: Movable & ImplicitlyDeletable](Sized):
         self._head = None
         self._size = 0
 
-    def __del__(deinit self):
+    def __deinit__(deinit self):
         """Clean up the list by freeing all nodes."""
         var curr = self._head
         while curr:
             var ptr = curr.value()
             var next = ptr[].next
             ptr.unsafe_deinit_pointee()
-            ptr.free()
+            ptr.unsafe_free()
             curr = next
 
     def append(mut self, var value: Self.T):

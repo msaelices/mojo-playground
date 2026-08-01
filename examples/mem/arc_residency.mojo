@@ -41,7 +41,7 @@ struct Context(Movable):
         self.name = name
         print("  [Context] opened", self.name)
 
-    def __del__(deinit self):
+    def __deinit__(deinit self):
         # Runs the instant the strong refcount hits zero -- never while a
         # buffer is still alive.
         print("  [Context] closed", self.name)

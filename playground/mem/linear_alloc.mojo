@@ -61,5 +61,5 @@ def manual_lifetime() -> Int32:
     for value in data:
         total += value
 
-    raw.free()  # now it is on us, not the compiler
+    raw.unsafe_free()  # now it is on us, not the compiler
     return total
