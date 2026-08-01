@@ -20,7 +20,8 @@ def main():
     comptime SEQ = fib_sequence[N]()
     print("fib_sequence[", N, "]() =", sep="", end=" ")
     comptime for i in range(N):
-        print(SEQ[i], end=" " if i + 1 < N else "\n")
+        comptime v = SEQ[i]  # pull each element out at comptime (Array is not
+        print(v, end=" " if i + 1 < N else "\n")  # ImplicitlyCopyable)
 
     # Proof it is compile-time: LENGTH can be used where a constant is required.
     print("LENGTH = fib[", N, "]() = ", LENGTH, sep="")
