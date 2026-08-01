@@ -44,35 +44,35 @@ def initialize_maze(maze_buffer: HostBuffer[DType.int32]):
 
     # First, make all cells empty (0)
     for i in range(NUM_STATES):
-        maze_ptr[i] = 0
+        maze_ptr[unsafe_offset=i] = 0
 
     # Add walls (1)
     # Outer walls
     for i in range(MAZE_SIZE):
         # Top wall
-        maze_ptr[i] = 1
+        maze_ptr[unsafe_offset=i] = 1
         # Bottom wall
-        maze_ptr[(MAZE_SIZE - 1) * MAZE_SIZE + i] = 1
+        maze_ptr[unsafe_offset=(MAZE_SIZE - 1) * MAZE_SIZE + i] = 1
         # Left wall
-        maze_ptr[i * MAZE_SIZE] = 1
+        maze_ptr[unsafe_offset=i * MAZE_SIZE] = 1
         # Right wall
-        maze_ptr[i * MAZE_SIZE + MAZE_SIZE - 1] = 1
+        maze_ptr[unsafe_offset=i * MAZE_SIZE + MAZE_SIZE - 1] = 1
 
     # Some interior walls for complexity
     # Horizontal walls
     for i in range(2, 6):
-        maze_ptr[2 * MAZE_SIZE + i] = 1  # Third row
-        maze_ptr[5 * MAZE_SIZE + i] = 1  # Sixth row
+        maze_ptr[unsafe_offset=2 * MAZE_SIZE + i] = 1  # Third row
+        maze_ptr[unsafe_offset=5 * MAZE_SIZE + i] = 1  # Sixth row
 
     # Vertical walls
     for i in range(1, 3):
-        maze_ptr[i * MAZE_SIZE + 3] = 1  # Fourth column
+        maze_ptr[unsafe_offset=i * MAZE_SIZE + 3] = 1  # Fourth column
 
     for i in range(4, 7):
-        maze_ptr[i * MAZE_SIZE + 5] = 1  # Sixth column
+        maze_ptr[unsafe_offset=i * MAZE_SIZE + 5] = 1  # Sixth column
 
     # Set the goal position (2) - bottom right corner inner cell
-    maze_ptr[6 * MAZE_SIZE + 6] = 2
+    maze_ptr[unsafe_offset=6 * MAZE_SIZE + 6] = 2
 
 
 def get_valid_actions_kernel(
@@ -234,9 +234,9 @@ def monte_carlo_episode_kernel(
             is_done = True
 
         # Store step in trajectory
-        states_memory[steps] = Int32(state)
-        actions_memory[steps] = action
-        rewards_memory[steps] = reward
+        states_memory[unsafe_offset=steps] = Int32(state)
+        actions_memory[unsafe_offset=steps] = action
+        rewards_memory[unsafe_offset=steps] = reward
 
         # Move to the next state
         state = next_state
@@ -251,10 +251,10 @@ def monte_carlo_episode_kernel(
         var returns = Float32(0.0)
 
         for t in range(steps - 1, -1, -1):  # Reverse order
-            returns = rewards_memory[t] + GAMMA * returns
+            returns = rewards_memory[unsafe_offset=t] + GAMMA * returns
 
-            var curr_state = states_memory[t]
-            var curr_action = actions_memory[t]
+            var curr_state = states_memory[unsafe_offset=t]
+            var curr_action = actions_memory[unsafe_offset=t]
 
             # Update Q-table - note this is not thread-safe but acceptable for RL
             var state_idx = Int(curr_state)
@@ -366,12 +366,12 @@ def demo_rl_maze() raises:
         # Initialize Q-table to zeros
         var q_table_ptr = q_table_buffer.unsafe_ptr()
         for i in range(NUM_STATES * NUM_ACTIONS):
-            q_table_ptr[i] = 0.0
+            q_table_ptr[unsafe_offset=i] = 0.0
 
         # Initialize random seeds for episodes
         var seeds_ptr = episode_seeds_buffer.unsafe_ptr()
         for i in range(NUM_BLOCKS * NUM_THREADS):
-            seeds_ptr[i] = Int32(i * 17 + 42)
+            seeds_ptr[unsafe_offset=i] = Int32(i * 17 + 42)
 
         # Create device buffers
         var maze_dev = ctx.enqueue_create_buffer[DType.int32](NUM_STATES)
@@ -409,7 +409,9 @@ def demo_rl_maze() raises:
         print("Maze layout:")
         for i in range(MAZE_SIZE):
             for j in range(MAZE_SIZE):
-                var cell = maze_buffer.unsafe_ptr()[i * MAZE_SIZE + j]
+                var cell = maze_buffer.unsafe_ptr()[
+                    unsafe_offset=i * MAZE_SIZE + j
+                ]
                 if cell == 0:
                     print("⬜️", end="")  # Empty space
                 elif cell == 1:
@@ -425,7 +427,7 @@ def demo_rl_maze() raises:
             # Update seeds for more randomness
             var seeds_ptr = episode_seeds_buffer.unsafe_ptr()
             for i in range(NUM_BLOCKS * NUM_THREADS):
-                seeds_ptr[i] = Int32(episode + i)
+                seeds_ptr[unsafe_offset=i] = Int32(episode + i)
 
             episode_seeds_buffer.enqueue_copy_to(episode_seeds_dev)
 
@@ -481,7 +483,7 @@ def demo_rl_maze() raises:
         ctx.synchronize()
 
         # Get path length
-        var path_len = path_length_buffer.unsafe_ptr()[0]
+        var path_len = path_length_buffer.unsafe_ptr()[unsafe_offset=0]
 
         # Display the optimal path
         print("\nOptimal path found! Length:", path_len)
@@ -493,11 +495,11 @@ def demo_rl_maze() raises:
 
         # Copy maze
         for i in range(NUM_STATES):
-            maze_with_path[i] = maze_buffer.unsafe_ptr()[i]
+            maze_with_path[i] = maze_buffer.unsafe_ptr()[unsafe_offset=i]
 
         # Mark path
         for i in range(path_len):
-            var state = optimal_path_buffer.unsafe_ptr()[i]
+            var state = optimal_path_buffer.unsafe_ptr()[unsafe_offset=i]
             if (
                 maze_with_path[state] == 0
             ):  # Only mark empty spaces, not start/goal

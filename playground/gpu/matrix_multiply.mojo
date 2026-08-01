@@ -65,18 +65,18 @@ def matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
     for tile in range((K + BLOCK_SIZE - 1) // BLOCK_SIZE):
         # Load tiles into shared memory
         if row < M and tile * BLOCK_SIZE + Int(tx) < K:
-            A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = A[
+            A_tile[unsafe_offset=Int(ty) * BLOCK_SIZE + Int(tx)] = A[
                 row, Int(tile * BLOCK_SIZE) + Int(tx)
             ][0]
         else:
-            A_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
+            A_tile[unsafe_offset=Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
 
         if tile * BLOCK_SIZE + Int(ty) < K and col < N:
-            B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = B[
+            B_tile[unsafe_offset=Int(ty) * BLOCK_SIZE + Int(tx)] = B[
                 Int(tile * BLOCK_SIZE) + Int(ty), col
             ][0]
         else:
-            B_tile[Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
+            B_tile[unsafe_offset=Int(ty) * BLOCK_SIZE + Int(tx)] = 0.0
 
         # Synchronize to make sure tiles are loaded
         barrier()
@@ -84,8 +84,8 @@ def matrix_multiply_shared_kernel(A: MatrixA, B: MatrixB, C: MatrixC):
         # Compute the partial dot product
         for k in range(BLOCK_SIZE):
             sum += Float32(
-                A_tile[Int(ty) * BLOCK_SIZE + k]
-                * B_tile[k * BLOCK_SIZE + Int(tx)]
+                A_tile[unsafe_offset=Int(ty) * BLOCK_SIZE + k]
+                * B_tile[unsafe_offset=k * BLOCK_SIZE + Int(tx)]
             )
 
         # Synchronize before loading next tile
@@ -159,11 +159,11 @@ def demo_matrix_multiply() raises:
 
         for i in range(M):
             for j in range(K):
-                (a_ptr + (i * K + j)).store(Float32(i + j))
+                a_ptr.unsafe_offset(i * K + j).unsafe_store(Float32(i + j))
 
         for i in range(K):
             for j in range(N):
-                (b_ptr + (i * N + j)).store(Float32(i - j))
+                b_ptr.unsafe_offset(i * N + j).unsafe_store(Float32(i - j))
 
         # Transfer data to device
         a_host.enqueue_copy_to(a_dev)

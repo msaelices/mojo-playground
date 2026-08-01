@@ -26,7 +26,7 @@ def sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     ]()
 
     # Place the corresponding value into shared memory
-    shared[thread_idx.x] = tensor[block_idx.x, thread_idx.x][0]
+    shared[unsafe_offset=thread_idx.x] = tensor[block_idx.x, thread_idx.x][0]
 
     # Await all the threads to finish loading their values into shared memory
     barrier()
@@ -35,7 +35,7 @@ def sum_reduce_kernel(tensor: InTensor, out_tensor: OutTensor):
     if thread_idx.x == 0:
         var sum: UInt32 = 0
         for i in range(threads):
-            sum += shared[i]
+            sum += shared[unsafe_offset=i]
         out_tensor[block_idx.x] = sum
 
 

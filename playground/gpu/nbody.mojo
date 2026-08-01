@@ -131,12 +131,12 @@ def initialize_uniform_sphere(
         var vel_z = 0.01 * Float64(i % 10)
 
         # Store in buffers
-        (pos_x_ptr + i).store(Float32(pos_x))
-        (pos_y_ptr + i).store(Float32(pos_y))
-        (pos_z_ptr + i).store(Float32(pos_z))
-        (vel_x_ptr + i).store(Float32(vel_x))
-        (vel_y_ptr + i).store(Float32(vel_y))
-        (vel_z_ptr + i).store(Float32(vel_z))
+        pos_x_ptr.unsafe_offset(i).unsafe_store(Float32(pos_x))
+        pos_y_ptr.unsafe_offset(i).unsafe_store(Float32(pos_y))
+        pos_z_ptr.unsafe_offset(i).unsafe_store(Float32(pos_z))
+        vel_x_ptr.unsafe_offset(i).unsafe_store(Float32(vel_x))
+        vel_y_ptr.unsafe_offset(i).unsafe_store(Float32(vel_y))
+        vel_z_ptr.unsafe_offset(i).unsafe_store(Float32(vel_z))
 
 
 def get_system_bounds(
@@ -149,17 +149,17 @@ def get_system_bounds(
     var pos_y_ptr = buffer_pos_y.unsafe_ptr()
     var pos_z_ptr = buffer_pos_z.unsafe_ptr()
 
-    var min_x = pos_x_ptr.load()
-    var max_x = pos_x_ptr.load()
-    var min_y = pos_y_ptr.load()
-    var max_y = pos_y_ptr.load()
-    var min_z = pos_z_ptr.load()
-    var max_z = pos_z_ptr.load()
+    var min_x = pos_x_ptr.unsafe_load()
+    var max_x = pos_x_ptr.unsafe_load()
+    var min_y = pos_y_ptr.unsafe_load()
+    var max_y = pos_y_ptr.unsafe_load()
+    var min_z = pos_z_ptr.unsafe_load()
+    var max_z = pos_z_ptr.unsafe_load()
 
     for i in range(1, NUM_PARTICLES):
-        var x = (pos_x_ptr + i).load()
-        var y = (pos_y_ptr + i).load()
-        var z = (pos_z_ptr + i).load()
+        var x = pos_x_ptr.unsafe_offset(i).unsafe_load()
+        var y = pos_y_ptr.unsafe_offset(i).unsafe_load()
+        var z = pos_z_ptr.unsafe_offset(i).unsafe_load()
 
         if x < min_x:
             min_x = x
