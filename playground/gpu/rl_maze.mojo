@@ -14,7 +14,11 @@ comptime NUM_ACTIONS = 4  # 4 actions (up, right, down, left)
 comptime GAMMA = 0.9  # Discount factor
 comptime EPISODES = 1000  # Number of episodes to simulate
 comptime MAX_STEPS = 100  # Maximum steps per episode
-comptime EPSILON = 0.1  # Exploration rate
+# Epsilon-greedy exploration rate expressed as an integer percent (epsilon =
+# 0.1 = 10% random actions). Kept as an `Int` rather than `Int(0.1 * 100)`
+# because a `FloatLiteral` reaching the GPU kernel is mis-lowered by the offload
+# codegen (it tries to build a non-float SIMD from the literal and fails).
+comptime EPSILON_PERCENT = 10
 comptime NUM_THREADS = 128  # Number of threads per block
 comptime NUM_BLOCKS = 16  # Number of blocks
 
@@ -195,7 +199,7 @@ def monte_carlo_episode_kernel(
         ) % 2147483647  # Simple LCG for randomness
         var random_value = rng % 100
 
-        if Int(random_value) < Int(EPSILON * 100):  # Explore
+        if Int(random_value) < EPSILON_PERCENT:  # Explore
             var random_idx = Int(rng % Int32(valid_count))
             action = Int32(valid_action_indices[random_idx])
         else:  # Exploit - choose the best action
