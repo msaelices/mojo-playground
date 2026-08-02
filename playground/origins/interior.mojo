@@ -83,11 +83,11 @@ struct Cell[T: Copyable & ImplicitlyDeletable](Movable):
         self._ptr = alloc[Self.T](1)
         self._ptr.unsafe_write(value^)
 
-    def __del__(deinit self):
+    def __deinit__(deinit self):
         # Frees the storage that any interior reference would name, which is
         # exactly why handing those references out has to be tracked.
         self._ptr.unsafe_deinit_pointee()
-        self._ptr.free()
+        self._ptr.unsafe_free()
 
     @__unsafe_nested_origins_read_only
     @always_inline

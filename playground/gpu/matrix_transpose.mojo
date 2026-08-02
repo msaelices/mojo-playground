@@ -52,7 +52,7 @@ def tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
     # Load data into shared memory if within bounds
     if in_row < M and in_col < N:
         # Load element from global memory to shared memory
-        tile[ty * BLOCK_SIZE + tx] = input[in_row, in_col][0]
+        tile[unsafe_offset=ty * BLOCK_SIZE + tx] = input[in_row, in_col][0]
 
     # Ensure all threads in the block have loaded their data
     barrier()
@@ -64,7 +64,7 @@ def tiled_transpose_kernel(input: InputMatrix, output: OutputMatrix):
 
     # Write transposed data to output matrix
     if out_row < N and out_col < M:
-        output[out_row, out_col] = tile[tx * BLOCK_SIZE + ty]
+        output[out_row, out_col] = tile[unsafe_offset=tx * BLOCK_SIZE + ty]
 
 
 def verify_transpose(
@@ -118,7 +118,9 @@ def demo_matrix_transpose() raises:
 
         for i in range(M):
             for j in range(N):
-                (input_ptr + (i * N + j)).store(Float32(i * 10 + j))
+                input_ptr.unsafe_offset(i * N + j).unsafe_store(
+                    Float32(i * 10 + j)
+                )
 
         # Transfer data to device
         input_host.enqueue_copy_to(input_dev)
