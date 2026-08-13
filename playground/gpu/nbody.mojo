@@ -1,5 +1,5 @@
 from std.gpu import thread_idx, block_idx
-from std.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
+from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from layout import Layout, LayoutTensor
 from std import math
 

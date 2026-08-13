@@ -1,5 +1,5 @@
 from std.gpu import thread_idx, block_idx
-from std.gpu.host import DeviceContext
+from max.gpu.host import DeviceContext
 
 
 def demo_gpuinfo() raises:

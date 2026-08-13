@@ -1,4 +1,5 @@
-from std.memory import UnsafePointer
+from std.memory import Pointer
+from std.memory.alloc import unsafe_alloc
 
 
 # Simplified singly-linked list implementation
@@ -6,12 +7,12 @@ from std.memory import UnsafePointer
 # MutUntrackedOrigin (AnyOrigin can no longer be exposed in struct fields).
 
 
-comptime _NodePtr[T: Movable & ImplicitlyDeletable] = Optional[
-    UnsafePointer[_Node[T], MutUntrackedOrigin]
+comptime _NodePtr[T: Movable & Deinitable] = Optional[
+    Pointer[_Node[T], MutUntrackedOrigin]
 ]
 
 
-struct _Node[ElementType: Movable & ImplicitlyDeletable](Movable):
+struct _Node[ElementType: Movable & Deinitable](Movable):
     var data: Self.ElementType
     var next: _NodePtr[Self.ElementType]
 
@@ -21,7 +22,7 @@ struct _Node[ElementType: Movable & ImplicitlyDeletable](Movable):
         self.next = None
 
 
-struct LinkedList[T: Movable & ImplicitlyDeletable](Sized):
+struct LinkedList[T: Movable & Deinitable](Sized):
     var _head: _NodePtr[Self.T]
     var _size: Int
 
@@ -41,7 +42,7 @@ struct LinkedList[T: Movable & ImplicitlyDeletable](Sized):
 
     def append(mut self, var value: Self.T):
         """Add an element to the end of the list."""
-        var node_ptr = alloc[_Node[Self.T]](1)
+        var node_ptr = unsafe_alloc[_Node[Self.T]](1)
         node_ptr.unsafe_write(_Node[Self.T](value^))
 
         if not self._head:

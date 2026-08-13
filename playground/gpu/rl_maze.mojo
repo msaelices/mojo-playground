@@ -1,6 +1,7 @@
-from std.gpu import thread_idx, block_idx, barrier
-from std.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
-from std.gpu.memory import AddressSpace
+from std.gpu import thread_idx, block_idx
+from max.gpu import barrier
+from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
+from max.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from std.memory import stack_allocation, UnsafePointer
 from std.sys import size_of
@@ -170,7 +171,7 @@ def monte_carlo_episode_kernel(
     var is_done = False
 
     # Start at position (1,1) - just inside the walls
-    state = MAZE_SIZE + 1
+    var state = MAZE_SIZE + 1
 
     # Epsilon-greedy policy for action selection
     while not is_done and steps < MAX_STEPS:

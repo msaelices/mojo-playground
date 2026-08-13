@@ -8,7 +8,7 @@ def use_closure[func: def(Int) capturing -> Int](num: Int) -> Int:
 def create_closure():
     var x = 1
 
-    @parameter
+    @__parameter
     def add(i: Int) -> Int:
         return x + i
 

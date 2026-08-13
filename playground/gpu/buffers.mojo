@@ -1,4 +1,4 @@
-from std.gpu.host import DeviceContext
+from max.gpu.host import DeviceContext
 from std.math import iota
 
 

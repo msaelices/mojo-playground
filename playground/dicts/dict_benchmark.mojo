@@ -1,10 +1,10 @@
 from std.collections import Dict
-from std.collections.string.string_slice import _to_string_list
+from std.collections.string.string_span import _to_string_list
 from std.time import perf_counter_ns as now
 
 
 def get_wds() raises -> List[String]:
-    input = """
+    var input = """
 Hey friends, it's your girl Bray. Enjoy Jolene. Welcome to back to her. If you aspire to heal evolve or revolutionize this podcast is for you. Make sure you subscribe and follow us on Instagram at official back to her. And that too is the number two. Let's get it.
  Hey friends, we are back with another episode is Joy Jolene and the sugar bread and we're back to end this month off and a like a really good positive way our last episode. We talked about religion and spirituality in this episode. We want to take time for you guys to get to know us better for us to discuss more about ourselves so that you know, we we really a family and we really
  That connection so let's get into it. So it may enjoy decided to do is we both came up with questions that we're going to ask each other. So I haven't seen her questions yet. She hasn't seen my questions yet. So hopefully this can just be fun and funny. Yeah, so let's get into it. All right, so you want to go right? I'll go first. Okay, so, okay. So my first question for you is who is Brittany? Okay, so, Brittany
@@ -167,7 +167,7 @@ def get_freqs(wds: List[String]) raises -> Dict[String, UInt64]:
     var freqs: Dict[String, UInt64] = {}
     for wd in wds:
         if wd in freqs:
-            old_freq = freqs[wd]
+            var old_freq = freqs[wd]
             freqs[wd] = old_freq + 1
         else:
             freqs[wd] = 1

@@ -4,8 +4,8 @@ from playground.compile import forloop_fn
 
 
 def main() raises:
-    args = sys.argv()
-    format = (
+    var args = sys.argv()
+    var format = (
         "llvm" if len(args) > 1 and String(args[1]).lower() == "llvm" else "asm"
     )
 

@@ -12,9 +12,9 @@ def high_order_func[f: def() capturing[_] -> Int]() -> Int:
 
 
 def demo_high_order_func():
-    foo = Foo()
+    var foo = Foo()
 
-    @parameter
+    @__parameter
     def foo_myfunc() -> Int:
         return foo.myfunc()
 

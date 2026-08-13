@@ -1,6 +1,7 @@
-from std.gpu import barrier, thread_idx, block_idx
-from std.gpu.host import DeviceContext, HostBuffer
-from std.gpu.memory import AddressSpace
+from std.gpu import thread_idx, block_idx
+from max.gpu import barrier
+from max.gpu.host import DeviceContext, HostBuffer
+from max.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor
 from std.memory import stack_allocation
 from std.sys import size_of
