@@ -1,5 +1,5 @@
 from std.gpu import thread_idx, block_idx
-from std.gpu.host import DeviceContext
+from max.gpu.host import DeviceContext
 from layout import Layout, LayoutTensor
 from std.math import iota
 
@@ -65,5 +65,5 @@ def demo_multiply() raises:
 
         ctx.synchronize()
 
-        host_tensor = LayoutTensor[dtype, layout](in_host)
+        var host_tensor = LayoutTensor[dtype, layout](in_host)
         print(host_tensor)

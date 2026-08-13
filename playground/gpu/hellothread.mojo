@@ -1,4 +1,4 @@
-from std.gpu.host import DeviceContext
+from max.gpu.host import DeviceContext
 from std.gpu import block_idx, thread_idx
 
 
@@ -21,8 +21,8 @@ def demo_hellothread() raises:
     with DeviceContext() as ctx:
         # grid_dim is the number of blocks in the grid
         # block_dim is the number of threads in a block
-        grid_dim = 2
-        block_dim = (4, 3, 2)
+        var grid_dim = 2
+        var block_dim = (4, 3, 2)
         print("grid dimension:", grid_dim)
         print("block dimension:", block_dim[0], block_dim[1], block_dim[2])
         ctx.enqueue_function[kernel](grid_dim=grid_dim, block_dim=block_dim)

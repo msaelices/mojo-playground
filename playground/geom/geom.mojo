@@ -12,8 +12,8 @@ struct Point(TrivialRegisterPassable):
         self.y = y
 
     def distance(self, other: Point) -> Float64:
-        x_diff = self.x - other.x
-        y_diff = self.y - other.y
+        var x_diff = self.x - other.x
+        var y_diff = self.y - other.y
         return math.sqrt(x_diff**2 + y_diff**2)
 
 
@@ -36,8 +36,8 @@ struct Path:
         self.points = points^
 
     def length(self) -> Float64:
-        total = 0.0
+        var total = 0.0
         for i in range(len(self.points) - 1):
-            p = self.points[i]
+            var p = self.points[i]
             total += p.distance(self.points[i + 1])
         return total

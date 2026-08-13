@@ -1,35 +1,35 @@
 """Conditional deletability: a container inherits its payload's linearity.
 
 Companion to `linear_alloc.mojo`. That example showed an *unconditional*
-linear type: the stdlib `Allocation` is never `ImplicitlyDeletable`, so it has
+linear type: the stdlib `Allocation` is never `Deinitable`, so it has
 no implicit destructor and the compiler forces you to consume it exactly once.
 
 This example shows the *conditional* case. A generic wrapper is normally
 deletable, but should become linear precisely when it holds a linear payload.
 Mojo expresses both ends with the same tool: a `where` clause on the
-`ImplicitlyDeletable` conformance.
+`Deinitable` conformance.
 
     # linear: opt out unconditionally
-    struct Handle(Movable, ImplicitlyDeletable where False):
+    struct Handle(Movable, Deinitable where False):
         ...
 
     # conditional: deletable exactly when the payload is
     struct Box[T: Movable](
-        ImplicitlyDeletable where conforms_to(T, ImplicitlyDeletable)
+        Deinitable where conforms_to(T, Deinitable)
     ):
         ...
 
 Mojo derives the container's deletability from its payload:
-  * `Box[Int]`    is `ImplicitlyDeletable`  -> normal implicit cleanup.
+  * `Box[Int]`    is `Deinitable`  -> normal implicit cleanup.
   * `Box[Handle]` is NOT (`Handle` is linear) -> the `Box` is linear too and
     must be consumed explicitly, exactly like the resource it holds.
 """
 
 
-struct Handle(ImplicitlyDeletable where False, Movable):
-    """A linear resource: never `ImplicitlyDeletable`, so it must be `close`d.
+struct Handle(Deinitable where False, Movable):
+    """A linear resource: never `Deinitable`, so it must be `close`d.
 
-    `ImplicitlyDeletable where False` opts the type out of implicit deletion;
+    `Deinitable where False` opts the type out of implicit deletion;
     the value can still be moved (it conforms to `Movable`), but the compiler
     proves on every path that it is consumed exactly once via `close`.
     """
@@ -44,9 +44,7 @@ struct Handle(ImplicitlyDeletable where False, Movable):
         return self.id
 
 
-struct Box[T: Movable](
-    ImplicitlyDeletable where conforms_to(T, ImplicitlyDeletable)
-):
+struct Box[T: Movable](Deinitable where conforms_to(T, Deinitable)):
     """A wrapper whose deletability is derived from its payload `T`.
 
     No `@explicit_destroy` needed: the `where` clause makes the `Box`
@@ -66,7 +64,7 @@ struct Box[T: Movable](
 
 
 def wrap_and_read() -> Int:
-    """A `Box[Int]` behaves like any ordinary value: it is `ImplicitlyDeletable`,
+    """A `Box[Int]` behaves like any ordinary value: it is `Deinitable`,
     so it is cleaned up implicitly at the end of scope. Returns the payload."""
     var b = Box[Int](7)
     return b.value  # `b` is dropped implicitly here; no explicit consume needed
@@ -75,13 +73,13 @@ def wrap_and_read() -> Int:
 def int_box_is_deletable() -> Bool:
     """`Int` is deletable, so the `where` clause makes `Box[Int]` deletable too.
     """
-    return conforms_to(Box[Int], ImplicitlyDeletable)
+    return conforms_to(Box[Int], Deinitable)
 
 
 def handle_box_is_deletable() -> Bool:
     """`Handle` is linear, so `Box[Handle]` is NOT deletable: the container
     inherits the linear obligation and must be consumed explicitly."""
-    return conforms_to(Box[Handle], ImplicitlyDeletable)
+    return conforms_to(Box[Handle], Deinitable)
 
 
 def consume_linear_box() -> Int:

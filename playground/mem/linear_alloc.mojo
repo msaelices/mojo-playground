@@ -7,7 +7,7 @@ Forgetting it is a compile-time error, not a runtime leak; unlike affine types
 (e.g. Rust values), dropping it on the floor simply does not compile.
 """
 
-from std.memory import UnsafePointer
+from std.memory import Pointer
 from std.memory.alloc import alloc, dealloc, Layout
 
 
@@ -46,11 +46,12 @@ def first_or_release(produce: Bool) -> Int32:
 
 def manual_lifetime() -> Int32:
     """`unsafe_leak` consumes the handle and hands you the bare pointer, so
-    satisfying the compiler now makes you responsible for calling `free()`."""
+    satisfying the compiler makes you responsible for calling `unsafe_free()`.
+    """
     var a = alloc(Layout[Int32](count=3))
-    # `unsafe_leak` now yields a safe `Pointer`; type it as `UnsafePointer`
-    # (they convert implicitly) so we can call the unsafe-only `free()` below.
-    var raw: UnsafePointer[Int32, MutUntrackedOrigin] = a^.unsafe_leak()
+    # `unsafe_leak` hands back a raw `Pointer` over untracked storage; typing it
+    # explicitly lets us call the unsafe-only `unsafe_free()` below.
+    var raw: Pointer[Int32, MutUntrackedOrigin] = a^.unsafe_leak()
 
     var data = Span(
         unsafe_ptr=raw, length=3

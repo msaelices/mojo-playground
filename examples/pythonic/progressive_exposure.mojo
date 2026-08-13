@@ -14,8 +14,8 @@ def demo_print():
 
 # create variable (not learned types yet)
 def demo_variables():
-    a = "hello world"
-    b = 1
+    var a = "hello world"
+    var b = 1
     print(a, b)
 
 
@@ -25,7 +25,7 @@ def printer(a: String):
 
 
 def demo_function_call():
-    a = "hello world"
+    var a = "hello world"
     printer(a)
 
 
@@ -35,7 +35,7 @@ def add_one(mut a: Int):
 
 
 def demo_mut_argument():
-    a = 0
+    var a = 0
     add_one(a)
     print(a)
 
@@ -44,7 +44,7 @@ def demo_mut_argument():
 def demo_variant():
     from std.utils import Variant
 
-    a: Variant[Int, String] = 1  # statically a Variant, currently an Int
+    var a: Variant[Int, String] = 1  # statically a Variant, currently an Int
     print(a[Int])  # read it as an Int -> 1
     a = "hello"  # same variable, now holds a String
     print(a[String])  # read it as a String -> hello
@@ -56,8 +56,8 @@ def demo_variant():
 
 # create safe reference (not learned origin yet)
 def demo_pointer():
-    a = 0
-    b = Pointer(to=a)
+    var a = 0
+    var b = Pointer(to=a)
     a += 1
     print(b[])
 
@@ -68,7 +68,7 @@ def return_ref(arg: List[Int]) -> ref[arg] List[Int]:
 
 
 def demo_return_ref():
-    a = [1, 2, 3]
+    var a: List[Int] = [1, 2, 3]
     a.append(4)
     print(return_ref(a)[3])
 
@@ -79,7 +79,7 @@ def return_mut_ref(mut arg: List[Int]) -> ref[arg] List[Int]:
 
 
 def demo_return_mut_ref():
-    a = [1, 2, 3]
+    var a: List[Int] = [1, 2, 3]
     return_mut_ref(a).append(4)
     print(len(a))
 
@@ -90,7 +90,7 @@ def return_inferred_mut_ref(ref arg: List[Int]) -> ref[arg] List[Int]:
 
 
 def demo_inferred_mut_ref():
-    a = [1, 2, 3]
+    var a: List[Int] = [1, 2, 3]
     return_mut_ref(a).append(4)
     print(len(a))
 
@@ -101,7 +101,7 @@ def return_immutable_ref(ref[_] arg: List[Int]) -> ref[arg] List[Int]:
 
 
 def demo_immutable_ref():
-    a = [1, 2, 3]
+    var a: List[Int] = [1, 2, 3]
     a.append(4)
     print(return_immutable_ref(a)[3])
     print(len(a))
@@ -115,8 +115,8 @@ def return_mutable_ref2(
 
 
 def demo_mutable_pointer():
-    a = [1, 2, 3]
-    b = return_mutable_ref2(a)
-    c = b
+    var a: List[Int] = [1, 2, 3]
+    var b = return_mutable_ref2(a)
+    var c = b
     c[].append(4)
     print(len(a))

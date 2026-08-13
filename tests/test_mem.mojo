@@ -34,11 +34,11 @@ def test_manual_lifetime() raises:
 
 
 def test_conditional_deletability() raises:
-    # A Box[Int] is ImplicitlyDeletable and behaves like a normal value.
+    # A Box[Int] is Deinitable and behaves like a normal value.
     assert_equal(wrap_and_read(), 7)
     assert_true(int_box_is_deletable())
     # A Box[Handle] wraps a linear payload, so it inherits linearity and is
-    # NOT ImplicitlyDeletable; it must be consumed explicitly.
+    # NOT Deinitable; it must be consumed explicitly.
     assert_true(not handle_box_is_deletable())
     assert_equal(consume_linear_box(), 99)
 

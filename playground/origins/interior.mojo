@@ -67,20 +67,21 @@ evolving, hence the underscores.
 """
 
 from std.collections import Deque, List
-from std.memory import UnsafePointer
+from std.memory import Pointer
+from std.memory.alloc import unsafe_alloc
 
 
-struct Cell[T: Copyable & ImplicitlyDeletable](Movable):
+struct Cell[T: Copyable & Deinitable](Movable):
     """A minimal container owning a single heap-allocated `T`.
 
     Deliberately hand-rolled rather than wrapping a stdlib collection, to show
     that interior origins are available to ordinary user-defined types.
     """
 
-    var _ptr: UnsafePointer[Self.T, MutUntrackedOrigin]
+    var _ptr: Pointer[Self.T, MutUntrackedOrigin]
 
     def __init__(out self, var value: Self.T):
-        self._ptr = alloc[Self.T](1)
+        self._ptr = unsafe_alloc[Self.T](1)
         self._ptr.unsafe_write(value^)
 
     def __deinit__(deinit self):
@@ -98,7 +99,7 @@ struct Cell[T: Copyable & ImplicitlyDeletable](Movable):
 
         The result's origin is an interior sub-origin of `self`'s origin, tagged
         `"value"`, so the compiler ties the reference's validity to `self`
-        rather than to the raw pointer. Reassigning the `Cell` runs `__del__`,
+        rather than to the raw pointer. Reassigning the `Cell` runs `__deinit__`,
         freeing this storage; a reference taken earlier is then a use-after-free
         that the compiler rejects (`invalidated interior reference 'c["value"]'`).
         """

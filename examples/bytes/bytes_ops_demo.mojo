@@ -10,11 +10,11 @@ def main():
     var b = U128(5, 6)
     print(a[0])
     print(byte_swap(a[0]))
-    d = rotate_bits_left[1](a)
+    var d = rotate_bits_left[1](a)
     print(d)
     # for i in range(ROT):
     #     c = c + folded_multiply(a[0], b[0])
     #     a = rotate_bits_left[1](a)
     #     b = rotate_bits_left[2](b)
-    c = folded_multiply(a[0], b[0])
+    var c = folded_multiply(a[0], b[0])
     print(c)
