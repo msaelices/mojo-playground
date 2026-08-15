@@ -2,19 +2,19 @@ from std.memory import Pointer
 from std.memory.alloc import unsafe_alloc
 
 
-# Simplified singly-linked list implementation
-# Heap-allocated nodes with explicitly managed lifetimes, so the pointers use
-# MutUntrackedOrigin (AnyOrigin can no longer be exposed in struct fields).
-
-
-comptime _NodePtr[T: Movable & Deinitable] = Optional[
-    Pointer[_Node[T], MutUntrackedOrigin]
-]
+# Simplified singly-linked list implementation.
+#
+# The compiler now supports a `Pointer[Self, _]` field on a recursive type, so a
+# node can point at the next node directly -- no external alias parameterized by
+# the element type, and no opaque-pointer/bitcast hack. Nodes are heap-allocated
+# with explicitly managed lifetimes, hence the `MutUntrackedOrigin`.
 
 
 struct _Node[ElementType: Movable & Deinitable](Movable):
+    comptime _Ptr = Optional[Pointer[Self, MutUntrackedOrigin]]
+
     var data: Self.ElementType
-    var next: _NodePtr[Self.ElementType]
+    var next: Self._Ptr
 
     @always_inline
     def __init__(out self, var data: Self.ElementType):
@@ -23,7 +23,7 @@ struct _Node[ElementType: Movable & Deinitable](Movable):
 
 
 struct LinkedList[T: Movable & Deinitable](Sized):
-    var _head: _NodePtr[Self.T]
+    var _head: _Node[Self.T]._Ptr
     var _size: Int
 
     def __init__(out self):
