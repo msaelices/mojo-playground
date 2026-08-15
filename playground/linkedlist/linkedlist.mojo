@@ -2,12 +2,9 @@ from std.memory import Pointer
 from std.memory.alloc import unsafe_alloc
 
 
-# Simplified singly-linked list implementation.
-#
-# The compiler now supports a `Pointer[Self, _]` field on a recursive type, so a
-# node can point at the next node directly -- no external alias parameterized by
-# the element type, and no opaque-pointer/bitcast hack. Nodes are heap-allocated
-# with explicitly managed lifetimes, hence the `MutUntrackedOrigin`.
+# Simplified singly-linked list: heap-allocated nodes with explicitly managed
+# lifetimes (hence `MutUntrackedOrigin`). Each node points at the next via a
+# `Pointer[Self, _]` field.
 
 
 struct _Node[ElementType: Movable & Deinitable](Movable):
