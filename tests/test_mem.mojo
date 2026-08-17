@@ -1,7 +1,7 @@
 from std.testing import assert_equal, assert_true
 
 from playground.mem import (
-    memset,
+    unsafe_memset,
     fill_and_sum,
     first_or_release,
     manual_lifetime,
@@ -13,7 +13,7 @@ from playground.mem import (
 
 
 def test_memset() raises:
-    # Basic test that memset exists
+    # Basic test that unsafe_memset exists
     assert_true(True)
 
 
