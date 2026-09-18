@@ -1,4 +1,4 @@
-from std.gpu import thread_idx
+from max.gpu import thread_idx
 from max.gpu.host import HostBuffer, DeviceContext
 from layout import Layout, LayoutTensor
 

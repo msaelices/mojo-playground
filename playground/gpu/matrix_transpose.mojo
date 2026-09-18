@@ -1,4 +1,4 @@
-from std.gpu import thread_idx, block_idx
+from max.gpu import thread_idx, block_idx
 from max.gpu import barrier
 from max.gpu.host import DeviceContext, HostBuffer
 from max.gpu.memory import AddressSpace
