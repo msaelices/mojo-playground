@@ -13,7 +13,7 @@ struct HashedInt(CopiableHashable):
     var x: Int
 
     def __hash__[H: Hasher](self, mut hasher: H):
-        hasher.update(self.x)
+        self.x.__hash__(hasher)
 
 
 struct DummyInt(SizedHashable):  # dummy example with minimum code
@@ -21,7 +21,8 @@ struct DummyInt(SizedHashable):  # dummy example with minimum code
         pass
 
     def __hash__[H: Hasher](self, mut hasher: H):
-        hasher.update(10 * len(self))
+        var value = 10 * len(self)
+        value.__hash__(hasher)
 
     def __len__(self) -> Int:
         return 2

@@ -1,6 +1,6 @@
-from std.gpu import thread_idx, block_idx
+from max.gpu import thread_idx, block_idx
 from max.gpu import barrier
-from std.gpu.primitives.warp import sum as warp_sum
+from max.gpu.primitives.warp import sum as warp_sum
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from max.gpu.memory import AddressSpace
 from layout import Layout, LayoutTensor

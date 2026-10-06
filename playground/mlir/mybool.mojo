@@ -43,7 +43,7 @@ struct MyBool(TrivialRegisterPassable, Writable):
             rhs.value
         )
         return Self(
-            __mlir_op.`index.cmp`[pred=__mlir_attr.`#index<cmp_predicate eq>`](
+            __mlir_op.`index.cmp`[pred=__mlir_attr.`#index.cmp_predicate<eq>`](
                 lhs_index, rhs_index
             )
         )

@@ -1,4 +1,4 @@
-from std.gpu import thread_idx, block_idx
+from max.gpu import thread_idx, block_idx
 from max.gpu.host import DeviceContext
 from layout import Layout, LayoutTensor
 from std.math import iota
